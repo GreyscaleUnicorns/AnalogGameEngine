@@ -3,4 +3,4 @@ before_build:
 install:
   - git submodule update --init --recursive
 build:
-  project: CardGameEngine.sln
+  project: CardGameEngine.csproj
