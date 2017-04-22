@@ -7,6 +7,9 @@ namespace Core
         static void Main(string[] args)
         {
             Console.WriteLine("Hallo Nico!");
+            int i = 42;
+
+            Console.WriteLine("Pi ist genau "+ (i+1));
         }
     }
 }
