@@ -1,5 +1,0 @@
-/Users/Nico/Documents/Projects/CardGame-Engine/CardGameEngine/CardGameEngine/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/Users/Nico/Documents/Projects/CardGame-Engine/CardGameEngine/CardGameEngine/bin/Debug/CardGameEngine.dll.mdb
-/Users/Nico/Documents/Projects/CardGame-Engine/CardGameEngine/CardGameEngine/bin/Debug/CardGameEngine.dll
-/Users/Nico/Documents/Projects/CardGame-Engine/CardGameEngine/CardGameEngine/obj/Debug/CardGameEngine.dll
-/Users/Nico/Documents/Projects/CardGame-Engine/CardGameEngine/CardGameEngine/obj/Debug/CardGameEngine.dll.mdb
