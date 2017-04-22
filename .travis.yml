@@ -1,2 +1,7 @@
 language: csharp
-solution: CardGameEngine.csproj
+dist: trusty
+sudo: required
+mono: none
+dotnet: 1.0.1
+script:
+  - ./build_travis.sh --quiet verify
