@@ -1,6 +1,7 @@
+version: 1.0.{build}
 before_build:
-  - nuget restore
+  - dotnet restore
 install:
   - git submodule update --init --recursive
-build:
-  project: CardGameEngine.csproj
+build_script:
+  - dotnet build
