@@ -1,7 +1,7 @@
 language: csharp
-dist: trusty
-sudo: required
 mono: none
 dotnet: 1.0.1
+dist: trusty
 script:
-  - ./build_travis.sh --quiet verify
+- dotnet restore
+- dotnet build
