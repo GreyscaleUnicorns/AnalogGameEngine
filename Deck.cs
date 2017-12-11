@@ -1,9 +1,8 @@
 using System;
 
-namespace CardGameEngine
-{
-    class Deck
-    {
+namespace CardGameEngine{
+    
+    class Deck{
         
     }
 }

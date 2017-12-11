@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace CardGameEngine
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
+namespace CardGameEngine{
+    
+    class Program{
+        
+        static void Main(string[] args){
+            
             Console.WriteLine("Hallo Nico!");
             int i = 42;
 
