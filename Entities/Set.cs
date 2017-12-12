@@ -6,8 +6,8 @@ namespace CardGameEngine.Entities
     {
         public bool Open { get; private set; }
 
-        public Deck convertToDeck() {
-            throw new NotImplementedException();
+        public Set(Card[] cards = null) : base(cards) {
+            //Nothing to do
         }
     }
 }

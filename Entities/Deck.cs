@@ -6,6 +6,10 @@ namespace CardGameEngine.Entities
     {
         public int OpenCards { get; private set; }
 
+        public Deck(Card[] cards = null) : base(cards) {
+            //Nothing to do
+        }
+
         public void AddUnder(Card card) {
             this.Cards.AddFirst(card);
         }

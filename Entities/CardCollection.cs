@@ -6,8 +6,12 @@ namespace CardGameEngine.Entities {
     abstract class CardCollection {
         public LinkedList<Card> Cards { get; private set; }
 
-        public CardCollection() {
-            this.Cards = new LinkedList<Card>();
+        public CardCollection(Card[] cards = null) {
+            if (cards != null) {
+                this.Cards = new LinkedList<Card>(cards);
+            } else {
+                this.Cards = new LinkedList<Card>();
+            }
         }
 
         public void AddCard(Card card) {
