@@ -5,3 +5,4 @@ dist: trusty
 
 script:
 - dotnet build
+- dotnet test CardGameEngine.Tests

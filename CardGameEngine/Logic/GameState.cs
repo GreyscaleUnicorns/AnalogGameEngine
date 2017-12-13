@@ -9,7 +9,12 @@ namespace CardGameEngine.Logic {
         private Dictionary<string, Stack> CommonStacks { get; set; }
         public Player[] Players { get; private set; }
 
-        public GameState() {
+        public GameState(int players) {
+            if (players <= 0) {
+                throw new ArgumentOutOfRangeException("players", "There can only be 1 or more players!");
+            }
+
+            this.Players = new Player[players];
             this.CommonSets = this.CreateDictionary<Set>(this.GetCommonSetIds());
             this.CommonStacks = this.CreateDictionary<Stack>(this.GetCommonStackIds());
         }
