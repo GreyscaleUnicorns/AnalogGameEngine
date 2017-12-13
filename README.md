@@ -1,7 +1,7 @@
 # CardGame-Engine
 [![GitHub release](https://img.shields.io/github/release/GreyscaleUnicorns/CardGame-Engine.svg)]()
 [![Github Releases](https://img.shields.io/github/downloads/GreyscaleUnicorns/CardGame-Engine/total.svg)]()
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/NicoVIII/CompleteInformation/master/LICENSE.txt)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/GreyscaleUnicorns/CardGame-Engine/master/LICENSE.txt)
 
 ## Usage
 
