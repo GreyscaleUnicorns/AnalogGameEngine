@@ -6,15 +6,19 @@ namespace CardGameEngine.Entities {
     /// <summary>
     /// Base for all types of card collections.
     /// </summary>
-    abstract class CardCollection {
+    public abstract class CardCollection {
         /// <summary>
         /// The list of all cards in the collection.
         /// </summary>
         /// <returns>A list of Cards</returns>
         public LinkedList<Card> Cards { get; private set; }
 
+        public CardCollection() : this(null) {
+            // Nothing to do
+        }
+
         /// <param name="cards">Initial cards in collection</param>
-        public CardCollection(Card[] cards = null) {
+        public CardCollection(Card[] cards) {
             if (cards != null) {
                 this.Cards = new LinkedList<Card>(cards);
             } else {

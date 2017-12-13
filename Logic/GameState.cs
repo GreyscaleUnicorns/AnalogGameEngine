@@ -4,16 +4,14 @@ using System.Collections.Generic;
 using CardGameEngine.Entities;
 
 namespace CardGameEngine.Logic {
-    abstract class GameState {
+    public abstract class GameState {
         private Dictionary<string, Set> CommonSets { get; set; }
         private Dictionary<string, Stack> CommonStacks { get; set; }
         public Player[] Players { get; private set; }
 
         public GameState() {
-            this.CommonSets = new Dictionary<string, Set>();
-            this.CommonStacks = new Dictionary<string, Stack>();
-
-            Initialize();
+            this.CommonSets = this.CreateDictionary<Set>(this.GetCommonSetIds());
+            this.CommonStacks = this.CreateDictionary<Stack>(this.GetCommonStackIds());
         }
 
         public Set getCommonSet(string id) {
@@ -24,17 +22,16 @@ namespace CardGameEngine.Logic {
             return this.CommonSets[id];
         }
 
-        public void Initialize() {
-            this.InitializeSets(this.CommonSets);
-            this.InitializeStacks(this.CommonStacks);
-        }
+        protected abstract string[] GetCommonSetIds();
 
-        protected virtual void InitializeSets(Dictionary<string, Set> commonSets) {
+        protected abstract string[] GetCommonStackIds();
 
-        }
-
-        protected virtual void InitializeStacks(Dictionary<string, Stack> commonStacks) {
-
+        private Dictionary<string, T> CreateDictionary<T>(string[] ids) where T : new() {
+            var dictionary = new Dictionary<string, T>();
+            foreach (string id in ids) {
+                dictionary.Add(id, new T());
+            }
+            return dictionary;
         }
     }
 }

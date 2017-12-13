@@ -4,7 +4,7 @@ namespace CardGameEngine.Entities {
     /// <summary>
     /// CardCollection, which represents a deck or discard pile
     /// </summary>
-    class Stack : CardCollection {
+    public class Stack : CardCollection {
         // TODO: Think about splitting into discard pile and deck
 
         // TODO: documentation
@@ -30,9 +30,13 @@ namespace CardGameEngine.Entities {
         // ? Wouldn't a boolean to determine, if first card is visible, suffice?
         public int OpenCards { get; private set; }
 
+        public Stack() : base() {
+            // Nothing to do
+        }
+
         /// <param name="cards"></param>
-        public Stack(Card[] cards = null) : base(cards) {
-            //Nothing to do
+        public Stack(Card[] cards) : base(cards) {
+            // Nothing to do
         }
 
         /// <summary>
