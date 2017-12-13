@@ -6,7 +6,7 @@ namespace CardGameEngine.Entities {
     /// <summary>
     /// Base for all types of card collections.
     /// </summary>
-    public abstract class CardCollection {
+    public class CardCollection {
         /// <summary>
         /// The list of all cards in the collection.
         /// </summary>
@@ -34,9 +34,8 @@ namespace CardGameEngine.Entities {
             this.Cards.AddLast(card);
         }
 
-        // TODO: Implement and UnitTest!
         public void Shuffle() {
-
+            // TODO: Implement and improve UnitTests
         }
     }
 }
