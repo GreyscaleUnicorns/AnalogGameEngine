@@ -29,5 +29,10 @@ namespace CardGameEngine.Entities {
         public void AddCard(Card card) {
             this.Cards.AddLast(card);
         }
+
+        // TODO: Implement and UnitTest!
+        public void Shuffle() {
+
+        }
     }
 }
