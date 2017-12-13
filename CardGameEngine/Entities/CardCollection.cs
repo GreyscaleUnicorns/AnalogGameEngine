@@ -35,8 +35,7 @@ namespace CardGameEngine.Entities {
         }
 
         public void Shuffle() {
-            // TODO: Implement
-            this.Cards.RemoveLast();
+            // TODO: Implement and improve UnitTests
         }
     }
 }
