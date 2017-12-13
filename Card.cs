@@ -6,7 +6,7 @@ namespace CardGameEngine{
     /// implements specific GameCard
     /// which holds unique properties of a card
     /// </summary>
-    class Card{
+    public class Card{
 
 #region Members
         private string m_name;

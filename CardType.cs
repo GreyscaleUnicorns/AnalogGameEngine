@@ -6,7 +6,7 @@ namespace CardGameEngine{
     /// Describes a general GameCard
     /// objects of this class should be unique
     /// </summary>
-    class CardType{
+    public class CardType{
 
 #region Members
         //static
