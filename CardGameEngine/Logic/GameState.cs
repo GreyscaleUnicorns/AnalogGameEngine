@@ -19,13 +19,9 @@ namespace CardGameEngine.Logic {
             this.CommonStacks = this.CreateDictionary<Stack>(this.GetCommonStackIds());
         }
 
-        public Set getCommonSet(string id) {
-            return this.CommonSets[id];
-        }
+        public Set getCommonSet(string id) => this.CommonSets[id];
 
-        public Set getCommonStack(string id) {
-            return this.CommonSets[id];
-        }
+        public Stack getCommonStack(string id) => this.CommonStacks[id];
 
         protected abstract string[] GetCommonSetIds();
 
