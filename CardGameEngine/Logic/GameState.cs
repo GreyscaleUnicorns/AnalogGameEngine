@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CardGameEngine.Entities;
 
 namespace CardGameEngine.Logic {
+    // ! Discuss modelling
     public abstract class GameState {
         private Dictionary<string, Set> CommonSets { get; set; }
         private Dictionary<string, Stack> CommonStacks { get; set; }
