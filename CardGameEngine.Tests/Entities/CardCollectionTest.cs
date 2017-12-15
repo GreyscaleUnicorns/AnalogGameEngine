@@ -7,7 +7,7 @@ using CardGameEngine.Entities;
 namespace CardGameEngine.Tests.Entities {
     public class CardCollectionTest {
         [Fact]
-        public void ShuffleTest() {
+        public void ShuffleIntegrityTest() {
             var card1 = new Card("One");
             var card2 = new Card("Two");
             var card3 = new Card("Three");
