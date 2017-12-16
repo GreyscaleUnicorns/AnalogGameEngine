@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using CardGameEngine;
@@ -34,8 +35,31 @@ namespace CardGameEngine.Entities {
             this.Cards.AddLast(card);
         }
 
+        /// <summary>
+        /// Mischt Collection
+        /// </summary>
         public void Shuffle() {
-            // TODO: Implement and improve UnitTests
+            if (this.Cards.Count <= 1) {
+                throw new InvalidOperationException("Collection aus 1 oder weniger Elementen! Mischen sinnfrei.");
+            }
+
+            var cardList = new List<Card>();
+            CardCollection shuffleCollection = new CardCollection();
+            Random rand = new Random(DateTime.Now.Ticks.GetHashCode());
+
+            // KartenListe aus Collection
+            foreach (Card card in this.Cards) {
+                cardList.Add(card);
+            }
+
+            // Random aus Kartenliste in SuffleCollection
+            do {
+                int Index = rand.Next(0, cardList.Count);
+                shuffleCollection.AddCard(cardList[Index]);
+                cardList.Remove(cardList[Index]);
+            } while (cardList.Count > 0);
+
+            this.Cards = shuffleCollection.Cards;
         }
     }
 }
