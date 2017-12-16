@@ -4,7 +4,7 @@ namespace CardGameEngine.Entities {
     /// <summary>
     /// CardCollection, which represents a deck or discard pile
     /// </summary>
-    public class Stack : CardCollection {
+    public partial class Stack : CardCollection {
         // TODO: Think about splitting into discard pile and deck
 
         // TODO: documentation

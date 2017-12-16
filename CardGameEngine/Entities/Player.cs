@@ -1,6 +1,6 @@
 using System;
 
-namespace CardGameEngine.Logic {
+namespace CardGameEngine.Entities {
     public class Player {
         public string Name { get; private set; }
     }
