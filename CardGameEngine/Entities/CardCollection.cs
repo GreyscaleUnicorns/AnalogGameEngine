@@ -40,12 +40,11 @@ namespace CardGameEngine.Entities {
         /// </summary>
         public void Shuffle() {
             if (this.Cards.Count <= 1) {
-                // Keine 'mischbare' Collection
-                //Error
+                throw new InvalidOperationException("Collection aus 1 oder weniger Elementen! Mischen sinnfrei.");
             }
 
             var cardList = new List<Card>();
-            CardCollection suffleCollection = new CardCollection();
+            CardCollection shuffleCollection = new CardCollection();
             Random rand = new Random(DateTime.Now.Ticks.GetHashCode());
 
             // KartenListe aus Collection
@@ -56,11 +55,11 @@ namespace CardGameEngine.Entities {
             // Random aus Kartenliste in SuffleCollection
             do {
                 int Index = rand.Next(0, cardList.Count);
-                suffleCollection.AddCard(cardList[Index]);
+                shuffleCollection.AddCard(cardList[Index]);
                 cardList.Remove(cardList[Index]);
             } while (cardList.Count > 0);
 
-            this.Cards = suffleCollection.Cards;
+            this.Cards = shuffleCollection.Cards;
         }
     }
 }
