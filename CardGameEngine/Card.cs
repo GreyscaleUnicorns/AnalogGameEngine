@@ -10,15 +10,12 @@ namespace CardGameEngine {
     /// </summary>
     public class Card {
 
-        #region Members
-        private string m_name;
-        private int m_id;
+        private string name;
 
-        private CardType m_type;
-        private CardCollection cardCollection;
-        #endregion
+        private CardType type;
 
-        #region Constructors
+        private CardCollection collection = null;
+
         /// <summary>
         /// Generates a new Card
         /// </summary>
@@ -27,22 +24,39 @@ namespace CardGameEngine {
             Init(name, CardType.Get("default"));
         }
 
+        /// <summary>
+        /// Generates a new Card with a given type
+        /// </summary>
+        /// <param name="name">name of the new card</param>
+        /// <param name="type">type of the new card</param>
         public Card(string name, CardType type) {
             Init(name, type);
         }
 
         // initilizer
         private void Init(string name, CardType type) {
-            m_name = name;
-            m_type = type;
+            this.name = name;
+            this.type = type;
         }
-        #endregion
 
-        public void moveTo(CardCollection collection, int index = 0) {
-            // TODO: implement index functionality
-            this.cardCollection.RemoveCard(this);
-            collection.AddCard(this);
-            this.cardCollection = collection;
+        /// <summary>
+        /// moves the current Card to the specified collection
+        /// </summary>
+        /// <param name="collection">the targeted collection</param>
+        /// <param name="position">position at which the card should be inserted</param>
+        public void moveTo(Entities.CardCollection collection, int position = 0) {
+            if (this.collection != null) {
+                this.collection.RemoveCard(this);
+            }
+            this.collection = collection;
+            this.collection.AddCard(this, position);
         }
+
+        public void activateEffects() {
+            foreach (var effect in this.type.Effects) {
+                effect.trigger(null); //!TODO Card muss ihren GameState kennen
+            }
+        }
+
     }
 }
