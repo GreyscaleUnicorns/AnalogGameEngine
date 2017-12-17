@@ -2,7 +2,7 @@ namespace CardGameEngine {
     /// <summary>
     /// Interface for Effects, that can be assigned to cards
     /// </summary>
-    interface IEffect {
+    public interface IEffect {
         /// <summary>
         /// triggers the execution of this effect
         /// </summary>
