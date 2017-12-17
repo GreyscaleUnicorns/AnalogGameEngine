@@ -32,26 +32,17 @@ namespace CardGameEngine.Entities {
         /// </summary>
         /// <param name="card">the card to append</param>
         /// <param name="position">the position at which the card should be inserted</param>
-        virtual public void AddCard(Card card, int position) {
+        virtual public void AddCard(Card card, int position = 0) {
             // overwirte behaviour in inheriting classes
             this.Cards.AddLast(card);
-        }
-
-        // TODO: documentation
-        /// <summary>
-        /// </summary>
-        /// <param name="card"></param>
-        /// <returns></returns>
-        public bool RemoveCard(Card card) {
-            return this.Cards.Remove(card);
         }
 
         /// <summary>
         /// removes a Card from the Collection
         /// </summary>
         /// <param name="card">card to be removed</param>
-        public void RemoveCard(Card card) {
-            this.Cards.Remove(card);
+        public bool RemoveCard(Card card) {
+            return this.Cards.Remove(card);
         }
 
         /// <summary>

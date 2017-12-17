@@ -13,7 +13,7 @@ namespace CardGameEngine.Entities {
             // Nothing to do
         }
 
-        override public void AddCard(Card card, int position) {
+        override public void AddCard(Card card, int position = 0) {
             if (position < 0 || position > this.Cards.Count)
                 this.Cards.AddLast(card);
             else {
