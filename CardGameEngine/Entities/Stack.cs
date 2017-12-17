@@ -72,5 +72,13 @@ namespace CardGameEngine.Entities {
                 return null;
             }
         }
+
+        override public void AddCard(Card card, int position) {
+            if (position < 0 || position > this.Cards.Count)
+                this.Cards.AddLast(card);
+            else {
+                this.Cards.AddFirst(card);
+            }
+        }
     }
 }
