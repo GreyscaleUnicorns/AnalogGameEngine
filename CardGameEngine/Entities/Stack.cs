@@ -27,8 +27,11 @@ namespace CardGameEngine.Entities {
             }
         }
 
-        // ? Wouldn't a boolean to determine, if first card is visible, suffice?
-        public int OpenCards { get; private set; }
+        public Card TopCard {
+            get {
+                return this.Cards.First.Value;
+            }
+        }
 
         public Stack() : base() {
             // Nothing to do
@@ -65,7 +68,6 @@ namespace CardGameEngine.Entities {
         public Card Draw() {
             // ? This could be a Deck specific function, think about split mentioned above
             if (this.Cards.Count > 1) {
-                Card drawn = this.Cards.First.Value;
                 this.Cards.RemoveFirst();
                 return drawn;
             } else {
