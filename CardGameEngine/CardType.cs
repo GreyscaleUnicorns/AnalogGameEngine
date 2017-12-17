@@ -19,13 +19,14 @@ namespace CardGameEngine {
         /// </summary>
         private string name;
 
-        public IEffect[] Effects;
+        public List<IEffect> Effects;
 
+        // ! Made constructor public for now, because there is no way to create a CardType without it yet
         /// <summary>
         /// private Constructor, as this Class manages its instances itself
         /// </summary>
         /// <param name="name">name of the type of card</param>
-        private CardType(string name) {
+        public CardType(string name) {
             this.name = name;
         }
 
