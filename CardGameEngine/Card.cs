@@ -10,14 +10,11 @@ namespace CardGameEngine {
     /// </summary>
     public class Card {
 
-        #region Members
         private string m_name;
         private int m_id;
 
         private CardType m_type;
-        #endregion
 
-        #region Constructors
         /// <summary>
         /// Generates a new Card
         /// </summary>
@@ -35,6 +32,5 @@ namespace CardGameEngine {
             m_name = name;
             m_type = type;
         }
-        #endregion
     }
 }
