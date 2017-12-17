@@ -1,13 +1,28 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 using CardGameEngine.Entities;
 
 namespace CardGameEngine.Entities {
     // ! Discuss modelling
-    public abstract class GameState {
-        private Dictionary<string, Set> CommonSets { get; set; }
-        private Dictionary<string, Stack> CommonStacks { get; set; }
+    public abstract class GameState : ICardCollectionHolder {
+        private Dictionary<string, Set> sets;
+        private Dictionary<string, Stack> stacks;
+
+        // ? Maybe name it just Sets?
+        public ImmutableDictionary<string, Set> Sets {
+            get {
+                return sets.ToImmutableDictionary();
+            }
+        }
+
+        public ImmutableDictionary<string, Stack> Stacks {
+            get {
+                return stacks.ToImmutableDictionary();
+            }
+        }
+
         public Player[] Players { get; private set; }
 
         public GameState(int players) {
@@ -16,13 +31,9 @@ namespace CardGameEngine.Entities {
             }
 
             this.Players = new Player[players];
-            this.CommonSets = this.CreateDictionary<Set>(this.GetCommonSetIds());
-            this.CommonStacks = this.CreateDictionary<Stack>(this.GetCommonStackIds());
+            this.sets = this.CreateDictionary<Set>(this.GetCommonSetIds());
+            this.stacks = this.CreateDictionary<Stack>(this.GetCommonStackIds());
         }
-
-        public Set getCommonSet(string id) => this.CommonSets[id];
-
-        public Stack getCommonStack(string id) => this.CommonStacks[id];
 
         protected abstract string[] GetCommonSetIds();
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 
 namespace CardGameEngine.Entities {
-    public class Player {
+    public class Player : ICardCollectionHolder {
         public string Name { get; private set; }
 
         private Dictionary<string, Set> sets;
