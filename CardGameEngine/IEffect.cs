@@ -7,6 +7,6 @@ namespace CardGameEngine {
         /// triggers the execution of this effect
         /// </summary>
         /// <param name="state"> current GameState, that the Effect should be applied on </param>
-        void trigger(Logic.GameState state);
+        void trigger(Entities.GameState state);
     }
 }
