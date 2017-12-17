@@ -17,15 +17,16 @@ namespace CardGameEngine {
         /// <summary>
         /// Name of the CardType
         /// </summary>
-        private string m_name;
+        private string name;
 
+        public IEffect[] Effects;
 
         /// <summary>
         /// private Constructor, as this Class manages its instances itself
         /// </summary>
         /// <param name="name">name of the type of card</param>
         private CardType(string name) {
-            m_name = name;
+            this.name = name;
         }
 
         /// <summary>
