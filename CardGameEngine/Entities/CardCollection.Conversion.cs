@@ -7,7 +7,7 @@ namespace CardGameEngine.Entities {
         /// Converts a Set to a Stack.
         /// </summary>
         /// <returns>Stack with same cards as this Set</returns>
-        public Stack ConvertToDeck() => new Stack(this.Cards.ToArray());
+        public Stack ConvertToStack() => new Stack(this.Cards.ToArray());
     }
 
     public partial class Stack {

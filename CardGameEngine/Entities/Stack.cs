@@ -41,38 +41,5 @@ namespace CardGameEngine.Entities {
         public Stack(Card[] cards) : base(cards) {
             // Nothing to do
         }
-
-        /// <summary>
-        /// Adds a card to the top of the stack.
-        /// </summary>
-        /// <param name="card">Card to add</param>
-        public void AddToTop(Card card) {
-            this.Cards.AddFirst(card);
-        }
-
-        /// <summary>
-        /// Add a card to the bottom of the stack.
-        /// </summary>
-        /// <param name="card">Card to add</param>
-        public void AddToBottom(Card card) {
-            this.Cards.AddLast(card);
-        }
-
-        /// <summary>
-        /// Draws the first card from the stack.
-        /// </summary>
-        /// <remarks>
-        /// The drawn card will be removed from the stack.
-        /// </remarks>
-        /// <returns>Drawn card or null, if stack is empty</returns>
-        public Card Draw() {
-            // ? This could be a Deck specific function, think about split mentioned above
-            if (this.Cards.Count > 1) {
-                this.Cards.RemoveFirst();
-                return drawn;
-            } else {
-                return null;
-            }
-        }
     }
 }
