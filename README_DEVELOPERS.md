@@ -1,5 +1,4 @@
 # README for developers
-
 We use *Visual Studio Code* (VSC) for this project. It is highly recommended, that you use it as well.
 Of course you can use another IDE, if you want to, but please stick to the formatting settings defined by .editorconfig and omnisharp.json.
 
@@ -7,7 +6,6 @@ Of course you can use another IDE, if you want to, but please stick to the forma
 1. [Visual Studio Code Extensions](#vsc-extensions)
 
 ## VSC Extensions
-
 In this section I will list some must-have and some recommended extensions.
 
 ### Must-Have Extensions

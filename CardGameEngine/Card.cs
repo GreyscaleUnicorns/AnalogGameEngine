@@ -1,6 +1,6 @@
 using System;
 
-//blöde Änderung
+using CardGameEngine.Entities;
 
 namespace CardGameEngine {
     /// <summary>
@@ -14,7 +14,7 @@ namespace CardGameEngine {
 
         private CardType type;
 
-        private Entities.CardCollection collection = null;
+        private CardCollection collection = null;
 
         /// <summary>
         /// Generates a new Card
@@ -35,8 +35,8 @@ namespace CardGameEngine {
 
         // initilizer
         private void Init(string name, CardType type) {
-            name = name;
-            type = type;
+            this.name = name;
+            this.type = type;
         }
 
         /// <summary>

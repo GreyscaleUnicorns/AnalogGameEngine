@@ -37,6 +37,15 @@ namespace CardGameEngine.Entities {
             this.Cards.AddLast(card);
         }
 
+        // TODO: documentation
+        /// <summary>
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public bool RemoveCard(Card card) {
+            return this.Cards.Remove(card);
+        }
+
         /// <summary>
         /// removes a Card from the Collection
         /// </summary>
