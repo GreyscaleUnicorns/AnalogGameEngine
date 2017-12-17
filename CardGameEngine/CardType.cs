@@ -8,17 +8,31 @@ namespace CardGameEngine {
     /// </summary>
     public class CardType {
 
-        //static
+        /// <summary>
+        /// static member for managing the types
+        /// </summary>
         private static Dictionary<string, CardType> cardTypes =
             new Dictionary<string, CardType>();
 
-        //normal
+        /// <summary>
+        /// Name of the CardType
+        /// </summary>
         private string m_name;
 
+
+        /// <summary>
+        /// private Constructor, as this Class manages its instances itself
+        /// </summary>
+        /// <param name="name">name of the type of card</param>
         private CardType(string name) {
             m_name = name;
         }
 
+        /// <summary>
+        /// searches or creates a card type
+        /// </summary>
+        /// <param name="name">name to be searched for</param>
+        /// <returns>Instance of CardType matching the search</returns>
         public static CardType Get(string name) {
             if (cardTypes.ContainsKey(name)) return cardTypes[name];
             var card = new CardType(name);
