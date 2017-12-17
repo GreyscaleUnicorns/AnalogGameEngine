@@ -12,9 +12,9 @@ namespace CardGameEngine.Tests.Entities {
             var card2 = new Card("Two");
             var card3 = new Card("Three");
             var collection = new CardCollection();
-            collection.AddCard(card1, 0);
-            collection.AddCard(card2, 0);
-            collection.AddCard(card3, 0);
+            collection.AddCard(card1);
+            collection.AddCard(card2);
+            collection.AddCard(card3);
 
             collection.Shuffle();
 
