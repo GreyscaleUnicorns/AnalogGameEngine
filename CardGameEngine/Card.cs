@@ -52,5 +52,11 @@ namespace CardGameEngine {
             this.collection.AddCard(this, position);
         }
 
+        public void activateEffects() {
+            foreach (var effect in this.type.Effects) {
+                effect.trigger(null); //!TODO Card muss ihren GameState kennen
+            }
+        }
+
     }
 }
