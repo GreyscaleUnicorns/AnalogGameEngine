@@ -1,8 +1,6 @@
 using System;
 
-using CardGameEngine.Entities;
-
-namespace CardGameEngine {
+namespace CardGameEngine.Entities {
     /// <summary>
     /// Card Class
     /// implements specific GameCard
@@ -21,7 +19,7 @@ namespace CardGameEngine {
         /// </summary>
         /// <param name="name">name of the new Card</param>
         public Card(string name) {
-            Init(name, CardType.Get("default"));
+            Init(name, null);
         }
 
         /// <summary>
