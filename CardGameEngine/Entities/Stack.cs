@@ -29,7 +29,11 @@ namespace CardGameEngine.Entities {
 
         public Card TopCard {
             get {
-                return this.Cards.First.Value;
+                if (this.Cards.Count > 0) {
+                    return this.Cards.First.Value;
+                } else {
+                    return null;
+                }
             }
         }
 
