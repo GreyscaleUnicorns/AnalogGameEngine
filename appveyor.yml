@@ -1,8 +1,13 @@
 version: 1.0.{build}
 before_build:
   - dotnet restore
+  - choco install opencover.portable
+  - choco install codecov
 install:
   - git submodule update --init --recursive
 build_script:
   - dotnet build
-  - dotnet test CardGameEngine.Tests
+test_script:
+  - OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full CardGameEngine.Tests/CardGameEngine.Tests.csproj" -filter:"+[CardGameEngine*]* -[CardGameEngine.Tests*]*" -output:".\my_app_coverage.xml"
+after_test:
+  - codecov -f .\my_app_coverage.xml
