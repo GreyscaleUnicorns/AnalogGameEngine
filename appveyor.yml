@@ -8,6 +8,6 @@ install:
 build_script:
   - dotnet build
 test_script:
-  - OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full C:\projects\CardGame-Engine\CardGameEngine.Tests\CardGameEngine.Tests.csproj" -filter:"+[CardGameEngine*]*" -output:".\my_app_coverage.xml" -oldstyle
+  - OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full C:\projects\CardGame-Engine\CardGameEngine.Tests\CardGameEngine.Tests.csproj" -filter:"+[CardGameEngine*]* -[CardGameEngine.Tests]*" -output:".\my_app_coverage.xml" -oldstyle
 after_test:
   - codecov -f .\my_app_coverage.xml
