@@ -7,24 +7,22 @@ namespace CardGameEngine.Entities {
     /// <summary>
     /// Base for all types of card collections.
     /// </summary>
-    public class CardCollection {
+    public abstract partial class CardCollection {
         /// <summary>
         /// The list of all cards in the collection.
         /// </summary>
         /// <returns>A list of Cards</returns>
         public LinkedList<Card> Cards { get; private set; }
 
-        public CardCollection() : this(null) {
-            // Nothing to do
-        }
-
         /// <param name="cards">Initial cards in collection</param>
-        public CardCollection(Card[] cards) {
+        public CardCollection(Card[] cards = null) {
             if (cards != null) {
                 this.Cards = new LinkedList<Card>(cards);
-            } else {
+            }
+            else {
                 this.Cards = new LinkedList<Card>();
             }
+            this.RegisterEvents();
         }
 
         /// <summary>
@@ -45,6 +43,14 @@ namespace CardGameEngine.Entities {
             return this.Cards.Remove(card);
         }
 
+        public void MoveAllCardsTo(CardCollection collection) {
+            if (collection != this) {
+                while (this.Cards.Count > 0) {
+                    this.Cards.First.Value.moveTo(collection);
+                }
+            }
+        }
+
         /// <summary>
         /// Mischt Collection
         /// </summary>
@@ -54,7 +60,7 @@ namespace CardGameEngine.Entities {
             }
 
             var cardList = new List<Card>();
-            CardCollection shuffleCollection = new CardCollection();
+            LinkedList<Card> shuffleList = new LinkedList<Card>();
             Random rand = new Random(DateTime.Now.Ticks.GetHashCode());
 
             // KartenListe aus Collection
@@ -65,11 +71,11 @@ namespace CardGameEngine.Entities {
             // Random aus Kartenliste in SuffleCollection
             do {
                 int Index = rand.Next(0, cardList.Count);
-                shuffleCollection.AddCard(cardList[Index]);
+                shuffleList.AddLast(cardList[Index]);
                 cardList.Remove(cardList[Index]);
             } while (cardList.Count > 0);
 
-            this.Cards = shuffleCollection.Cards;
+            this.Cards = shuffleList;
         }
     }
 }

@@ -31,24 +31,22 @@ namespace CardGameEngine.Entities {
             get {
                 if (this.Cards.Count > 0) {
                     return this.Cards.First.Value;
-                } else {
+                }
+                else {
                     return null;
                 }
             }
         }
 
-        public Stack() : base() {
-            // Nothing to do
-        }
-
         /// <param name="cards"></param>
-        public Stack(Card[] cards) : base(cards) {
+        public Stack(Card[] cards = null) : base(cards) {
             // Nothing to do
         }
 
         override public void AddCard(Card card, int position = 0) {
-            if (position < 0 || position > this.Cards.Count)
+            if (position < 0 || position > this.Cards.Count) {
                 this.Cards.AddLast(card);
+            }
             else {
                 this.Cards.AddFirst(card);
             }
