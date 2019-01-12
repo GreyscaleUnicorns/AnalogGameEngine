@@ -10,7 +10,7 @@ build:
 test:
   stage: test
   script:
-    - 'dotnet test AnalogGameEngine.Tests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="./OpenCover/"'
+    - 'dotnet test AnalogGameEngine.Tests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="../OpenCover/"'
 coverage:
   stage: coverage
   script:
