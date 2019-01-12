@@ -2,6 +2,7 @@ image: microsoft/dotnet
 stages:
   - build
   - test
+  - coverage
 build:
   stage: build
   script:
