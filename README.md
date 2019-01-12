@@ -1,18 +1,18 @@
 # CardGame-Engine
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 <!--[![GitHub Release](https://img.shields.io/github/release/GreyscaleUnicorns/CardGame-Engine.svg)]()
-[![Github Releases](https://img.shields.io/github/downloads/GreyscaleUnicorns/CardGame-Engine/total.svg)]()
-[![CodeFactor (master)](https://www.codefactor.io/repository/github/greyscaleunicorns/cardgame-engine/badge)](https://www.codefactor.io/repository/github/greyscaleunicorns/cardgame-engine)-->
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/GreyscaleUnicorns/CardGame-Engine/master/LICENSE.txt)
+[![Github Pre-Release](https://img.shields.io/github/release/NicoVIII/Andromeda-for-GOG/all.svg?label=prerelease)]-->
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitlab.com/analoggameengine/MauMauPrototype/blob/master/LICENSE.txt)
+[![codecov](https://codecov.io/gl/analoggameengine/AnalogGameEngine/branch/master/graph/badge.svg)](https://codecov.io/gl/analoggameengine/AnalogGameEngine)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/75cfef82df8647239f1056b630c56dc0)](https://www.codacy.com/app/NicoVIII/AnalogGameEngine?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=analoggameengine/AnalogGameEngine&amp;utm_campaign=Badge_Grade)
 
 ## Usage
 TBD
 
 ## Development
-<!--[![Build Status (Windows)](https://img.shields.io/appveyor/ci/NicoVIII/CardGame-Engine/develop.svg?logo=appveyor&label=build%20(windows))](https://ci.appveyor.com/project/NicoVIII/CardGame-Engine)
-[![Build Status (Unix)](https://img.shields.io/travis/GreyscaleUnicorns/CardGame-Engine/develop.svg?label=build%20(unix))](https://travis-ci.org/GreyscaleUnicorns/CardGame-Engine/branches)
-[![GitHub issues](https://img.shields.io/github/issues/GreyscaleUnicorns/CardGame-Engine.svg)](https://github.com/GreyscaleUnicorns/CardGame-Engine/issues)
-[![CodeFactor (develop)](https://www.codefactor.io/repository/github/greyscaleunicorns/cardgame-engine/badge/develop)](https://www.codefactor.io/repository/github/greyscaleunicorns/cardgame-engine/overview/develop)
-[![codecov](https://codecov.io/gh/GreyscaleUnicorns/CardGame-Engine/branch/develop/graph/badge.svg)](https://codecov.io/gh/GreyscaleUnicorns/CardGame-Engine)-->
+[![pipeline status](https://gitlab.com/analoggameengine/AnalogGameEngine/badges/develop/pipeline.svg)](https://gitlab.com/analoggameengine/AnalogGameEngine/commits/develop)
+[![codecov](https://codecov.io/gl/analoggameengine/AnalogGameEngine/branch/develop/graph/badge.svg)](https://codecov.io/gl/analoggameengine/AnalogGameEngine/branch/develop)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/75cfef82df8647239f1056b630c56dc0)](https://www.codacy.com/app/NicoVIII/AnalogGameEngine?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=analoggameengine/AnalogGameEngine&amp;utm_campaign=Badge_Grade)
 
 ### Versioning
 We will try to stick to Semantic Versioning 2.0.0 (http://semver.org/spec/v2.0.0.html).
