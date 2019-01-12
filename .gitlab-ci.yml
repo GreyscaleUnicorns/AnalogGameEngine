@@ -16,4 +16,4 @@ coverage:
   script:
     - 'curl -s https://codecov.io/bash > codecov'
     - 'chmod +x codecov'
-    - './codecov -f "OpenCover/coverage.xml" -t $CODECOV_TOKEN'
+    - './codecov -f "OpenCover/coverage.opencover.xml" -t $CODECOV_TOKEN'
