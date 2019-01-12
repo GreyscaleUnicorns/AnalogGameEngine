@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using Xunit;
 
 using CardGameEngine.Entities;
+using CardGameEngine.Management;
 
 namespace CardGameEngine.Tests.Entities {
     public class CardCollectionTest {
         [Fact]
         public void ShuffleIntegrityTest() {
-            var card1 = new Card("One");
-            var card2 = new Card("Two");
-            var card3 = new Card("Three");
-            var collection = new CardCollection();
-            collection.AddCard(card1);
-            collection.AddCard(card2);
-            collection.AddCard(card3);
+            var registry = new Registry();
+            var cardType = new MockCardType(registry);
+            var collection = new MockCardCollection();
+            var card1 = new Card(cardType, collection);
+            var card2 = new Card(cardType, collection);
+            var card3 = new Card(cardType, collection);
 
             collection.Shuffle();
 
@@ -31,12 +31,14 @@ namespace CardGameEngine.Tests.Entities {
         /// </summary>
         [Fact]
         public void ShuffleTest() {
-            var card1 = new Card("One");
-            var card2 = new Card("Two");
-            var card3 = new Card("Three");
-            var card4 = new Card("Vier");
-            var card5 = new Card("Fünf");
-            var collection = new CardCollection();
+            var registry = new Registry();
+            var cardType = new MockCardType(registry);
+            var collection = new MockCardCollection();
+            var card1 = new Card(cardType, collection);
+            var card2 = new Card(cardType, collection);
+            var card3 = new Card(cardType, collection);
+            var card4 = new Card(cardType, collection);
+            var card5 = new Card(cardType, collection);
             var cards = new List<Card>(new Card[] { card1, card2, card3, card4, card5 });
             var cardsTest = new List<Card>();
             int differents = 0; // Anzahl Unterschiede zu Original Liste

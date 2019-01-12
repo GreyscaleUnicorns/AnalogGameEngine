@@ -1,19 +1,30 @@
+using System;
 using System.Collections.Generic;
+
+using CardGameEngine.Management;
 
 namespace CardGameEngine.Entities {
     /// <summary>
     /// Describes a general GameCard
     /// objects of this class should be unique
     /// </summary>
-    public abstract class CardType : SelfRegistry<CardType> {
-        public CardType() {
-            this.effects = new List<Effect>();
+    public abstract class CardType {
+        protected List<Effect> Effects { get; private set; }
+
+        public CardType(string key, Registry registry) {
+            if (key is null) throw new ArgumentNullException("key");
+            if (registry is null) throw new ArgumentNullException("registry");
+
+            // Handle parameters
+            registry.RegisterCardType(key, this);
+
+            // Initialize
+            this.Effects = new List<Effect>();
         }
 
-        protected List<Effect> effects;
-        public IReadOnlyCollection<Effect> Effects {
-            get {
-                return effects.AsReadOnly();
+        public void activateEffects() {
+            foreach (var effect in this.Effects) {
+                effect.Activate();
             }
         }
     }

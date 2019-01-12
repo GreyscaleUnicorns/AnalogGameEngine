@@ -19,21 +19,29 @@ namespace CardGameEngine.Entities {
             }
         }
 
-        public CardCollectionHolder() {
-            this.sets = this.CreateDictionary<Set>(this.GetSetIds());
-            this.stacks = this.CreateDictionary<Stack>(this.GetStackIds());
+        internal CardCollectionHolder() {
+            this.sets = this.CreateDictionary<Set>(this.GetSetIds(), this.CreateSet);
+            this.stacks = this.CreateDictionary<Stack>(this.GetStackIds(), this.CreateStack);
         }
 
         protected abstract string[] GetSetIds();
 
         protected abstract string[] GetStackIds();
 
-        private Dictionary<string, T> CreateDictionary<T>(string[] ids) where T : new() {
+        private Dictionary<string, T> CreateDictionary<T>(string[] ids, Func<T> create) {
             var dictionary = new Dictionary<string, T>();
             foreach (string id in ids) {
-                dictionary.Add(id, new T());
+                dictionary.Add(id, create());
             }
             return dictionary;
+        }
+
+        private Set CreateSet() {
+            return new Set();
+        }
+
+        private Stack CreateStack() {
+            return new Stack();
         }
     }
 }

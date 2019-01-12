@@ -7,34 +7,26 @@ namespace CardGameEngine.Entities {
     /// which holds unique properties of a card
     /// </summary>
     public class Card {
-
-        private string name;
-
-        private CardType type;
+        public CardType Type { get; private set; }
 
         private CardCollection collection = null;
-
-        /// <summary>
-        /// Generates a new Card
-        /// </summary>
-        /// <param name="name">name of the new Card</param>
-        public Card(string name) {
-            Init(name, null);
-        }
 
         /// <summary>
         /// Generates a new Card with a given type
         /// </summary>
         /// <param name="name">name of the new card</param>
         /// <param name="type">type of the new card</param>
-        public Card(string name, CardType type) {
-            Init(name, type);
+        public Card(CardType type, CardCollection collection) {
+            Init(type, collection);
         }
 
-        // initilizer
-        private void Init(string name, CardType type) {
-            this.name = name;
-            this.type = type;
+        // Initializer
+        private void Init(CardType type, CardCollection collection) {
+            if (type is null) throw new ArgumentNullException("type");
+            if (collection is null) throw new ArgumentNullException("collection");
+
+            this.Type = type;
+            this.moveTo(collection);
         }
 
         /// <summary>
@@ -44,17 +36,18 @@ namespace CardGameEngine.Entities {
         /// <param name="position">position at which the card should be inserted</param>
         public void moveTo(Entities.CardCollection collection, int position = 0) {
             if (this.collection != null) {
+                this.collection.PerformMoveFrom();
                 this.collection.RemoveCard(this);
+                this.collection.PerformMovedFrom();
             }
+            collection.PerformMoveTo();
             this.collection = collection;
             this.collection.AddCard(this, position);
+            this.collection.PerformMovedTo();
         }
 
         public void activateEffects() {
-            foreach (var effect in this.type.Effects) {
-                effect.trigger(null); //!TODO Card muss ihren GameState kennen
-            }
+            this.Type.activateEffects();
         }
-
     }
 }

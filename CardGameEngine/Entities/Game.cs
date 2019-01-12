@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+
+using CardGameEngine.Factories;
+using CardGameEngine.Management;
+
+namespace CardGameEngine.Entities {
+    public abstract class Game : CardCollectionHolder {
+        protected Registry registry;
+
+        private List<Player> players;
+        public ImmutableList<Player> Players {
+            get {
+                return players.ToImmutableList();
+            }
+        }
+
+        private int activePlayer = 0;
+        public Player ActivePlayer {
+            get {
+                return this.Players[this.activePlayer];
+            }
+        }
+
+        public virtual Player NextPlayer {
+            get {
+                return this.Players[(this.activePlayer + 1) % this.Players.Count];
+            }
+        }
+
+        public Game(Player[] players, CardTypeFactory cardTypeFactory, EffectFactory effectFactory) {
+            if (players is null) throw new ArgumentNullException("players");
+            if (players.Length <= 0) throw new ArgumentException("Player array must not be empty!", "players");
+            if (cardTypeFactory is null) throw new ArgumentNullException("cardTypeFactory");
+            if (effectFactory is null) throw new ArgumentNullException("effectFactory");
+
+            // Initialize
+            this.registry = new Registry();
+            this.players = new List<Player>();
+
+            // Handle parameters
+            foreach (var player in players) {
+                this.players.Add(player);
+            }
+            effectFactory.Initialize(this, registry);
+            cardTypeFactory.Initialize(registry);
+        }
+
+        public void NextTurn() {
+            this.activePlayer = this.players.FindIndex(player => player == this.NextPlayer);
+        }
+    }
+}
