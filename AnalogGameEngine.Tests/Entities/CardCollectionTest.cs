@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-using CardGameEngine.Entities;
-using CardGameEngine.Management;
+using AnalogGameEngine.Entities;
+using AnalogGameEngine.Management;
 
-namespace CardGameEngine.Tests.Entities {
+namespace AnalogGameEngine.Tests.Entities {
     public class CardCollectionTest {
         [Fact]
         public void ShuffleIntegrityTest() {

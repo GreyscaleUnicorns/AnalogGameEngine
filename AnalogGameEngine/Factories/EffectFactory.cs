@@ -1,7 +1,7 @@
-using CardGameEngine.Entities;
-using CardGameEngine.Management;
+using AnalogGameEngine.Entities;
+using AnalogGameEngine.Management;
 
-namespace CardGameEngine.Factories {
+namespace AnalogGameEngine.Factories {
     public abstract class EffectFactory {
         internal void Initialize(Game game, Registry registry) {
             this.CreateEffects(game, registry);

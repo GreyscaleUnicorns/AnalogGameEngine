@@ -1,7 +1,7 @@
-using CardGameEngine.Entities;
-using CardGameEngine.Factories;
+using AnalogGameEngine.Entities;
+using AnalogGameEngine.Factories;
 
-namespace CardGameEngine.Tests {
+namespace AnalogGameEngine.Tests {
     class MockGame : Game {
         public MockGame(CardTypeFactory cardTypeFactory, EffectFactory effectFactory) : base(new Player[] { new MockPlayer(), new MockPlayer() }, cardTypeFactory, effectFactory) {
             // Nothing to do

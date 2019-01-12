@@ -1,6 +1,6 @@
-using CardGameEngine.Management;
+using AnalogGameEngine.Management;
 
-namespace CardGameEngine.Entities {
+namespace AnalogGameEngine.Entities {
     /// <summary>
     /// Class for Effects, that can be assigned to cards
     /// </summary>

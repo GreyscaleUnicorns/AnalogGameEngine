@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-using CardGameEngine;
+using AnalogGameEngine;
 
-namespace CardGameEngine.Entities {
+namespace AnalogGameEngine.Entities {
     /// <summary>
     /// Base for all types of card collections.
     /// </summary>

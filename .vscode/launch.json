@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/CardGameEngine/bin/Debug/netcoreapp2.0/CardGameEngine.dll",
+            "program": "${workspaceRoot}/AnalogGameEngine/bin/Debug/netcoreapp2.0/AnalogGameEngine.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "stopAtEntry": false,

@@ -1,6 +1,6 @@
 using System;
 
-namespace CardGameEngine.Entities {
+namespace AnalogGameEngine.Entities {
     /// <summary>
     /// Card Class
     /// implements specific GameCard

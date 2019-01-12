@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-using CardGameEngine.Factories;
-using CardGameEngine.Management;
+using AnalogGameEngine.Factories;
+using AnalogGameEngine.Management;
 
-namespace CardGameEngine.Entities {
+namespace AnalogGameEngine.Entities {
     public abstract class Game : CardCollectionHolder {
         protected Registry registry;
 

@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace CardGameEngine.Entities {
+namespace AnalogGameEngine.Entities {
     public partial class Stack {
         /// <summary>
         /// Converts a Stack to a Set.

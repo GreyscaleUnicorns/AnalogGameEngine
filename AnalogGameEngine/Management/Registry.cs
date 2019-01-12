@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-using CardGameEngine.Entities;
+using AnalogGameEngine.Entities;
 
-namespace CardGameEngine.Management {
+namespace AnalogGameEngine.Management {
     public class Registry {
         private Dictionary<string, CardType> cardTypes;
         private Dictionary<string, Effect> effects;

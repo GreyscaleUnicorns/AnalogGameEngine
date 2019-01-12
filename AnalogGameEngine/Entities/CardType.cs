@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-using CardGameEngine.Management;
+using AnalogGameEngine.Management;
 
-namespace CardGameEngine.Entities {
+namespace AnalogGameEngine.Entities {
     /// <summary>
     /// Describes a general GameCard
     /// objects of this class should be unique

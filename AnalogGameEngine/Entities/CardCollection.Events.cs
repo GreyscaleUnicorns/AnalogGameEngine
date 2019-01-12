@@ -1,6 +1,6 @@
 using System;
 
-namespace CardGameEngine.Entities {
+namespace AnalogGameEngine.Entities {
     /// <summary>
     /// Base for all types of card collections.
     /// </summary>

@@ -1,0 +1,12 @@
+image: microsoft/dotnet
+stages:
+  - build
+  - test
+build:
+  stage: build
+  script:
+    - 'dotnet build'
+test:
+  stage: test
+  script:
+    - 'dotnet test AnalogGameEngine.Tests'

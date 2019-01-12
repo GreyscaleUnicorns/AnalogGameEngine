@@ -1,6 +1,6 @@
 using System;
 
-namespace CardGameEngine.Entities {
+namespace AnalogGameEngine.Entities {
     /// <summary>
     /// Represents a set of cards like hand cards.
     /// </summary>

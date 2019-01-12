@@ -1,6 +1,6 @@
 using System;
 
-namespace CardGameEngine.Entities {
+namespace AnalogGameEngine.Entities {
     /// <summary>
     /// CardCollection, which represents a deck or discard pile
     /// </summary>

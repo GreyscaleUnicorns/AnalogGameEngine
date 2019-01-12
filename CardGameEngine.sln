@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardGameEngine", "CardGameEngine\CardGameEngine.csproj", "{FFF577C6-533D-43A3-8512-79A6C40D7BD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalogGameEngine", "AnalogGameEngine\AnalogGameEngine.csproj", "{FFF577C6-533D-43A3-8512-79A6C40D7BD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardGameEngine.Tests", "CardGameEngine.Tests\CardGameEngine.Tests.csproj", "{957D049F-6977-47D7-B9A2-80FE2D885AB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalogGameEngine.Tests", "AnalogGameEngine.Tests\AnalogGameEngine.Tests.csproj", "{957D049F-6977-47D7-B9A2-80FE2D885AB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

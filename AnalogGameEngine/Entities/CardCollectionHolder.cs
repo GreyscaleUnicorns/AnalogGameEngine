@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace CardGameEngine.Entities {
+namespace AnalogGameEngine.Entities {
     public abstract class CardCollectionHolder {
         private Dictionary<string, Set> sets;
         private Dictionary<string, Stack> stacks;

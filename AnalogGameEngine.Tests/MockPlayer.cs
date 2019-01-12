@@ -1,6 +1,6 @@
-using CardGameEngine.Entities;
+using AnalogGameEngine.Entities;
 
-namespace CardGameEngine.Tests {
+namespace AnalogGameEngine.Tests {
     class MockPlayer : Player {
         public MockPlayer() : base("Mockingbird") {
             // Nothing to do
