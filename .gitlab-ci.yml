@@ -2,10 +2,11 @@ image: microsoft/dotnet
 stages:
   - build
   - test
+  - buildPrototypes
 build:
   stage: build
   script:
-    - 'dotnet build'
+    - 'dotnet build AnalogGameEngine.sln'
 test:
   stage: test
   script:
@@ -13,3 +14,7 @@ test:
     - 'curl -s https://codecov.io/bash > codecov'
     - 'chmod +x codecov'
     - './codecov -f "OpenCover/coverage.opencover.xml" -t $CODECOV_TOKEN'
+buildMauMau:
+  stage: buildPrototypes
+  script:
+    - 'dotnet build MauMauPrototype/MauMauPrototype.csproj'

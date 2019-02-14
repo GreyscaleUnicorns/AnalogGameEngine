@@ -4,8 +4,8 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "command": "dotnet build",
+            "label": "buildMauMau",
+            "command": "dotnet build MauMauPrototype/MauMauPrototype.csproj",
             "type": "shell",
             "group": "build",
             "presentation": {
