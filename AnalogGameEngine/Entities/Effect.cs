@@ -7,9 +7,9 @@ namespace AnalogGameEngine.Entities
     /// </summary>
     public abstract class Effect
     {
-        private Game game;
+        private readonly Game game;
 
-        public Effect(string key, Game game, Registry registry)
+        protected Effect(string key, Game game, Registry registry)
         {
             registry.RegisterEffect(key, this);
             this.game = game;

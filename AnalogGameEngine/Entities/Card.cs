@@ -11,7 +11,7 @@ namespace AnalogGameEngine.Entities
     {
         public CardType Type { get; private set; }
 
-        private CardCollection collection = null;
+        private CardCollection collection;
 
         /// <summary>
         /// Generates a new Card with a given type
@@ -26,19 +26,21 @@ namespace AnalogGameEngine.Entities
         // Initializer
         private void Init(CardType type, CardCollection collection)
         {
-            if (type is null) throw new ArgumentNullException("type");
-            if (collection is null) throw new ArgumentNullException("collection");
+            if (type is null) { throw new ArgumentNullException("type"); }
+            if (collection is null) { throw new ArgumentNullException("collection"); }
 
             this.Type = type;
             this.moveTo(collection);
         }
+
+        public void moveTo(Entities.CardCollection collection) { this.moveTo(collection, 0); }
 
         /// <summary>
         /// moves the current Card to the specified collection
         /// </summary>
         /// <param name="collection">the targeted collection</param>
         /// <param name="position">position at which the card should be inserted</param>
-        public void moveTo(Entities.CardCollection collection, int position = 0)
+        public void moveTo(Entities.CardCollection collection, int position)
         {
             if (this.collection != null)
             {

@@ -6,8 +6,8 @@ namespace AnalogGameEngine.Management
 {
     public class Registry
     {
-        private Dictionary<string, CardType> cardTypes;
-        private Dictionary<string, Effect> effects;
+        private readonly Dictionary<string, CardType> cardTypes;
+        private readonly Dictionary<string, Effect> effects;
 
         internal Registry()
         {

@@ -6,8 +6,8 @@ namespace AnalogGameEngine.Entities
 {
     public abstract class CardCollectionHolder
     {
-        private Dictionary<string, Set> sets;
-        private Dictionary<string, Stack> stacks;
+        private readonly Dictionary<string, Set> sets;
+        private readonly Dictionary<string, Stack> stacks;
 
         public ImmutableDictionary<string, Set> Sets
         {
@@ -27,15 +27,15 @@ namespace AnalogGameEngine.Entities
 
         internal CardCollectionHolder()
         {
-            this.sets = this.CreateDictionary<Set>(this.GetSetIds(), this.CreateSet);
-            this.stacks = this.CreateDictionary<Stack>(this.GetStackIds(), this.CreateStack);
+            this.sets = CreateDictionary<Set>(this.GetSetIds(), CreateSet);
+            this.stacks = CreateDictionary<Stack>(this.GetStackIds(), CreateStack);
         }
 
         protected abstract string[] GetSetIds();
 
         protected abstract string[] GetStackIds();
 
-        private Dictionary<string, T> CreateDictionary<T>(string[] ids, Func<T> create)
+        private static Dictionary<string, T> CreateDictionary<T>(string[] ids, Func<T> create)
         {
             var dictionary = new Dictionary<string, T>();
             foreach (string id in ids)
@@ -45,12 +45,12 @@ namespace AnalogGameEngine.Entities
             return dictionary;
         }
 
-        private Set CreateSet()
+        private static Set CreateSet()
         {
             return new Set();
         }
 
-        private Stack CreateStack()
+        private static Stack CreateStack()
         {
             return new Stack();
         }

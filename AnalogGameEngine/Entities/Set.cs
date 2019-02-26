@@ -22,12 +22,10 @@ namespace AnalogGameEngine.Entities
             }
         }
 
-        public Set(Card[] cards = null) : base(cards)
-        {
-            // Nothing to do
-        }
+        public Set() : this(null) { /* Nothing to do */ }
+        public Set(Card[] cards) : base(cards) { /* Nothing to do */ }
 
-        override public void AddCard(Card card, int position = 0)
+        override public void AddCard(Card card, int position)
         {
             if (position < 0 || position > this.Cards.Count)
             {
@@ -40,7 +38,7 @@ namespace AnalogGameEngine.Entities
             else
             {
                 var iterator = this.Cards.First;
-                for (int i = 0; i < position; i++) iterator = iterator.Next;
+                for (int i = 0; i < position; i++) { iterator = iterator.Next; }
                 this.Cards.AddBefore(iterator, card);
             }
         }

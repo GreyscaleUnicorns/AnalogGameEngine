@@ -48,13 +48,10 @@ namespace AnalogGameEngine.Entities
             }
         }
 
-        /// <param name="cards"></param>
-        public Stack(Card[] cards = null) : base(cards)
-        {
-            // Nothing to do
-        }
+        public Stack() : this(null) { /* Nothing to do */ }
+        public Stack(Card[] cards) : base(cards) { /* Nothing to do */ }
 
-        override public void AddCard(Card card, int position = 0)
+        override public void AddCard(Card card, int position)
         {
             if (position < 0 || position > this.Cards.Count)
             {

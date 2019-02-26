@@ -21,7 +21,7 @@ namespace AnalogGameEngine.Tests.Entities
 
             collection.Shuffle();
 
-            var cards = new List<Card>(new Card[] { card1, card2, card3 });
+            var cards = new List<Card>(new[] { card1, card2, card3 });
             foreach (Card card in collection.Cards)
             {
                 Assert.Contains(card, cards);
@@ -44,7 +44,7 @@ namespace AnalogGameEngine.Tests.Entities
             var card3 = new Card(cardType, collection);
             var card4 = new Card(cardType, collection);
             var card5 = new Card(cardType, collection);
-            var cards = new List<Card>(new Card[] { card1, card2, card3, card4, card5 });
+            var cards = new List<Card>(new[] { card1, card2, card3, card4, card5 });
             var cardsTest = new List<Card>();
             int differents = 0; // Anzahl Unterschiede zu Original Liste
             double mischGrad = 0.5; // Bestimmen wie viel Karten unterschiedlich sein sollen

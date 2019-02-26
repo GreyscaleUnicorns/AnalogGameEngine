@@ -16,8 +16,9 @@ namespace AnalogGameEngine.Entities
         /// <returns>A list of Cards</returns>
         public LinkedList<Card> Cards { get; private set; }
 
+        protected CardCollection() : this(null) { /* Nothing to do */ }
         /// <param name="cards">Initial cards in collection</param>
-        public CardCollection(Card[] cards = null)
+        protected CardCollection(Card[] cards)
         {
             if (cards != null)
             {
@@ -30,12 +31,13 @@ namespace AnalogGameEngine.Entities
             this.RegisterEvents();
         }
 
+        public void AddCard(Card card) { this.AddCard(card, 0); }
         /// <summary>
         /// Adds a card to the end of the collection.
         /// </summary>
         /// <param name="card">card to append</param>
         /// <param name="position">position at which the card should be inserted</param>
-        virtual public void AddCard(Card card, int position = 0)
+        virtual public void AddCard(Card card, int position)
         {
             // overwrite behaviour in inheriting classes
             this.Cards.AddLast(card);

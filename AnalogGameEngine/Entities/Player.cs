@@ -8,7 +8,7 @@ namespace AnalogGameEngine.Entities
     {
         public string Name { get; private set; }
 
-        public Player(string name)
+        protected Player(string name)
         {
             this.Name = name;
         }

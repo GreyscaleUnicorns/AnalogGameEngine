@@ -16,10 +16,10 @@ namespace AnalogGameEngine.Entities
         protected List<Effect> Effects { get; private set; }
         public CardVisuals CardVisuals { get; set; }
 
-        public CardType(string key, Registry registry)
+        protected CardType(string key, Registry registry)
         {
-            if (key is null) throw new ArgumentNullException("key");
-            if (registry is null) throw new ArgumentNullException("registry");
+            if (key is null) { throw new ArgumentNullException("key"); }
+            if (registry is null) { throw new ArgumentNullException("registry"); }
 
             // Handle parameters
             registry.RegisterCardType(key, this);

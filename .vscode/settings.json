@@ -1,3 +1,4 @@
 {
-    "files.trimFinalNewlines": true
+    "files.trimFinalNewlines": true,
+    "editor.formatOnSave": true,
 }

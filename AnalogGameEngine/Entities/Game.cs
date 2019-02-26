@@ -11,7 +11,7 @@ namespace AnalogGameEngine.Entities
     {
         protected Registry registry;
 
-        private List<Player> players;
+        private readonly List<Player> players;
         public ImmutableList<Player> Players
         {
             get
@@ -20,7 +20,7 @@ namespace AnalogGameEngine.Entities
             }
         }
 
-        private int activePlayer = 0;
+        private int activePlayer;
         public Player ActivePlayer
         {
             get
@@ -37,12 +37,12 @@ namespace AnalogGameEngine.Entities
             }
         }
 
-        public Game(Player[] players, CardTypeFactory cardTypeFactory, EffectFactory effectFactory)
+        protected Game(Player[] players, CardTypeFactory cardTypeFactory, EffectFactory effectFactory)
         {
-            if (players is null) throw new ArgumentNullException("players");
-            if (players.Length <= 0) throw new ArgumentException("Player array must not be empty!", "players");
-            if (cardTypeFactory is null) throw new ArgumentNullException("cardTypeFactory");
-            if (effectFactory is null) throw new ArgumentNullException("effectFactory");
+            if (players is null) { throw new ArgumentNullException("players"); }
+            if (players.Length <= 0) { throw new ArgumentException("Player array must not be empty!", "players"); }
+            if (cardTypeFactory is null) { throw new ArgumentNullException("cardTypeFactory"); }
+            if (effectFactory is null) { throw new ArgumentNullException("effectFactory"); }
 
             // Initialize
             this.registry = new Registry();
