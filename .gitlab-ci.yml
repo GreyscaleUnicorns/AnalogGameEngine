@@ -11,11 +11,11 @@ build:
 test:
   stage: test
   script:
-    - 'dotnet test AnalogGameEngine.Tests /p:CollectCoverage=true /p:CoverletOutputFormat=\"opencover,cobertura\" /p:CoverletOutput="../Coverage/"'
+    - 'dotnet test AnalogGameEngine.Tests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
     # Upload to codecov
     - 'curl -s https://codecov.io/bash > codecov'
     - 'chmod +x codecov'
-    - './codecov -f "Coverage/coverage.opencover.xml" -t $CODECOV_TOKEN'
+    - './codecov -f "AnalogGameEngine.Tests/coverage.opencover.xml" -t $CODECOV_TOKEN'
 code_quality:
   stage: code_quality
   image: docker:stable
