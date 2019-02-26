@@ -4,6 +4,8 @@ using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Linq;
 
+using AnalogGameEngine.SimpleGUI.Helper;
+
 namespace AnalogGameEngine.SimpleGUI
 {
     class RenderableObject
@@ -11,6 +13,7 @@ namespace AnalogGameEngine.SimpleGUI
         private float[] vertices;
         private int[] config;
         private PrimitiveType drawType;
+        private Texture texture;
         private int vertexBufferObject, vertexArrayObject;
 
         private int VertexAmount
@@ -18,7 +21,7 @@ namespace AnalogGameEngine.SimpleGUI
             get => vertices.Length / config.Sum();
         }
 
-        public RenderableObject(float[] vertices, int[] config, PrimitiveType type)
+        public RenderableObject(float[] vertices, int[] config, PrimitiveType type, Texture texture)
         {
             if (vertices.Length % config.Sum() != 0)
             {
@@ -28,6 +31,7 @@ namespace AnalogGameEngine.SimpleGUI
             this.vertices = vertices;
             this.config = config;
             this.drawType = type;
+            this.texture = texture;
 
             // Create VBO
             vertexBufferObject = GL.GenBuffer();
@@ -51,6 +55,8 @@ namespace AnalogGameEngine.SimpleGUI
 
         public void Draw()
         {
+            texture.Use();
+
             GL.BindVertexArray(vertexArrayObject);
             GL.DrawArrays(drawType, 0, this.VertexAmount);
         }

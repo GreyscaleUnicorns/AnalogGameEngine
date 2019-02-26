@@ -20,7 +20,7 @@ namespace AnalogGameEngine.SimpleGUI
         RenderableObject card, table;
 
         Shader shader;
-        Texture texture0;
+        Texture texture0, tableTexture;
 
         float time = 0.0f;
         float deltaTime = 0.0f;
@@ -35,6 +35,13 @@ namespace AnalogGameEngine.SimpleGUI
             this.game = game;
         }
 
+        protected void CreateTextures(Shader shader)
+        {
+            // TODO: Dirty workaround to make textures work for now
+            texture0 = new Texture("AnalogGameEngine.SimpleGUI/awesomeface.png");
+            tableTexture = new Texture("AnalogGameEngine.SimpleGUI/Wood_006_COLOR.jpg");
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             GL.ClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -43,12 +50,9 @@ namespace AnalogGameEngine.SimpleGUI
             // TODO: Dirty workaround to make shaders work for now
             shader = new Shader("AnalogGameEngine.SimpleGUI/shader.vert", "AnalogGameEngine.SimpleGUI/shader.frag");
             shader.Use();
-
-            // TODO: Dirty workaround to make textures work for now
-            texture0 = new Texture("AnalogGameEngine.SimpleGUI/awesomeface.png");
-            texture0.Use(TextureUnit.Texture0);
-
             shader.SetInt("texture0", 0);
+
+            this.CreateTextures(shader);
 
             card = new RenderableObject(new[] {
                 // positions          // tex coords
@@ -56,7 +60,7 @@ namespace AnalogGameEngine.SimpleGUI
                 -0.315f,  0.44f, 0f,  0f, 1f, // top left
                  0.315f, -0.44f, 0f,  1f, 0f, // bottom right
                 -0.315f, -0.44f, 0f,  0f, 0f, // bottom left
-            }, new[] { 3, 2 }, PrimitiveType.TriangleStrip);
+            }, new[] { 3, 2 }, PrimitiveType.TriangleStrip, texture0);
 
             table = new RenderableObject(new[] {
                 // positions           // tex coords
@@ -64,7 +68,7 @@ namespace AnalogGameEngine.SimpleGUI
                 -3f, 0f, -3f,  0f, 1f, // top left
                 -3f, 0f,  3f,  0f, 0f, // bottom left
                  3f, 0f,  3f,  1f, 0f, // bottom right
-            }, new[] { 3, 2 }, PrimitiveType.TriangleFan);
+            }, new[] { 3, 2 }, PrimitiveType.TriangleFan, tableTexture);
 
             base.OnLoad(e);
         }
@@ -75,13 +79,12 @@ namespace AnalogGameEngine.SimpleGUI
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            texture0.Use(TextureUnit.Texture0);
             shader.Use();
 
             // TODO: remove test code
             float radius = 7.0f;
-            float camX = (float)Math.Sin(time) * radius;
-            float camZ = (float)Math.Cos(time) * radius;
+            float camX = (float)Math.Sin(time / 2) * radius;
+            float camZ = (float)Math.Cos(time / 2) * radius;
 
             Matrix4 view = Matrix4.LookAt(new Vector3(camX, 2.5f, camZ), new Vector3(0f, 0f, 0f), new Vector3(0f, 1f, 0f));
             shader.SetMatrix4("view", view);
