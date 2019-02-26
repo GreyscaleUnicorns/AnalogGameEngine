@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using AnalogGameEngine.Management;
-using AnalogGameEngine.Visuals;
 
 namespace AnalogGameEngine.Entities
 {
@@ -14,7 +13,6 @@ namespace AnalogGameEngine.Entities
     public abstract class CardType
     {
         protected List<Effect> Effects { get; private set; }
-        public CardVisuals CardVisuals { get; set; }
 
         protected CardType(string key, Registry registry)
         {

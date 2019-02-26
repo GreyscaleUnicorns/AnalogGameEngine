@@ -90,15 +90,15 @@ namespace AnalogGameEngine.GUI
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
             // TODO: Dirty workaround to make shaders work for now
-            shader = new Shader("AnalogGameEngine/GUI/shader.vert", "AnalogGameEngine/GUI/shader.frag");
+            shader = new Shader("AnalogGameEngine.SimpleGUI/shader.vert", "AnalogGameEngine.SimpleGUI/shader.frag");
             shader.Use();
 
             // TODO: Dirty workaround to make textures work for now
-            texture0 = new Texture("AnalogGameEngine/GUI/container.jpg");
+            texture0 = new Texture("AnalogGameEngine.SimpleGUI/container.jpg");
             texture0.Use(TextureUnit.Texture0);
 
             // TODO: Dirty workaround to make textures work for now
-            /*texture1 = new Texture("AnalogGameEngine/GUI/awesomeface.png");
+            /*texture1 = new Texture("AnalogGameEngine.SimpleGUI/awesomeface.png");
             texture1.Use(TextureUnit.Texture1);*/
 
             shader.SetInt("texture0", 0);
