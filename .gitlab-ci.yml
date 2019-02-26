@@ -16,12 +16,6 @@ test:
     - 'curl -s https://codecov.io/bash > codecov'
     - 'chmod +x codecov'
     - './codecov -f "Coverage/coverage.opencover.xml" -t $CODECOV_TOKEN'
-    # Install java
-    #- 'apt-get update && apt-get install -y openjdk-8-jdk'
-    # Upload to codacy (not working atm)
-    #- 'curl -Ls https://github.com/codacy/codacy-coverage-reporter/releases/download/4.0.5/codacy-coverage-reporter-4.0.5-assembly.jar > codacy-coverage-reporter.jar'
-    #- 'chmod +x codacy-coverage-reporter.jar'
-    #- 'java -jar ./codacy-coverage-reporter.jar report -l CSharp --force-language -r "Coverage/coverage.cobertura.xml" -t $CODACY_TOKEN'
 code_quality:
   stage: code_quality
   image: docker:stable
