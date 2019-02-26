@@ -10,10 +10,17 @@ build:
 test:
   stage: test
   script:
-    - 'dotnet test AnalogGameEngine.Tests /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="../OpenCover/"'
+    - 'dotnet test AnalogGameEngine.Tests /p:CollectCoverage=true /p:CoverletOutputFormat=\"opencover,cobertura\" /p:CoverletOutput="../Coverage/"'
+    # Upload to codecov
     - 'curl -s https://codecov.io/bash > codecov'
     - 'chmod +x codecov'
-    - './codecov -f "OpenCover/coverage.opencover.xml" -t $CODECOV_TOKEN'
+    - './codecov -f "Coverage/coverage.opencover.xml" -t $CODECOV_TOKEN'
+    # Install java
+    #- 'apt-get update && apt-get install -y openjdk-8-jdk'
+    # Upload to codacy (not working atm)
+    #- 'curl -Ls https://github.com/codacy/codacy-coverage-reporter/releases/download/4.0.5/codacy-coverage-reporter-4.0.5-assembly.jar > codacy-coverage-reporter.jar'
+    #- 'chmod +x codacy-coverage-reporter.jar'
+    #- 'java -jar ./codacy-coverage-reporter.jar report -l CSharp --force-language -r "Coverage/coverage.cobertura.xml" -t $CODACY_TOKEN'
 buildMauMau:
   stage: buildPrototypes
   script:
