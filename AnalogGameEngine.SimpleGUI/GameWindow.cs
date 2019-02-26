@@ -98,26 +98,32 @@ namespace AnalogGameEngine.SimpleGUI
 
             /* Draw handcards */
             // Work for now only with one private Set
-            var (id, handSet) = game.ActivePlayer.Sets.First();
-
             float spacingX = 0.1f;
             float spacingY = 0.02f;
             float spacingZ = 0.001f;
-            Matrix4 hand = Matrix4.Identity;
-            hand *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-20));
-            hand *= Matrix4.CreateTranslation(0f, 1.5f, 3f);
 
-            int cardAmount = handSet.Cards.Count;
-            for (int i = 0; i < cardAmount; i++)
+            Matrix4 handBase = Matrix4.Identity;
+            handBase *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-20));
+            handBase *= Matrix4.CreateTranslation(0f, 1.5f, 3f);
+
+            int playerAmount = game.Players.Count;
+            for (int i = 0; i < playerAmount; i++)
             {
-                float spacingIndex = (i - cardAmount / 2f);
+                Matrix4 hand = handBase;
+                hand *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(i * (360 / playerAmount)));
 
-                model = Matrix4.Identity;
-                model *= Matrix4.CreateTranslation(spacingIndex * spacingX, spacingIndex * spacingY, spacingIndex * spacingZ);
-                model *= hand;
-                shader.SetMatrix4("model", model);
+                int cardAmount = game.Players[i].Sets.First().Value.Cards.Count;
+                for (int j = 0; j < cardAmount; j++)
+                {
+                    float spacingIndex = (j - cardAmount / 2f);
 
-                card.Draw();
+                    model = Matrix4.Identity;
+                    model *= Matrix4.CreateTranslation(spacingIndex * spacingX, spacingIndex * spacingY, spacingIndex * spacingZ);
+                    model *= hand;
+                    shader.SetMatrix4("model", model);
+
+                    card.Draw();
+                }
             }
 
             Context.SwapBuffers();
