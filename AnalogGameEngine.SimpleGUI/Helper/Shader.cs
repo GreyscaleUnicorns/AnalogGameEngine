@@ -75,10 +75,12 @@ namespace AnalogGameEngine.SimpleGUI.Helper
 
             if (location == -1)
             {
-                throw new ArgumentException("uniform name not found");
+                Console.WriteLine("Warning: Uniform name \"" + name + "\" not found!");
             }
-
-            GL.Uniform1(location, value);
+            else
+            {
+                GL.Uniform1(location, value);
+            }
         }
 
         public void SetFloat(string name, float value)

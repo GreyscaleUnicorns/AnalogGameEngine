@@ -16,60 +16,31 @@ namespace AnalogGameEngine.SimpleGUI
     {
         private readonly Game game;
 
-        float[] vertices = {
-            /// positions        //colors            // texture coords
-             0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, // top right front
-             0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f, // bottom right front
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f, // bottom left front
-            -0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f, // top left front
-             0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f, // top right back
-             0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f, // bottom right back
-            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 1.0f, // bottom left back
-            -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,  1.0f, 0.0f  // top left back
-        };
-        uint[] indices = {  // note that we start from 0!
-            0, 1, 3, // front 1
-            1, 2, 3, // front 2
-            4, 5, 7, // back 1
-            5, 6, 7, // back 2
-            0, 3, 4, // top 1
-            3, 4, 7, // top 2
-            2, 3, 6, // left 1
-            3, 6, 7, // left 2
-            1, 2, 5, // bottom 1
-            2, 5, 6, // bottom 2
-            0, 1, 4, // right 1
-            1, 4, 5, // right 2
+        /* 1 = 1dm in real world */
+        float[] cardVertices = {
+            // positions           // tex coords
+             0.315f,  0.44f, 0f,  1f, 1f, // top right
+             0.315f, -0.44f, 0f,  1f, 0f, // bottom right
+            -0.315f,  0.44f, 0f,  0f, 1f, // top left
+            -0.315f, -0.44f, 0f,  0f, 0f, // bottom left
         };
 
-        Vector3[] cubePositions = {
-            new Vector3( 0.0f,  0.0f,   0.0f),
-            new Vector3( 2.0f,  5.0f, -15.0f),
-            new Vector3(-1.5f, -2.2f,  -2.5f),
-            new Vector3(-3.8f, -2.0f, -12.3f),
-            new Vector3( 2.4f, -0.4f,  -3.5f),
-            new Vector3(-1.7f,  3.0f,  -7.5f),
-            new Vector3( 1.3f, -2.0f,  -2.5f),
-            new Vector3( 1.5f,  2.0f,  -2.5f),
-            new Vector3( 1.5f,  0.2f,  -1.5f),
-            new Vector3(-1.3f,  1.0f,  -1.5f)
+        float[] tableVertices = {
+            // positions           // tex coords
+             3f, 0, -3f,  1f, 1f, // top right
+             3f, 0,  3f,  1f, 0f, // bottom right
+            -3f, 0, -3f,  0f, 1f, // top left
+            -3f, 0,  3f,  0f, 0f, // bottom left
         };
 
-        int VertexBufferObject;
-        int VertexArrayObject;
-        int ElementBufferObject;
+        int vboCard, vboTable;
+        int vaoCard, vaoTable;
         Shader shader;
-        Texture texture0, texture1;
+        Texture texture0;
+
         float time = 0.0f;
         float deltaTime = 0.0f;
         float lastFrame = 0.0f;
-        int lastX, lastY;
-
-        float yaw = -90, pitch = 0;
-
-        Vector3 cameraPos = new Vector3(0f, 0f, 3f);
-        Vector3 cameraFront = new Vector3(0f, 0f, -1f);
-        Vector3 cameraUp = new Vector3(0f, 1f, 0f);
 
         public GameWindow(Game game, int width, int height, string title)
             : base(
@@ -78,10 +49,6 @@ namespace AnalogGameEngine.SimpleGUI
             )
         {
             this.game = game;
-
-            lastX = (int)Math.Round(width / 2d);
-            lastY = (int)Math.Round(height / 2d);
-            this.CursorVisible = false;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -89,13 +56,13 @@ namespace AnalogGameEngine.SimpleGUI
             GL.ClearColor(0.2f, 0.2f, 0.2f, 1.0f);
             GL.Enable(EnableCap.DepthTest);
 
-            VertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+            vboCard = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vboCard);
+            GL.BufferData(BufferTarget.ArrayBuffer, cardVertices.Length * sizeof(float), cardVertices, BufferUsageHint.StaticDraw);
 
-            ElementBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ElementBufferObject);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
+            vboTable = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vboTable);
+            GL.BufferData(BufferTarget.ArrayBuffer, tableVertices.Length * sizeof(float), tableVertices, BufferUsageHint.StaticDraw);
 
             // TODO: Dirty workaround to make shaders work for now
             shader = new Shader("AnalogGameEngine.SimpleGUI/shader.vert", "AnalogGameEngine.SimpleGUI/shader.frag");
@@ -105,27 +72,31 @@ namespace AnalogGameEngine.SimpleGUI
             texture0 = new Texture("AnalogGameEngine.SimpleGUI/awesomeface.png");
             texture0.Use(TextureUnit.Texture0);
 
-            // TODO: Dirty workaround to make textures work for now
-            /*texture1 = new Texture("AnalogGameEngine.SimpleGUI/awesomeface.png");
-            texture1.Use(TextureUnit.Texture1);*/
-
             shader.SetInt("texture0", 0);
-            //shader.SetInt("texture1", 1);
 
-            VertexArrayObject = GL.GenVertexArray();
-            GL.BindVertexArray(VertexArrayObject);
+            // Create VAO for card
+            vaoCard = GL.GenVertexArray();
+            GL.BindVertexArray(vaoCard);
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ElementBufferObject);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vboCard);
 
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 0);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
 
-            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 3 * sizeof(float));
+            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
             GL.EnableVertexAttribArray(1);
 
-            GL.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), 6 * sizeof(float));
-            GL.EnableVertexAttribArray(2);
+            // Create VAO for table
+            vaoTable = GL.GenVertexArray();
+            GL.BindVertexArray(vaoTable);
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vboTable);
+
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(0);
+
+            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+            GL.EnableVertexAttribArray(1);
 
             base.OnLoad(e);
         }
@@ -133,36 +104,54 @@ namespace AnalogGameEngine.SimpleGUI
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             time += (float)e.Time;
-            deltaTime = time - lastFrame;
-            lastFrame = time;
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             texture0.Use(TextureUnit.Texture0);
-            //texture1.Use(TextureUnit.Texture1);
             shader.Use();
 
-            Matrix4 view = Matrix4.LookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+            // TODO: remove test code
+            float radius = 7.0f;
+            float camX = (float)Math.Sin(time) * radius;
+            float camZ = (float)Math.Cos(time) * radius;
+
+            Matrix4 view = Matrix4.LookAt(new Vector3(camX, 2.5f, camZ), new Vector3(0f, 0f, 0f), new Vector3(0f, 1f, 0f));
             shader.SetMatrix4("view", view);
 
             Matrix4 projection = Matrix4.Identity;
             projection *= Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45f), this.ClientRectangle.Width / this.ClientRectangle.Height, 0.1f, 100f);
             shader.SetMatrix4("projection", projection);
 
-            foreach (var (translation, index) in cubePositions.Select((v, i) => (v, i)))
+            /* Draw table */
+            Matrix4 model = Matrix4.Identity;
+            shader.SetMatrix4("model", model);
+
+            GL.BindVertexArray(vaoTable);
+            GL.DrawArrays(PrimitiveType.TriangleStrip, 0, tableVertices.Length);
+
+            /* Draw handcards */
+            // Work for now only with one private Set
+            var (id, handSet) = game.ActivePlayer.Sets.First();
+
+            float spacingX = 0.1f;
+            float spacingY = 0.02f;
+            float spacingZ = 0.001f;
+            Matrix4 hand = Matrix4.Identity;
+            hand *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-20));
+            hand *= Matrix4.CreateTranslation(0f, 1.5f, 3f);
+
+            int cardAmount = handSet.Cards.Count;
+            for (int i = 0; i < cardAmount; i++)
             {
-                Matrix4 model = Matrix4.Identity;
-                var angle = 20f * index;
-                if (index % 3 == 0)
-                {
-                    angle += time * 6 % 360f;
-                }
-                model *= Matrix4.CreateFromAxisAngle(new Vector3(1f, 0.3f, 0.5f), MathHelper.DegreesToRadians(angle));
-                model *= Matrix4.CreateTranslation(translation);
+                float spacingIndex = (i - cardAmount / 2f);
+
+                model = Matrix4.Identity;
+                model *= Matrix4.CreateTranslation(spacingIndex * spacingX, spacingIndex * spacingY, spacingIndex * spacingZ);
+                model *= hand;
                 shader.SetMatrix4("model", model);
 
-                GL.BindVertexArray(VertexArrayObject);
-                GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+                GL.BindVertexArray(vaoCard);
+                GL.DrawArrays(PrimitiveType.TriangleStrip, 0, cardVertices.Length);
             }
 
             Context.SwapBuffers();
@@ -178,53 +167,6 @@ namespace AnalogGameEngine.SimpleGUI
             if (input.IsKeyDown(Key.Escape))
             {
                 Exit();
-            }
-
-            // Manipulate mouse only if window is focused
-            if (this.Focused)
-            {
-                float offsetX = mouse.X - lastX;
-                float offsetY = mouse.Y - lastY;
-
-                lastX = mouse.X;
-                lastY = mouse.Y;
-
-                float sensitivity = 0.05f;
-                offsetX *= sensitivity;
-                offsetY *= sensitivity;
-
-                yaw += offsetX;
-                pitch += offsetY;
-
-                if (pitch > 89) pitch = 89f;
-                if (pitch < -89) pitch = -89f;
-                yaw %= 360;
-                if (yaw < 0) yaw += 360;
-
-                Vector3 front = new Vector3();
-                front.X = (float)Math.Cos(MathHelper.DegreesToRadians(pitch)) * (float)Math.Cos(MathHelper.DegreesToRadians(yaw));
-                front.Y = (float)Math.Sin(MathHelper.DegreesToRadians(pitch));
-                front.Z = (float)Math.Cos(MathHelper.DegreesToRadians(pitch)) * (float)Math.Sin(MathHelper.DegreesToRadians(yaw));
-                front.Normalize();
-                cameraFront = front;
-            }
-
-            float cameraSpeed = 2.5f * deltaTime;
-            if (input.IsKeyDown(Key.W))
-            {
-                cameraPos += cameraSpeed * cameraFront;
-            }
-            if (input.IsKeyDown(Key.S))
-            {
-                cameraPos -= cameraSpeed * cameraFront;
-            }
-            if (input.IsKeyDown(Key.A))
-            {
-                cameraPos -= Vector3.Normalize(Vector3.Cross(cameraFront, cameraUp)) * cameraSpeed;
-            }
-            if (input.IsKeyDown(Key.D))
-            {
-                cameraPos += Vector3.Normalize(Vector3.Cross(cameraFront, cameraUp)) * cameraSpeed;
             }
 
             base.OnUpdateFrame(e);
@@ -246,8 +188,10 @@ namespace AnalogGameEngine.SimpleGUI
             GL.UseProgram(0);
 
             // Delete all the resources.
-            GL.DeleteBuffer(VertexBufferObject);
-            GL.DeleteVertexArray(VertexArrayObject);
+            GL.DeleteBuffer(vboCard);
+            GL.DeleteBuffer(vboTable);
+            GL.DeleteVertexArray(vaoCard);
+            GL.DeleteVertexArray(vaoTable);
 
             shader.Dispose();
             base.OnUnload(e);

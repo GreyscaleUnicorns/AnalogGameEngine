@@ -32,6 +32,7 @@ namespace MauMauPrototype
 
             this.Stacks["deck"].Shuffle();
 
+            // Give out cards to players
             foreach (var player in this.Players)
             {
                 for (var i = 0; i < 6; i++)
