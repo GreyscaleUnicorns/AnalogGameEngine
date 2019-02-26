@@ -1,12 +1,14 @@
 using System;
 
-namespace AnalogGameEngine.Entities {
+namespace AnalogGameEngine.Entities
+{
     /// <summary>
     /// Card Class
     /// implements specific GameCard
     /// which holds unique properties of a card
     /// </summary>
-    public class Card {
+    public class Card
+    {
         public CardType Type { get; private set; }
 
         private CardCollection collection = null;
@@ -16,12 +18,14 @@ namespace AnalogGameEngine.Entities {
         /// </summary>
         /// <param name="name">name of the new card</param>
         /// <param name="type">type of the new card</param>
-        public Card(CardType type, CardCollection collection) {
+        public Card(CardType type, CardCollection collection)
+        {
             Init(type, collection);
         }
 
         // Initializer
-        private void Init(CardType type, CardCollection collection) {
+        private void Init(CardType type, CardCollection collection)
+        {
             if (type is null) throw new ArgumentNullException("type");
             if (collection is null) throw new ArgumentNullException("collection");
 
@@ -34,8 +38,10 @@ namespace AnalogGameEngine.Entities {
         /// </summary>
         /// <param name="collection">the targeted collection</param>
         /// <param name="position">position at which the card should be inserted</param>
-        public void moveTo(Entities.CardCollection collection, int position = 0) {
-            if (this.collection != null) {
+        public void moveTo(Entities.CardCollection collection, int position = 0)
+        {
+            if (this.collection != null)
+            {
                 this.collection.PerformMoveFrom();
                 this.collection.RemoveCard(this);
                 this.collection.PerformMovedFrom();
@@ -46,7 +52,8 @@ namespace AnalogGameEngine.Entities {
             this.collection.PerformMovedTo();
         }
 
-        public void activateEffects() {
+        public void activateEffects()
+        {
             this.Type.activateEffects();
         }
     }

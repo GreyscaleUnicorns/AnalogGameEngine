@@ -1,9 +1,12 @@
 using AnalogGameEngine.Entities;
 using AnalogGameEngine.Management;
 
-namespace AnalogGameEngine.Factories {
-    public abstract class EffectFactory {
-        internal void Initialize(Game game, Registry registry) {
+namespace AnalogGameEngine.Factories
+{
+    public abstract class EffectFactory
+    {
+        internal void Initialize(Game game, Registry registry)
+        {
             this.CreateEffects(game, registry);
         }
 

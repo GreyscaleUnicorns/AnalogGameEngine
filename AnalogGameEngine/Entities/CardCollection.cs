@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 using AnalogGameEngine;
 
-namespace AnalogGameEngine.Entities {
+namespace AnalogGameEngine.Entities
+{
     /// <summary>
     /// Base for all types of card collections.
     /// </summary>
-    public abstract partial class CardCollection {
+    public abstract partial class CardCollection
+    {
         /// <summary>
         /// The list of all cards in the collection.
         /// </summary>
@@ -15,11 +17,14 @@ namespace AnalogGameEngine.Entities {
         public LinkedList<Card> Cards { get; private set; }
 
         /// <param name="cards">Initial cards in collection</param>
-        public CardCollection(Card[] cards = null) {
-            if (cards != null) {
+        public CardCollection(Card[] cards = null)
+        {
+            if (cards != null)
+            {
                 this.Cards = new LinkedList<Card>(cards);
             }
-            else {
+            else
+            {
                 this.Cards = new LinkedList<Card>();
             }
             this.RegisterEvents();
@@ -28,54 +33,58 @@ namespace AnalogGameEngine.Entities {
         /// <summary>
         /// Adds a card to the end of the collection.
         /// </summary>
-        /// <param name="card">the card to append</param>
-        /// <param name="position">the position at which the card should be inserted</param>
-        virtual public void AddCard(Card card, int position = 0) {
-            // overwirte behaviour in inheriting classes
+        /// <param name="card">card to append</param>
+        /// <param name="position">position at which the card should be inserted</param>
+        virtual public void AddCard(Card card, int position = 0)
+        {
+            // overwrite behaviour in inheriting classes
             this.Cards.AddLast(card);
         }
 
         /// <summary>
-        /// removes a Card from the Collection
+        /// Removes a Card from the Collection
         /// </summary>
         /// <param name="card">card to be removed</param>
-        public bool RemoveCard(Card card) {
+        public bool RemoveCard(Card card)
+        {
             return this.Cards.Remove(card);
         }
 
-        public void MoveAllCardsTo(CardCollection collection) {
-            if (collection != this) {
-                while (this.Cards.Count > 0) {
+        public void MoveAllCardsTo(CardCollection collection)
+        {
+            if (collection != this)
+            {
+                while (this.Cards.Count > 0)
+                {
                     this.Cards.First.Value.moveTo(collection);
                 }
             }
         }
 
         /// <summary>
-        /// Mischt Collection
+        /// Shuffles collection
         /// </summary>
-        public void Shuffle() {
-            if (this.Cards.Count <= 1) {
-                throw new InvalidOperationException("Collection aus 1 oder weniger Elementen! Mischen sinnfrei.");
-            }
-
+        public void Shuffle()
+        {
             var cardList = new List<Card>();
-            LinkedList<Card> shuffleList = new LinkedList<Card>();
+            LinkedList<Card> shuffledList = new LinkedList<Card>();
             Random rand = new Random(DateTime.Now.Ticks.GetHashCode());
 
-            // KartenListe aus Collection
-            foreach (Card card in this.Cards) {
+            // Create list from collection
+            foreach (Card card in this.Cards)
+            {
                 cardList.Add(card);
             }
 
-            // Random aus Kartenliste in SuffleCollection
-            do {
-                int Index = rand.Next(0, cardList.Count);
-                shuffleList.AddLast(cardList[Index]);
-                cardList.Remove(cardList[Index]);
+            // Randomly move cards from list into new collection
+            do
+            {
+                int index = rand.Next(0, cardList.Count);
+                shuffledList.AddLast(cardList[index]);
+                cardList.Remove(cardList[index]);
             } while (cardList.Count > 0);
 
-            this.Cards = shuffleList;
+            this.Cards = shuffledList;
         }
     }
 }

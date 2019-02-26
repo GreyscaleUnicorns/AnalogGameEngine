@@ -7,12 +7,18 @@ using System.Collections.Immutable;
 
 using MauMauPrototype.CardTypes;
 
-namespace MauMauPrototype.Factories {
-    class MauMauCardTypeFactory : CardTypeFactory {
-        protected override void CreateCardTypes(Registry registry) {
-            foreach (Colors color in Enum.GetValues(typeof(Colors))) {
-                foreach (Values value in Enum.GetValues(typeof(Values))) {
-                    switch (value) {
+namespace MauMauPrototype.Factories
+{
+    class MauMauCardTypeFactory : CardTypeFactory
+    {
+        protected override void CreateCardTypes(Registry registry)
+        {
+            foreach (Colors color in Enum.GetValues(typeof(Colors)))
+            {
+                foreach (Values value in Enum.GetValues(typeof(Values)))
+                {
+                    switch (value)
+                    {
                         case Values.Seven:
                             new Seven(registry, color);
                             break;

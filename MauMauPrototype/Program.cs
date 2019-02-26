@@ -6,9 +6,12 @@ using System.Linq;
 using MauMauPrototype.CardTypes;
 using MauMauPrototype.Effects;
 
-namespace MauMauPrototype {
-    class Program {
-        static void Main(string[] args) {
+namespace MauMauPrototype
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
             // Create players
             Player[] players = new Player[] {
                 new MauMauPlayer("Peter"),
@@ -17,8 +20,9 @@ namespace MauMauPrototype {
             };
             var game = new MauMauGame(players);
 
-            using (var window = new GameWindow(800, 600, "MauMauPrototype")) {
-                window.Run(120.0);
+            using (var window = new GameWindow(800, 600, "MauMauPrototype"))
+            {
+                window.Run(60.0);
             }
 
             /*while (!GameHasEnded(game)) {
@@ -87,7 +91,8 @@ namespace MauMauPrototype {
             }*/
         }
 
-        static bool cardPlayable(Game game, Card card) {
+        static bool cardPlayable(Game game, Card card)
+        {
             Card topCard = game.Stacks["discard-pile"].TopCard;
             MauMauCardType topCardType = (MauMauCardType)topCard.Type;
 
@@ -99,20 +104,25 @@ namespace MauMauPrototype {
             return colorMatch || valueMatch || alwaysPlayable;
         }
 
-        static bool playCard(Game game, Card card) {
-            if (cardPlayable(game, card)) {
+        static bool playCard(Game game, Card card)
+        {
+            if (cardPlayable(game, card))
+            {
                 card.moveTo(game.Stacks["discard-pile"]);
                 card.activateEffects();
                 return true;
             }
-            else {
+            else
+            {
                 return false;
             }
         }
 
-        static bool GameHasEnded(Game game) {
+        static bool GameHasEnded(Game game)
+        {
             var ended = false;
-            foreach (var player in game.Players) {
+            foreach (var player in game.Players)
+            {
                 ended = ended || player.Sets["hand"].Cards.Count == 0;
             }
             return ended;

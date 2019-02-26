@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 
-namespace AnalogGameEngine.Entities {
-    public partial class Set {
+namespace AnalogGameEngine.Entities
+{
+    public partial class Set
+    {
         /// <summary>
         /// Converts a Set to a Stack.
         /// </summary>
