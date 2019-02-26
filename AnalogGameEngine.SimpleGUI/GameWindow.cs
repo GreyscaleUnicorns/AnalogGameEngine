@@ -20,17 +20,17 @@ namespace AnalogGameEngine.SimpleGUI
         float[] cardVertices = {
             // positions           // tex coords
              0.315f,  0.44f, 0f,  1f, 1f, // top right
-             0.315f, -0.44f, 0f,  1f, 0f, // bottom right
             -0.315f,  0.44f, 0f,  0f, 1f, // top left
+             0.315f, -0.44f, 0f,  1f, 0f, // bottom right
             -0.315f, -0.44f, 0f,  0f, 0f, // bottom left
         };
 
         float[] tableVertices = {
             // positions           // tex coords
-             3f, 0, -3f,  1f, 1f, // top right
-             3f, 0,  3f,  1f, 0f, // bottom right
-            -3f, 0, -3f,  0f, 1f, // top left
-            -3f, 0,  3f,  0f, 0f, // bottom left
+             3f, 0f, -3f,  1f, 1f, // top right
+             3f, 0f,  3f,  1f, 0f, // bottom right
+            -3f, 0f,  3f,  0f, 0f, // bottom left
+            -3f, 0f, -3f,  0f, 1f, // top left
         };
 
         int vboCard, vboTable;
@@ -127,7 +127,7 @@ namespace AnalogGameEngine.SimpleGUI
             shader.SetMatrix4("model", model);
 
             GL.BindVertexArray(vaoTable);
-            GL.DrawArrays(PrimitiveType.TriangleStrip, 0, tableVertices.Length);
+            GL.DrawArrays(PrimitiveType.TriangleFan, 0, tableVertices.Length / 5);
 
             /* Draw handcards */
             // Work for now only with one private Set
@@ -151,7 +151,7 @@ namespace AnalogGameEngine.SimpleGUI
                 shader.SetMatrix4("model", model);
 
                 GL.BindVertexArray(vaoCard);
-                GL.DrawArrays(PrimitiveType.TriangleStrip, 0, cardVertices.Length);
+                GL.DrawArrays(PrimitiveType.TriangleStrip, 0, cardVertices.Length / 5);
             }
 
             Context.SwapBuffers();
