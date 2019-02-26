@@ -6,7 +6,7 @@ stages:
 build:
   stage: build
   script:
-    - 'dotnet build AnalogGameEngine.sln'
+    - 'dotnet build AnalogGameEngine'
 test:
   stage: test
   script:
@@ -24,4 +24,4 @@ test:
 buildMauMau:
   stage: buildPrototypes
   script:
-    - 'dotnet build MauMauPrototype/MauMauPrototype.csproj'
+    - 'dotnet build MauMauPrototype'

@@ -5,7 +5,7 @@
     "tasks": [
         {
             "label": "buildMauMau",
-            "command": "dotnet build MauMauPrototype/MauMauPrototype.csproj",
+            "command": "dotnet build MauMauPrototype",
             "type": "shell",
             "group": "build",
             "presentation": {
