@@ -17,24 +17,8 @@ namespace AnalogGameEngine.SimpleGUI
         private readonly Game game;
 
         /* 1 = 1dm in real world */
-        float[] cardVertices = {
-            // positions           // tex coords
-             0.315f,  0.44f, 0f,  1f, 1f, // top right
-            -0.315f,  0.44f, 0f,  0f, 1f, // top left
-             0.315f, -0.44f, 0f,  1f, 0f, // bottom right
-            -0.315f, -0.44f, 0f,  0f, 0f, // bottom left
-        };
+        RenderableObject card, table;
 
-        float[] tableVertices = {
-            // positions           // tex coords
-             3f, 0f, -3f,  1f, 1f, // top right
-             3f, 0f,  3f,  1f, 0f, // bottom right
-            -3f, 0f,  3f,  0f, 0f, // bottom left
-            -3f, 0f, -3f,  0f, 1f, // top left
-        };
-
-        int vboCard, vboTable;
-        int vaoCard, vaoTable;
         Shader shader;
         Texture texture0;
 
@@ -56,14 +40,6 @@ namespace AnalogGameEngine.SimpleGUI
             GL.ClearColor(0.2f, 0.2f, 0.2f, 1.0f);
             GL.Enable(EnableCap.DepthTest);
 
-            vboCard = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vboCard);
-            GL.BufferData(BufferTarget.ArrayBuffer, cardVertices.Length * sizeof(float), cardVertices, BufferUsageHint.StaticDraw);
-
-            vboTable = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vboTable);
-            GL.BufferData(BufferTarget.ArrayBuffer, tableVertices.Length * sizeof(float), tableVertices, BufferUsageHint.StaticDraw);
-
             // TODO: Dirty workaround to make shaders work for now
             shader = new Shader("AnalogGameEngine.SimpleGUI/shader.vert", "AnalogGameEngine.SimpleGUI/shader.frag");
             shader.Use();
@@ -74,29 +50,21 @@ namespace AnalogGameEngine.SimpleGUI
 
             shader.SetInt("texture0", 0);
 
-            // Create VAO for card
-            vaoCard = GL.GenVertexArray();
-            GL.BindVertexArray(vaoCard);
+            card = new RenderableObject(new[] {
+                // positions          // tex coords
+                 0.315f,  0.44f, 0f,  1f, 1f, // top right
+                -0.315f,  0.44f, 0f,  0f, 1f, // top left
+                 0.315f, -0.44f, 0f,  1f, 0f, // bottom right
+                -0.315f, -0.44f, 0f,  0f, 0f, // bottom left
+            }, new[] { 3, 2 }, PrimitiveType.TriangleStrip);
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vboCard);
-
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
-
-            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
-            GL.EnableVertexAttribArray(1);
-
-            // Create VAO for table
-            vaoTable = GL.GenVertexArray();
-            GL.BindVertexArray(vaoTable);
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vboTable);
-
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
-
-            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
-            GL.EnableVertexAttribArray(1);
+            table = new RenderableObject(new[] {
+                // positions           // tex coords
+                 3f, 0f, -3f,  1f, 1f, // top right
+                -3f, 0f, -3f,  0f, 1f, // top left
+                -3f, 0f,  3f,  0f, 0f, // bottom left
+                 3f, 0f,  3f,  1f, 0f, // bottom right
+            }, new[] { 3, 2 }, PrimitiveType.TriangleFan);
 
             base.OnLoad(e);
         }
@@ -126,8 +94,7 @@ namespace AnalogGameEngine.SimpleGUI
             Matrix4 model = Matrix4.Identity;
             shader.SetMatrix4("model", model);
 
-            GL.BindVertexArray(vaoTable);
-            GL.DrawArrays(PrimitiveType.TriangleFan, 0, tableVertices.Length / 5);
+            table.Draw();
 
             /* Draw handcards */
             // Work for now only with one private Set
@@ -150,8 +117,7 @@ namespace AnalogGameEngine.SimpleGUI
                 model *= hand;
                 shader.SetMatrix4("model", model);
 
-                GL.BindVertexArray(vaoCard);
-                GL.DrawArrays(PrimitiveType.TriangleStrip, 0, cardVertices.Length / 5);
+                card.Draw();
             }
 
             Context.SwapBuffers();
@@ -188,10 +154,8 @@ namespace AnalogGameEngine.SimpleGUI
             GL.UseProgram(0);
 
             // Delete all the resources.
-            GL.DeleteBuffer(vboCard);
-            GL.DeleteBuffer(vboTable);
-            GL.DeleteVertexArray(vaoCard);
-            GL.DeleteVertexArray(vaoTable);
+            card.Unload();
+            table.Unload();
 
             shader.Dispose();
             base.OnUnload(e);
