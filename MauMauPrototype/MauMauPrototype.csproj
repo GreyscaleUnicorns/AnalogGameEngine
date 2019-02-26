@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../AnalogGameEngine/AnalogGameEngine.csproj" />
     <ProjectReference Include="../AnalogGameEngine.SimpleGUI/AnalogGameEngine.SimpleGUI.csproj" />
   </ItemGroup>
 </Project>

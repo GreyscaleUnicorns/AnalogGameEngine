@@ -1,5 +1,5 @@
 ﻿using AnalogGameEngine.Entities;
-using AnalogGameEngine.GUI;
+using AnalogGameEngine.SimpleGUI;
 using System;
 using System.Linq;
 
@@ -20,12 +20,13 @@ namespace MauMauPrototype
             };
             var game = new MauMauGame(players);
 
-            using (var window = new GameWindow(800, 600, "MauMauPrototype"))
+            using (var window = new GameWindow(game, 800, 600, "MauMauPrototype"))
             {
                 window.Run(60.0);
             }
 
-            /*while (!GameHasEnded(game)) {
+            /*while (!GameHasEnded(game))
+            {
                 // Change player screen
                 Console.Clear();
                 Console.WriteLine("It's your turn, " + game.ActivePlayer.Name + "!");
@@ -33,7 +34,8 @@ namespace MauMauPrototype
                 Console.ReadKey();
 
                 // Draw Phase
-                if (game.Stacks["deck"].Cards.Count > 0) {
+                if (game.Stacks["deck"].Cards.Count > 0)
+                {
                     game.Stacks["deck"].TopCard.moveTo(game.ActivePlayer.Sets["hand"]);
                 }
 
@@ -45,11 +47,14 @@ namespace MauMauPrototype
                 Console.WriteLine("Your cards (" + game.ActivePlayer.Name + "):");
                 var i = 1;
                 var oldColor = Console.ForegroundColor;
-                foreach (var card in game.ActivePlayer.Sets["hand"].Cards) {
-                    if (cardPlayable(game, card)) {
+                foreach (var card in game.ActivePlayer.Sets["hand"].Cards)
+                {
+                    if (cardPlayable(game, card))
+                    {
                         Console.ForegroundColor = ConsoleColor.Green;
                     }
-                    else {
+                    else
+                    {
                         Console.ForegroundColor = ConsoleColor.Red;
                     }
                     Console.WriteLine(i++ + ": " + card.Type);
@@ -59,10 +64,12 @@ namespace MauMauPrototype
 
                 // Play Phase
                 var validOption = false;
-                if (Array.TrueForAll(game.ActivePlayer.Sets["hand"].Cards.ToArray(), c => !cardPlayable(game, c))) {
+                if (Array.TrueForAll(game.ActivePlayer.Sets["hand"].Cards.ToArray(), c => !cardPlayable(game, c)))
+                {
                     // No card playable
                     Console.WriteLine("None of your cards is playable.");
-                    if (game.Stacks["deck"].TopCard != null) {
+                    if (game.Stacks["deck"].TopCard != null)
+                    {
                         Console.WriteLine("You drew: " + game.Stacks["deck"].TopCard.Type);
                         game.Stacks["deck"].TopCard.moveTo(game.ActivePlayer.Sets["hand"]);
                     }
@@ -71,16 +78,20 @@ namespace MauMauPrototype
                     validOption = true;
                 }
 
-                while (!validOption) {
+                while (!validOption)
+                {
                     Console.Write("Which card do you want to play? Type a number: ");
                     string option = Console.ReadLine();
                     int number;
                     if (int.TryParse(option, out number) && number > 0
-                        && number <= game.ActivePlayer.Sets["hand"].Cards.Count) {
-                        if (playCard(game, game.ActivePlayer.Sets["hand"].Cards.ElementAt(number - 1))) {
+                        && number <= game.ActivePlayer.Sets["hand"].Cards.Count)
+                    {
+                        if (playCard(game, game.ActivePlayer.Sets["hand"].Cards.ElementAt(number - 1)))
+                        {
                             validOption = true;
                         }
-                        else {
+                        else
+                        {
                             Console.WriteLine("This card is not playable right now!");
                         }
                     }

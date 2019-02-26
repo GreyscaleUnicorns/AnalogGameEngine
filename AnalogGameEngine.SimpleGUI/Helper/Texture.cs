@@ -7,7 +7,7 @@ using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
-namespace AnalogGameEngine.GUI
+namespace AnalogGameEngine.SimpleGUI.Helper
 {
     //A helper class, much like Shader, meant to simplify loading textures.
     public class Texture : IDisposable

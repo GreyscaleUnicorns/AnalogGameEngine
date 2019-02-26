@@ -4,7 +4,7 @@ using System.Text;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-namespace AnalogGameEngine.GUI
+namespace AnalogGameEngine.SimpleGUI.Helper
 {
     //A simple class meant to help create shaders.
     public class Shader : System.IDisposable

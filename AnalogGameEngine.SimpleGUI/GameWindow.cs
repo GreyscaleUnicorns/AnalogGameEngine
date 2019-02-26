@@ -6,10 +6,16 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
-namespace AnalogGameEngine.GUI
+using AnalogGameEngine.Entities;
+
+using AnalogGameEngine.SimpleGUI.Helper;
+
+namespace AnalogGameEngine.SimpleGUI
 {
     public class GameWindow : OpenTK.GameWindow
     {
+        private readonly Game game;
+
         float[] vertices = {
             /// positions        //colors            // texture coords
              0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, // top right front
@@ -65,12 +71,14 @@ namespace AnalogGameEngine.GUI
         Vector3 cameraFront = new Vector3(0f, 0f, -1f);
         Vector3 cameraUp = new Vector3(0f, 1f, 0f);
 
-        public GameWindow(int width, int height, string title)
+        public GameWindow(Game game, int width, int height, string title)
             : base(
                 width, height, GraphicsMode.Default, title, GameWindowFlags.Default,
                 DisplayDevice.Default, 4, 5, GraphicsContextFlags.Default
             )
         {
+            this.game = game;
+
             lastX = (int)Math.Round(width / 2d);
             lastY = (int)Math.Round(height / 2d);
             this.CursorVisible = false;
@@ -94,7 +102,7 @@ namespace AnalogGameEngine.GUI
             shader.Use();
 
             // TODO: Dirty workaround to make textures work for now
-            texture0 = new Texture("AnalogGameEngine.SimpleGUI/container.jpg");
+            texture0 = new Texture("AnalogGameEngine.SimpleGUI/awesomeface.png");
             texture0.Use(TextureUnit.Texture0);
 
             // TODO: Dirty workaround to make textures work for now
