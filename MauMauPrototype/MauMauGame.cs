@@ -21,6 +21,7 @@ namespace MauMauPrototype {
             foreach (Colors color in Enum.GetValues(typeof(Colors))) {
                 foreach (Values value in Enum.GetValues(typeof(Values))) {
                     new Card(registry.GetCardType(color.ToString().ToLower() + "Of" + value.ToString()), this.Stacks["deck"]);
+                    new Card(registry.GetCardType(color.ToString().ToLower() + "Of" + value.ToString()), this.Stacks["deck"]);
                 }
             }
 
