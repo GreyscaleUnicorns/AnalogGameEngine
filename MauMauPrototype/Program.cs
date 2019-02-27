@@ -1,4 +1,5 @@
 ﻿using AnalogGameEngine.Entities;
+using AnalogGameEngine.Management;
 using AnalogGameEngine.SimpleGUI;
 using System;
 using System.Linq;
@@ -16,10 +17,7 @@ namespace MauMauPrototype {
                 new MauMauPlayer("Friedrich")
             };
             var game = new MauMauGame(players);
-
-            using (var window = new GameWindow(game, 800, 600, "MauMauPrototype")) {
-                window.Run(60.0);
-            }
+            game.Run();
 
             /*while (!GameHasEnded(game))
             {

@@ -3,6 +3,8 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 
@@ -15,23 +17,38 @@ namespace AnalogGameEngine.SimpleGUI {
         private readonly Game game;
 
         /* 1 = 1dm in real world */
-        VertexDataObject card, cardBack, stack, table;
+        private VertexDataObject card, cardBack, stack, table;
 
-        Shader shader;
-        Texture texture0, cardbackTexture, tableTexture;
+        private Shader shader;
+        private Texture cardbackTexture, tableTexture;
+        private ImmutableDictionary<CardType, Texture> cardTextures;
 
-        float time = 0.0f;
-        float deltaTime = 0.0f;
-        float lastFrame = 0.0f;
+        private float time = 0.0f;
+        private float deltaTime = 0.0f;
+        private float lastFrame = 0.0f;
 
-        bool keyNr1 = false;
+        private bool keyNr1 = false;
 
-        public GameWindow(Game game, int width, int height, string title)
+        public GameWindow(Game game, int width, int height, string title, ImmutableDictionary<CardType, string> textures)
             : base(
-                width, height, GraphicsMode.Default, title, GameWindowFlags.Default,
-                DisplayDevice.Default, 4, 5, GraphicsContextFlags.Default
+                width,
+                height,
+                GraphicsMode.Default,
+                title,
+                GameWindowFlags.Default,
+                DisplayDevice.Default,
+                4, 5,
+                GraphicsContextFlags.Default
             ) {
             this.game = game;
+
+            // Initialise dictionary for textures
+            // TODO: check if textures for all cardtypes are given?
+            var dict = new Dictionary<CardType, Texture>();
+            foreach (var (cardType, path) in textures) {
+                dict.Add(cardType, new Texture(path));
+            }
+            this.cardTextures = dict.ToImmutableDictionary();
         }
 
         protected override void OnLoad(EventArgs e) {
@@ -47,10 +64,11 @@ namespace AnalogGameEngine.SimpleGUI {
             GL.ClearColor(0.2f, 0.2f, 0.2f, 1.0f);
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.CullFace);
+            GL.Enable(EnableCap.Multisample);
         }
 
         protected static Shader InitializeShader() {
-            // TODO: Dirty workaround to make shaders work for now
+            // TODO: workaround to make shaders work for now
             var shader = new Shader("AnalogGameEngine.SimpleGUI/shader.vert", "AnalogGameEngine.SimpleGUI/shader.frag");
             shader.Use();
             shader.SetInt("texture0", 0);
@@ -59,28 +77,13 @@ namespace AnalogGameEngine.SimpleGUI {
 
         // TODO: make more functional and add static
         protected void InitializeTextures(Shader shader) {
-            // TODO: Dirty workaround to make textures work for now
-            texture0 = new Texture("AnalogGameEngine.SimpleGUI/Assets/Textures/awesomeface.png");
-            cardbackTexture = new Texture("AnalogGameEngine.SimpleGUI/Assets/Textures/cardback.png");
-            tableTexture = new Texture("AnalogGameEngine.SimpleGUI/Assets/Textures/Wood_006_COLOR.jpg");
+            // TODO: workaround to make textures work for now
+            cardbackTexture = new Texture("Assets/Textures/Playingcards/CardBack_Red.jpg");
+            tableTexture = new Texture("Assets/Textures/Wood_006_COLOR.jpg");
         }
 
         // TODO: make more functional and add static
         protected void InitializeVertexData() {
-            cardBack =
-                new VertexDataObjectBuilder(
-                    new[] {
-                        // positions          // tex coords
-                        -0.315f,  0.44f, 0f,  1f, 1f, // top right
-                         0.315f,  0.44f, 0f,  0f, 1f, // top left
-                        -0.315f, -0.44f, 0f,  1f, 0f, // bottom right
-                         0.315f, -0.44f, 0f,  0f, 0f, // bottom left
-                    },
-                    new[] { 3, 2 },
-                    PrimitiveType.TriangleStrip,
-                    cardbackTexture
-                ).Build();
-
             table =
                 new VertexDataObjectBuilder(
                     new[] {
@@ -91,9 +94,24 @@ namespace AnalogGameEngine.SimpleGUI {
                          3f, 0f,  3f,  1f, 0f, // bottom right
                     },
                     new[] { 3, 2 },
-                    PrimitiveType.TriangleFan,
-                    tableTexture
+                    PrimitiveType.TriangleFan
                 )
+                .WithTexture(tableTexture)
+                .Build();
+
+            cardBack =
+                new VertexDataObjectBuilder(
+                    new[] {
+                        // positions          // tex coords
+                        -0.315f,  0.44f, 0f,  1f, 1f, // top right
+                         0.315f,  0.44f, 0f,  0f, 1f, // top left
+                        -0.315f, -0.44f, 0f,  1f, 0f, // bottom right
+                         0.315f, -0.44f, 0f,  0f, 0f, // bottom left
+                    },
+                    new[] { 3, 2 },
+                    PrimitiveType.TriangleStrip
+                )
+                .WithTexture(cardbackTexture)
                 .Build();
 
             stack =
@@ -110,9 +128,9 @@ namespace AnalogGameEngine.SimpleGUI {
                         -0.315f, 0f,     -0.44f,  0f, 1f, // back top left
                     },
                     new[] { 3, 2 },
-                    PrimitiveType.TriangleStrip,
-                    cardbackTexture
+                    PrimitiveType.TriangleStrip
                 )
+                .WithTexture(cardbackTexture)
                 .WithElementBufferObject(
                     new uint[] { 3, 1, 2, 0, 4, 1, 5, 3, 7, 2, 6, 4 }
                 )
@@ -128,9 +146,10 @@ namespace AnalogGameEngine.SimpleGUI {
                         -0.315f, -0.44f, 0f,  0f, 0f, // bottom left
                     },
                     new[] { 3, 2 },
-                    PrimitiveType.TriangleStrip,
-                    texture0
-                ).Build();
+                    PrimitiveType.TriangleStrip
+                )
+                .WithTexture(cardbackTexture)
+                .Build();
         }
 
         protected override void OnRenderFrame(FrameEventArgs e) {
@@ -198,8 +217,10 @@ namespace AnalogGameEngine.SimpleGUI {
                 hand *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(i * (360 / playerAmount)));
 
                 // TODO: Add support for more private sets
-                int cardAmount = game.Players[i].Sets.First().Value.Cards.Count;
+                Set handSet = game.Players[i].Sets.First().Value;
+                int cardAmount = handSet.Cards.Count;
                 for (int j = 0; j < cardAmount; j++) {
+                    Card card = handSet.Cards.ElementAt(j);
                     float spacingIndex = (j - cardAmount / 2f);
 
                     model = Matrix4.Identity;
@@ -207,7 +228,7 @@ namespace AnalogGameEngine.SimpleGUI {
                     model *= hand;
                     shader.SetMatrix4("model", model);
 
-                    this.card.Draw();
+                    this.card.Draw(cardTextures[card.Type]);
                     this.cardBack.Draw();
                 }
             }
@@ -249,6 +270,7 @@ namespace AnalogGameEngine.SimpleGUI {
 
             // Delete all the resources.
             card.Unload();
+            cardBack.Unload();
             table.Unload();
 
             shader.Dispose();

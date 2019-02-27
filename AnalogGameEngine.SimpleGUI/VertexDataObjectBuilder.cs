@@ -8,16 +8,16 @@ using AnalogGameEngine.SimpleGUI.Helper;
 
 namespace AnalogGameEngine.SimpleGUI {
     public class VertexDataObjectBuilder {
-        protected PrimitiveType drawType;
-        protected Texture texture;
-        protected int vertexBufferObject, vertexArrayObject;
-        protected int? elementBufferObject;
+        private PrimitiveType drawType;
+        private Texture texture;
+        private int vertexBufferObject, vertexArrayObject;
+        private int? elementBufferObject;
 
-        protected int vertexAmount;
+        private int vertexAmount;
         private int[] config;
         private int configSum;
 
-        public VertexDataObjectBuilder(float[] vertices, int[] config, PrimitiveType type, Texture texture) {
+        public VertexDataObjectBuilder(float[] vertices, int[] config, PrimitiveType type) {
             this.configSum = config.Sum();
             if (vertices.Length % configSum != 0) {
                 throw new ArgumentException("Config and vertices array do not match!");
@@ -25,7 +25,6 @@ namespace AnalogGameEngine.SimpleGUI {
 
             this.config = config;
             this.drawType = type;
-            this.texture = texture;
             this.vertexAmount = vertices.Length / configSum;
 
             // Create VBO
@@ -41,6 +40,12 @@ namespace AnalogGameEngine.SimpleGUI {
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
             this.elementBufferObject = ebo;
+
+            return this;
+        }
+
+        public VertexDataObjectBuilder WithTexture(Texture texture) {
+            this.texture = texture;
 
             return this;
         }

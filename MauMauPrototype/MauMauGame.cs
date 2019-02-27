@@ -1,4 +1,5 @@
 using AnalogGameEngine.Entities;
+using AnalogGameEngine.SimpleGUI.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -6,7 +7,7 @@ using MauMauPrototype.CardTypes;
 using MauMauPrototype.Factories;
 
 namespace MauMauPrototype {
-    class MauMauGame : Game {
+    class MauMauGame : SimpleGuiGame {
         public MauMauGame(Player[] players) : base(players, new MauMauCardTypeFactory(), new MauMauEffectFactory()) {
             // Register events
             this.Stacks["deck"].OnEmpty += () =>

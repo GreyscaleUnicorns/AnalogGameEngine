@@ -1,5 +1,5 @@
 using AnalogGameEngine.Entities;
-using AnalogGameEngine.Factories;
+using AnalogGameEngine.SimpleGUI.Factories;
 using AnalogGameEngine.Management;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Collections.Immutable;
 using MauMauPrototype.CardTypes;
 
 namespace MauMauPrototype.Factories {
-    class MauMauCardTypeFactory : CardTypeFactory {
+    class MauMauCardTypeFactory : SimpleGuiCardTypeFactory {
         protected override void CreateCardTypes(Registry registry) {
             foreach (Colors color in Enum.GetValues(typeof(Colors))) {
                 foreach (Values value in Enum.GetValues(typeof(Values))) {
@@ -25,6 +25,10 @@ namespace MauMauPrototype.Factories {
                     }
                 }
             }
+        }
+
+        protected override string GetTexturePath(CardType cardType) {
+            return "Assets/Textures/Playingcards/01_AceOfHearts.jpg";
         }
     }
 }

@@ -8,14 +8,13 @@ using AnalogGameEngine.SimpleGUI.Helper;
 
 namespace AnalogGameEngine.SimpleGUI {
     public class VertexDataObject {
-        protected PrimitiveType drawType;
-        protected Texture texture;
-        protected int vertexBufferObject, vertexArrayObject;
-        protected int? elementBufferObject;
+        private PrimitiveType drawType;
+        private Texture texture;
+        private int vertexBufferObject, vertexArrayObject;
+        private int? elementBufferObject;
 
-        protected int vertexAmount;
+        private int vertexAmount;
 
-        protected VertexDataObject() { }
         /// <summary>
         /// Constructor to use for VertexDataObjectBuilder
         /// </summary>
@@ -28,8 +27,10 @@ namespace AnalogGameEngine.SimpleGUI {
             this.vertexAmount = vertexAmount;
         }
 
-        public void Draw() {
-            this.texture.Use();
+        public void Draw(Texture texture = null) {
+            if (!(texture is null)) { texture.Use(); }
+            else if (!(this.texture is null)) { this.texture.Use(); }
+            else { throw new InvalidOperationException("No texture given!"); }
 
             GL.BindVertexArray(vertexArrayObject);
             if (this.elementBufferObject.HasValue) {

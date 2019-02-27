@@ -10,7 +10,7 @@ namespace AnalogGameEngine.Entities {
         // TODO: documentation
         /// <summary>
         /// </summary>
-        /// /// <returns>Number of cards in stack</returns>
+        /// <returns>Number of cards in stack</returns>
         public int Count {
             get {
                 return this.Cards.Count;

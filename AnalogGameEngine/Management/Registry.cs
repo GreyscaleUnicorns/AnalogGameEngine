@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using AnalogGameEngine.Entities;
 
@@ -32,6 +33,10 @@ namespace AnalogGameEngine.Management {
                 // TODO: error handling
                 return null;
             }
+        }
+
+        public CardType[] GetCardTypes() {
+            return cardTypes.Values.ToArray();
         }
 
         internal void RegisterCardType(string key, CardType cardType) {
