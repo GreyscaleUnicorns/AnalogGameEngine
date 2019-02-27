@@ -11,6 +11,17 @@
             "cwd": "${workspaceRoot}",
             "stopAtEntry": false,
             "console": "integratedTerminal"
+        },
+        {
+            "name": "MauMauConsolePrototype",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildMauMauConsole",
+            "program": "${workspaceRoot}/MauMauConsolePrototype/bin/Debug/netcoreapp2.2/MauMauConsolePrototype.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "stopAtEntry": false,
+            "console": "integratedTerminal"
         }
     ]
 }

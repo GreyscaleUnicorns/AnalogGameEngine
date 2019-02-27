@@ -40,3 +40,7 @@ buildMauMau:
   stage: build_prototypes
   script:
     - 'dotnet build MauMauPrototype'
+buildMauMauConsole:
+  stage: build_prototypes
+  script:
+    - 'dotnet build MauMauConsolePrototype'
