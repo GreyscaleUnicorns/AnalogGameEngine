@@ -7,7 +7,7 @@ using MauMauPrototype.CardTypes;
 using MauMauPrototype.Factories;
 
 namespace MauMauPrototype {
-    class MauMauGame : SimpleGuiGame {
+    class MauMauGame : SimpleGuiGame<MauMauCardType> {
         public MauMauGame(Player[] players) : base(players, new MauMauCardTypeFactory(), new MauMauEffectFactory()) {
             // Register events
             this.Stacks["deck"].OnEmpty += () =>

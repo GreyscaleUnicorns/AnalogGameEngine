@@ -6,20 +6,22 @@ using AnalogGameEngine.Factories;
 using AnalogGameEngine.Management;
 
 namespace AnalogGameEngine.SimpleGUI.Factories {
-    public abstract class SimpleGuiCardTypeFactory : CardTypeFactory {
-        internal ImmutableDictionary<CardType, string> TexturePathDictionary { get; private set; }
+    public abstract class SimpleGuiCardTypeFactory<T> : CardTypeFactory where T : CardType {
+        internal ImmutableDictionary<T, string> TexturePathDictionary { get; private set; }
 
         protected SimpleGuiCardTypeFactory() {
             this.OnCardTypeCreation += (cardTypes) =>
             {
-                var dict = new Dictionary<CardType, string>();
-                foreach (var cardType in cardTypes) {
+                // TODO: Error handling
+
+                var dict = new Dictionary<T, string>();
+                foreach (T cardType in cardTypes) {
                     dict.Add(cardType, this.GetTexturePath(cardType));
                 }
                 TexturePathDictionary = dict.ToImmutableDictionary();
             };
         }
 
-        protected abstract string GetTexturePath(CardType cardType);
+        protected abstract string GetTexturePath(T cardType);
     }
 }

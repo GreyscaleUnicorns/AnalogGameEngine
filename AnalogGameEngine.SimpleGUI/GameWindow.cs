@@ -13,7 +13,7 @@ using AnalogGameEngine.Entities;
 using AnalogGameEngine.SimpleGUI.Helper;
 
 namespace AnalogGameEngine.SimpleGUI {
-    public class GameWindow : OpenTK.GameWindow {
+    public class GameWindow<T> : OpenTK.GameWindow where T : CardType {
         private readonly Game game;
 
         /* 1 = 1dm in real world */
@@ -21,7 +21,7 @@ namespace AnalogGameEngine.SimpleGUI {
 
         private Shader shader;
         private Texture cardbackTexture, tableTexture;
-        private ImmutableDictionary<CardType, Texture> cardTextures;
+        private ImmutableDictionary<T, Texture> cardTextures;
 
         private float time = 0.0f;
         private float deltaTime = 0.0f;
@@ -29,7 +29,7 @@ namespace AnalogGameEngine.SimpleGUI {
 
         private bool keyNr1 = false;
 
-        public GameWindow(Game game, int width, int height, string title, ImmutableDictionary<CardType, string> textures)
+        public GameWindow(Game game, int width, int height, string title, ImmutableDictionary<T, string> textures)
             : base(
                 width,
                 height,
@@ -44,7 +44,7 @@ namespace AnalogGameEngine.SimpleGUI {
 
             // Initialise dictionary for textures
             // TODO: check if textures for all cardtypes are given?
-            var dict = new Dictionary<CardType, Texture>();
+            var dict = new Dictionary<T, Texture>();
             foreach (var (cardType, path) in textures) {
                 dict.Add(cardType, new Texture(path));
             }
@@ -228,7 +228,7 @@ namespace AnalogGameEngine.SimpleGUI {
                     model *= hand;
                     shader.SetMatrix4("model", model);
 
-                    this.card.Draw(cardTextures[card.Type]);
+                    this.card.Draw(cardTextures[(T)card.Type]);
                     this.cardBack.Draw();
                 }
             }
