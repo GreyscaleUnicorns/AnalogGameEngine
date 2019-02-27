@@ -5,13 +5,10 @@ using Xunit;
 using AnalogGameEngine.Entities;
 using AnalogGameEngine.Management;
 
-namespace AnalogGameEngine.Tests.Entities
-{
-    public class CardCollectionTest
-    {
+namespace AnalogGameEngine.Tests.Entities {
+    public class CardCollectionTest {
         [Fact]
-        public void ShuffleIntegrityTest()
-        {
+        public void ShuffleIntegrityTest() {
             var registry = new Registry();
             var cardType = new MockCardType(registry);
             var collection = new MockCardCollection();
@@ -22,8 +19,7 @@ namespace AnalogGameEngine.Tests.Entities
             collection.Shuffle();
 
             var cards = new List<Card>(new[] { card1, card2, card3 });
-            foreach (Card card in collection.Cards)
-            {
+            foreach (Card card in collection.Cards) {
                 Assert.Contains(card, cards);
                 cards.Remove(card);
             }
@@ -34,8 +30,7 @@ namespace AnalogGameEngine.Tests.Entities
         /// Testet die Mischfunktion auf Mischergebnis/ Unterschied zur ungemischten Liste
         /// </summary>
         [Fact]
-        public void ShuffleTest()
-        {
+        public void ShuffleTest() {
             var registry = new Registry();
             var cardType = new MockCardType(registry);
             var collection = new MockCardCollection();
@@ -59,16 +54,13 @@ namespace AnalogGameEngine.Tests.Entities
             collection.Shuffle();
 
             // Karten Liste der gemischten Collection
-            foreach (Card card in collection.Cards)
-            {
+            foreach (Card card in collection.Cards) {
                 cardsTest.Add(card);
             }
 
             // Gemischte Karten Liste und Original Liste vergleichen
-            for (int i = 0; i < cards.Count; i++)
-            {
-                if (cards[i] != cardsTest[i])
-                {
+            for (int i = 0; i < cards.Count; i++) {
+                if (cards[i] != cardsTest[i]) {
                     differents += 1;
                 }
             }

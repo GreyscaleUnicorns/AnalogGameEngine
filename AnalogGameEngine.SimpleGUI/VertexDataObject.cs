@@ -6,64 +6,45 @@ using System.Linq;
 
 using AnalogGameEngine.SimpleGUI.Helper;
 
-namespace AnalogGameEngine.SimpleGUI
-{
-    class VertexDataObject
-    {
-        private float[] vertices;
-        private int[] config;
-        private PrimitiveType drawType;
-        private Texture texture;
-        private int vertexBufferObject, vertexArrayObject;
+namespace AnalogGameEngine.SimpleGUI {
+    public class VertexDataObject {
+        protected PrimitiveType drawType;
+        protected Texture texture;
+        protected int vertexBufferObject, vertexArrayObject;
+        protected int? elementBufferObject;
 
-        private int VertexAmount
-        {
-            get => vertices.Length / config.Sum();
-        }
+        protected int vertexAmount;
 
-        public VertexDataObject(float[] vertices, int[] config, PrimitiveType type, Texture texture)
-        {
-            if (vertices.Length % config.Sum() != 0)
-            {
-                throw new ArgumentException("Config and vertices array do not match!");
-            }
-
-            this.vertices = vertices;
-            this.config = config;
-            this.drawType = type;
+        protected VertexDataObject() { }
+        /// <summary>
+        /// Constructor to use for VertexDataObjectBuilder
+        /// </summary>
+        public VertexDataObject(PrimitiveType drawType, Texture texture, int vertexBufferObject, int vertexArrayObject, int? elementBufferObject, int vertexAmount) {
+            this.drawType = drawType;
             this.texture = texture;
+            this.vertexBufferObject = vertexBufferObject;
+            this.vertexArrayObject = vertexArrayObject;
+            this.elementBufferObject = elementBufferObject;
+            this.vertexAmount = vertexAmount;
+        }
 
-            // Create VBO
-            vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+        public void Draw() {
+            this.texture.Use();
 
-            // Create VAO
-            vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(vertexArrayObject);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexArrayObject);
-
-            int configSum = config.Sum();
-            int tmpSum = 0;
-            for (int i = 0; i < config.Length; i++)
-            {
-                GL.VertexAttribPointer(i, config[i], VertexAttribPointerType.Float, false, configSum * sizeof(float), tmpSum * sizeof(float));
-                GL.EnableVertexAttribArray(i);
-                tmpSum += config[i];
+            if (this.elementBufferObject.HasValue) {
+                GL.DrawElements(this.drawType, this.vertexAmount, DrawElementsType.UnsignedInt, 0);
+            }
+            else {
+                GL.DrawArrays(this.drawType, 0, this.vertexAmount);
             }
         }
 
-        public void Draw()
-        {
-            texture.Use();
-
-            GL.BindVertexArray(vertexArrayObject);
-            GL.DrawArrays(drawType, 0, this.VertexAmount);
-        }
-
-        public void Unload()
-        {
+        public void Unload() {
             GL.DeleteBuffer(vertexBufferObject);
+            if (this.elementBufferObject.HasValue) {
+                GL.DeleteBuffer(this.elementBufferObject.Value);
+            }
             GL.DeleteVertexArray(vertexArrayObject);
         }
     }

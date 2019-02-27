@@ -7,16 +7,13 @@ using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
-namespace AnalogGameEngine.SimpleGUI.Helper
-{
+namespace AnalogGameEngine.SimpleGUI.Helper {
     //A helper class, much like Shader, meant to simplify loading textures.
-    public class Texture : IDisposable
-    {
+    public class Texture : IDisposable {
         int Handle;
 
         //Create texture from path.
-        public Texture(string path)
-        {
+        public Texture(string path) {
             //Generate handle
             Handle = GL.GenTexture();
 
@@ -36,8 +33,7 @@ namespace AnalogGameEngine.SimpleGUI.Helper
             //Convert ImageSharp's format into a byte array, so we can use it with OpenGL.
             List<byte> pixels = new List<byte>();
 
-            foreach (Rgba32 p in tempPixels)
-            {
+            foreach (Rgba32 p in tempPixels) {
                 pixels.Add(p.R);
                 pixels.Add(p.G);
                 pixels.Add(p.B);
@@ -53,20 +49,16 @@ namespace AnalogGameEngine.SimpleGUI.Helper
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
 
-        public void Use(TextureUnit unit = TextureUnit.Texture0)
-        {
+        public void Use(TextureUnit unit = TextureUnit.Texture0) {
             GL.ActiveTexture(unit);
             GL.BindTexture(TextureTarget.Texture2D, Handle);
         }
 
         private bool disposedValue = false;
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
+        protected virtual void Dispose(bool disposing) {
+            if (!disposedValue) {
+                if (disposing) {
                     // TODO: dispose managed state (managed objects).
                 }
 
@@ -76,13 +68,11 @@ namespace AnalogGameEngine.SimpleGUI.Helper
             }
         }
 
-        ~Texture()
-        {
+        ~Texture() {
             GL.DeleteProgram(Handle);
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
         }

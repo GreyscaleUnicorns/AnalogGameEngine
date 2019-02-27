@@ -1,22 +1,16 @@
 using System;
 
-namespace AnalogGameEngine.Entities
-{
+namespace AnalogGameEngine.Entities {
     /// <summary>
     /// Represents a set of cards like hand cards.
     /// </summary>
-    public partial class Set : CardCollection
-    {
-        public Card FirstCard
-        {
-            get
-            {
-                if (this.Cards.Count > 0)
-                {
+    public partial class Set : CardCollection {
+        public Card FirstCard {
+            get {
+                if (this.Cards.Count > 0) {
                     return this.Cards.First.Value;
                 }
-                else
-                {
+                else {
                     return null;
                 }
             }
@@ -25,18 +19,14 @@ namespace AnalogGameEngine.Entities
         public Set() : this(null) { /* Nothing to do */ }
         public Set(Card[] cards) : base(cards) { /* Nothing to do */ }
 
-        override public void AddCard(Card card, int position)
-        {
-            if (position < 0 || position > this.Cards.Count)
-            {
+        override public void AddCard(Card card, int position) {
+            if (position < 0 || position > this.Cards.Count) {
                 this.Cards.AddLast(card);
             }
-            else if (position == 0)
-            {
+            else if (position == 0) {
                 this.Cards.AddFirst(card);
             }
-            else
-            {
+            else {
                 var iterator = this.Cards.First;
                 for (int i = 0; i < position; i++) { iterator = iterator.Next; }
                 this.Cards.AddBefore(iterator, card);

@@ -2,12 +2,9 @@ using System;
 
 using AnalogGameEngine.Entities;
 
-namespace MauMauPrototype
-{
-    public class MauMauPlayer : Player
-    {
-        public MauMauPlayer(string name) : base(name)
-        {
+namespace MauMauPrototype {
+    public class MauMauPlayer : Player {
+        public MauMauPlayer(string name) : base(name) {
             // Nothing to do
         }
 

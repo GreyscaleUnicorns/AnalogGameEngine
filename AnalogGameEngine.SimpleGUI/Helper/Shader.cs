@@ -4,18 +4,14 @@ using System.Text;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-namespace AnalogGameEngine.SimpleGUI.Helper
-{
+namespace AnalogGameEngine.SimpleGUI.Helper {
     //A simple class meant to help create shaders.
-    public class Shader : System.IDisposable
-    {
-        public int Handle
-        {
+    public class Shader : System.IDisposable {
+        public int Handle {
             get; private set;
         }
 
-        public Shader(string vertPath, string fragPath)
-        {
+        public Shader(string vertPath, string fragPath) {
             int VertexShader;
             int FragmentShader;
 
@@ -64,43 +60,35 @@ namespace AnalogGameEngine.SimpleGUI.Helper
             GL.DeleteShader(VertexShader);
         }
 
-        public void Use()
-        {
+        public void Use() {
             GL.UseProgram(Handle);
         }
 
-        public void SetInt(string name, int value)
-        {
+        public void SetInt(string name, int value) {
             int location = GL.GetUniformLocation(Handle, name);
 
-            if (location == -1)
-            {
+            if (location == -1) {
                 Console.WriteLine("Warning: Uniform name \"" + name + "\" not found!");
             }
-            else
-            {
+            else {
                 GL.Uniform1(location, value);
             }
         }
 
-        public void SetFloat(string name, float value)
-        {
+        public void SetFloat(string name, float value) {
             int location = GL.GetUniformLocation(Handle, name);
 
-            if (location == -1)
-            {
+            if (location == -1) {
                 throw new ArgumentException("uniform name not found");
             }
 
             GL.Uniform1(location, value);
         }
 
-        public void SetMatrix4(string name, Matrix4 matrix)
-        {
+        public void SetMatrix4(string name, Matrix4 matrix) {
             int location = GL.GetUniformLocation(Handle, name);
 
-            if (location == -1)
-            {
+            if (location == -1) {
                 throw new ArgumentException("uniform name not found");
             }
 
@@ -109,18 +97,15 @@ namespace AnalogGameEngine.SimpleGUI.Helper
 
         //The shader sources provided with this project use hardcoded layout(location)-s. If you want to do it dynamically,
         //you can omit the layaout(location=X) lines in the vertex shader, and use this in VertexAttribPointer instead of the hardcoded values.
-        public int GetAttribLocation(string attribName)
-        {
+        public int GetAttribLocation(string attribName) {
             return GL.GetAttribLocation(Handle, attribName);
         }
 
         //Just loads the entire file into a string.
-        private string LoadSource(string path)
-        {
+        private string LoadSource(string path) {
             string readContents;
 
-            using (StreamReader streamReader = new StreamReader(path, Encoding.UTF8))
-            {
+            using (StreamReader streamReader = new StreamReader(path, Encoding.UTF8)) {
                 readContents = streamReader.ReadToEnd();
             }
 
@@ -132,12 +117,9 @@ namespace AnalogGameEngine.SimpleGUI.Helper
         //( https://www.khronos.org/opengl/wiki/Common_Mistakes#The_Object_Oriented_Language_Problem )
         private bool disposedValue = false;
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
+        protected virtual void Dispose(bool disposing) {
+            if (!disposedValue) {
+                if (disposing) {
                     // TODO: dispose managed state (managed objects).
                 }
 
@@ -147,14 +129,12 @@ namespace AnalogGameEngine.SimpleGUI.Helper
             }
         }
 
-        ~Shader()
-        {
+        ~Shader() {
             GL.DeleteProgram(Handle);
         }
 
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
