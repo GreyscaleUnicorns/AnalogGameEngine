@@ -17,10 +17,10 @@ namespace AnalogGameEngine.SimpleGUI
         private readonly Game game;
 
         /* 1 = 1dm in real world */
-        RenderableObject card, table;
+        VertexDataObject card, cardBack, table;
 
         Shader shader;
-        Texture texture0, tableTexture;
+        Texture texture0, cardbackTexture, tableTexture;
 
         float time = 0.0f;
         float deltaTime = 0.0f;
@@ -35,26 +35,45 @@ namespace AnalogGameEngine.SimpleGUI
             this.game = game;
         }
 
-        protected void CreateTextures(Shader shader)
+        protected override void OnLoad(EventArgs e)
         {
-            // TODO: Dirty workaround to make textures work for now
-            texture0 = new Texture("AnalogGameEngine.SimpleGUI/awesomeface.png");
-            tableTexture = new Texture("AnalogGameEngine.SimpleGUI/Wood_006_COLOR.jpg");
+            ConfigureGL();
+            shader = InitializeShader();
+            this.InitializeTextures(shader);
+            this.InitializeVertexData();
+
+            base.OnLoad(e);
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected static void ConfigureGL()
         {
             GL.ClearColor(0.2f, 0.2f, 0.2f, 1.0f);
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.CullFace);
+        }
 
+        protected static Shader InitializeShader()
+        {
             // TODO: Dirty workaround to make shaders work for now
-            shader = new Shader("AnalogGameEngine.SimpleGUI/shader.vert", "AnalogGameEngine.SimpleGUI/shader.frag");
+            var shader = new Shader("AnalogGameEngine.SimpleGUI/shader.vert", "AnalogGameEngine.SimpleGUI/shader.frag");
             shader.Use();
             shader.SetInt("texture0", 0);
+            return shader;
+        }
 
-            this.CreateTextures(shader);
+        // TODO: make more functional and add static
+        protected void InitializeTextures(Shader shader)
+        {
+            // TODO: Dirty workaround to make textures work for now
+            texture0 = new Texture("AnalogGameEngine.SimpleGUI/Assets/Textures/awesomeface.png");
+            cardbackTexture = new Texture("AnalogGameEngine.SimpleGUI/Assets/Textures/cardback.png");
+            tableTexture = new Texture("AnalogGameEngine.SimpleGUI/Assets/Textures/Wood_006_COLOR.jpg");
+        }
 
-            card = new RenderableObject(new[] {
+        // TODO: make more functional and add static
+        protected void InitializeVertexData()
+        {
+            card = new VertexDataObject(new[] {
                 // positions          // tex coords
                  0.315f,  0.44f, 0f,  1f, 1f, // top right
                 -0.315f,  0.44f, 0f,  0f, 1f, // top left
@@ -62,15 +81,21 @@ namespace AnalogGameEngine.SimpleGUI
                 -0.315f, -0.44f, 0f,  0f, 0f, // bottom left
             }, new[] { 3, 2 }, PrimitiveType.TriangleStrip, texture0);
 
-            table = new RenderableObject(new[] {
+            cardBack = new VertexDataObject(new[] {
+                // positions          // tex coords
+                -0.315f,  0.44f, 0f,  1f, 1f, // top right
+                 0.315f,  0.44f, 0f,  0f, 1f, // top left
+                -0.315f, -0.44f, 0f,  1f, 0f, // bottom right
+                 0.315f, -0.44f, 0f,  0f, 0f, // bottom left
+            }, new[] { 3, 2 }, PrimitiveType.TriangleStrip, cardbackTexture);
+
+            table = new VertexDataObject(new[] {
                 // positions           // tex coords
                  3f, 0f, -3f,  1f, 1f, // top right
                 -3f, 0f, -3f,  0f, 1f, // top left
                 -3f, 0f,  3f,  0f, 0f, // bottom left
                  3f, 0f,  3f,  1f, 0f, // bottom right
             }, new[] { 3, 2 }, PrimitiveType.TriangleFan, tableTexture);
-
-            base.OnLoad(e);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -126,6 +151,7 @@ namespace AnalogGameEngine.SimpleGUI
                     shader.SetMatrix4("model", model);
 
                     card.Draw();
+                    cardBack.Draw();
                 }
             }
 

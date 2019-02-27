@@ -8,7 +8,7 @@ using AnalogGameEngine.SimpleGUI.Helper;
 
 namespace AnalogGameEngine.SimpleGUI
 {
-    class RenderableObject
+    class VertexDataObject
     {
         private float[] vertices;
         private int[] config;
@@ -21,7 +21,7 @@ namespace AnalogGameEngine.SimpleGUI
             get => vertices.Length / config.Sum();
         }
 
-        public RenderableObject(float[] vertices, int[] config, PrimitiveType type, Texture texture)
+        public VertexDataObject(float[] vertices, int[] config, PrimitiveType type, Texture texture)
         {
             if (vertices.Length % config.Sum() != 0)
             {
