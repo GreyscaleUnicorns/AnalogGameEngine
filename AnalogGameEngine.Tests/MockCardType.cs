@@ -1,9 +1,5 @@
-using AnalogGameEngine.Management;
+using AnalogGameEngine.Entities;
 
-namespace AnalogGameEngine.Entities {
-    class MockCardType : CardType {
-        public MockCardType(Registry registry) : base("mock", registry) {
-            // Nothing to do
-        }
-    }
+namespace AnalogGameEngine.Tests {
+    public class MockCardType : CardType { }
 }

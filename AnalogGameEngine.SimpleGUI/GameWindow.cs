@@ -11,17 +11,17 @@ using System.Linq;
 using AnalogGameEngine.Entities;
 
 using AnalogGameEngine.SimpleGUI.Helper;
+using AnalogGameEngine.SimpleGUI.Entities;
 
 namespace AnalogGameEngine.SimpleGUI {
-    public class GameWindow<T> : OpenTK.GameWindow where T : CardType {
-        private readonly Game game;
+    public class GameWindow<T, U> : OpenTK.GameWindow where T : SimpleGuiCard<U> where U : SimpleGuiCardType {
+        private readonly GameBase<T> game;
 
         /* 1 = 1dm in real world */
         private VertexDataObject card, cardBack, stack, table;
 
         private Shader shader;
         private Texture cardbackTexture, tableTexture;
-        private ImmutableDictionary<T, Texture> cardTextures;
 
         private float time = 0.0f;
         private float deltaTime = 0.0f;
@@ -29,7 +29,7 @@ namespace AnalogGameEngine.SimpleGUI {
 
         private bool keyNr1 = false;
 
-        public GameWindow(Game game, int width, int height, string title, ImmutableDictionary<T, string> textures)
+        public GameWindow(GameBase<T> game, int width, int height, string title)
             : base(
                 width,
                 height,
@@ -41,14 +41,6 @@ namespace AnalogGameEngine.SimpleGUI {
                 GraphicsContextFlags.Default
             ) {
             this.game = game;
-
-            // Initialise dictionary for textures
-            // TODO: check if textures for all cardtypes are given?
-            var dict = new Dictionary<T, Texture>();
-            foreach (var (cardType, path) in textures) {
-                dict.Add(cardType, new Texture(path));
-            }
-            this.cardTextures = dict.ToImmutableDictionary();
         }
 
         protected override void OnLoad(EventArgs e) {
@@ -217,10 +209,10 @@ namespace AnalogGameEngine.SimpleGUI {
                 hand *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(i * (360 / playerAmount)));
 
                 // TODO: Add support for more private sets
-                Set handSet = game.Players[i].Sets.First().Value;
+                Set<T> handSet = game.Players[i].Sets.First().Value;
                 int cardAmount = handSet.Cards.Count;
                 for (int j = 0; j < cardAmount; j++) {
-                    Card card = handSet.Cards.ElementAt(j);
+                    T card = handSet.Cards.ElementAt(j);
                     float spacingIndex = (j - cardAmount / 2f);
 
                     model = Matrix4.Identity;
@@ -228,7 +220,7 @@ namespace AnalogGameEngine.SimpleGUI {
                     model *= hand;
                     shader.SetMatrix4("model", model);
 
-                    this.card.Draw(cardTextures[(T)card.Type]);
+                    this.card.Draw(card.Type.Texture);
                     this.cardBack.Draw();
                 }
             }

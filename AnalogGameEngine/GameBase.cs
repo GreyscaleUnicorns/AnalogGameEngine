@@ -2,53 +2,48 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-using AnalogGameEngine.Factories;
-using AnalogGameEngine.Management;
+using AnalogGameEngine.Entities;
 
-namespace AnalogGameEngine.Entities {
-    public abstract class Game : CardCollectionHolder {
-        protected Registry registry;
-
-        private readonly List<Player> players;
-        public ImmutableList<Player> Players {
+namespace AnalogGameEngine {
+    // TODO: for greater flexibility introduce IPlayer and replace Player<T> with IPlayer?
+    public abstract class GameBase<T> : CardCollectionHolder<T>, IGameBase where T : ICard {
+        private readonly List<Player<T>> players;
+        public ImmutableList<Player<T>> Players {
             get {
                 return players.ToImmutableList();
             }
         }
 
         private int activePlayer;
-        public Player ActivePlayer {
+        public Player<T> ActivePlayer {
             get {
                 return this.Players[this.activePlayer];
             }
         }
 
-        public virtual Player NextPlayer {
+        public virtual Player<T> NextPlayer {
             get {
                 return this.Players[(this.activePlayer + 1) % this.Players.Count];
             }
         }
 
-        protected Game(Player[] players, CardTypeFactory cardTypeFactory, EffectFactory effectFactory) {
+        protected GameBase(Player<T>[] players) {
             if (players is null) { throw new ArgumentNullException("players"); }
             if (players.Length <= 0) { throw new ArgumentException("Player array must not be empty!", "players"); }
-            if (cardTypeFactory is null) { throw new ArgumentNullException("cardTypeFactory"); }
-            if (effectFactory is null) { throw new ArgumentNullException("effectFactory"); }
 
             // Initialize
-            this.registry = new Registry();
-            this.players = new List<Player>();
+            this.players = new List<Player<T>>();
 
             // Handle parameters
             foreach (var player in players) {
                 this.players.Add(player);
             }
-            effectFactory.Initialize(this, registry);
-            cardTypeFactory.Initialize(registry);
         }
 
         public void NextTurn() {
             this.activePlayer = this.players.FindIndex(player => player == this.NextPlayer);
         }
+
+        public abstract void StartGame();
     }
 }

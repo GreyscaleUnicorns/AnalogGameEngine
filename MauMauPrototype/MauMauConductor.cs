@@ -1,38 +1,48 @@
-using AnalogGameEngine.Entities;
-using AnalogGameEngine.SimpleGUI.Factories;
-using AnalogGameEngine.Management;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 
-using MauMauPrototype.CardTypes;
+using AnalogGameEngine;
+using AnalogGameEngine.Entities;
+using AnalogGameEngine.SimpleGUI.Helper;
 
-namespace MauMauPrototype.Factories {
-    class MauMauCardTypeFactory : SimpleGuiCardTypeFactory<MauMauCardType> {
-        protected override void CreateCardTypes(Registry registry) {
-            foreach (Colors color in Enum.GetValues(typeof(Colors))) {
-                foreach (Values value in Enum.GetValues(typeof(Values))) {
-                    switch (value) {
-                        case Values.Seven:
-                            new Seven(registry, color);
-                            break;
-                        case Values.Eight:
-                            new Eight(registry, color);
-                            break;
-                        default:
-                            new MauMauCardType(registry, color, value);
-                            break;
-                    }
-                }
-            }
+using MauMauPrototype.Effects;
+
+namespace MauMauPrototype {
+    public class MauMauConductor : Conductor<MauMauGame, MauMauCardType> {
+        protected override (string, Effect<MauMauGame>)[] CreateEffects() {
+            var effects = new List<(string, Effect<MauMauGame>)>();
+            effects.Add(("drawTwo", new DrawTwoEffect()));
+            effects.Add(("skip", new SkipEffect()));
+            return effects.ToArray();
         }
 
-        protected override string GetTexturePath(MauMauCardType cardType) {
+        protected override (string, MauMauCardType)[] CreateCardTypes(ImmutableDictionary<string, Effect<MauMauGame>> effects) {
+            var cardTypes = new List<(string, MauMauCardType)>();
+            foreach (Colors color in Enum.GetValues(typeof(Colors))) {
+                foreach (Values value in Enum.GetValues(typeof(Values))) {
+                    var texture = new Texture(GetTexturePath(color, value));
+                    var cardType = new MauMauCardType(color, value, texture);
+                    switch (value) {
+                        case Values.Seven:
+                            cardType.Effects.Add(effects["drawTwo"]);
+                            break;
+                        case Values.Eight:
+                            cardType.Effects.Add(effects["skip"]);
+                            break;
+                    }
+                    cardTypes.Add((color.ToString().ToLower() + "Of" + value.ToString(), cardType));
+                }
+            }
+            return cardTypes.ToArray();
+        }
+
+        private static string GetTexturePath(Colors color, Values value) {
             int number = 0;
             string basePath = "Assets/Textures/Playingcards";
             string fileName = "";
-            switch (cardType.Value) {
+            switch (value) {
                 case Values.Ace:
                     number += 1;
                     fileName += "Ace";
@@ -66,7 +76,7 @@ namespace MauMauPrototype.Factories {
                     fileName += "King";
                     break;
             }
-            switch (cardType.Color) {
+            switch (color) {
                 case Colors.Hearts:
                     fileName += "OfHearts";
                     break;
@@ -88,6 +98,26 @@ namespace MauMauPrototype.Factories {
                 fileName = "0" + fileName;
             }
             return Path.Combine(basePath, fileName);
+        }
+
+        protected override MauMauGame CreateGame(ImmutableDictionary<string, MauMauCardType> cardTypes) {
+            // Create players
+            MauMauPlayer[] players = new MauMauPlayer[] {
+                new MauMauPlayer("Peter"),
+                new MauMauPlayer("Hans"),
+                new MauMauPlayer("Friedrich")
+            };
+            var game = new MauMauGame(players);
+
+            // Fill deck with cards
+            foreach (Colors color in Enum.GetValues(typeof(Colors))) {
+                foreach (Values value in Enum.GetValues(typeof(Values))) {
+                    new MauMauCard(cardTypes[color.ToString().ToLower() + "Of" + value.ToString()], game.Stacks["deck"]);
+                    new MauMauCard(cardTypes[color.ToString().ToLower() + "Of" + value.ToString()], game.Stacks["deck"]);
+                }
+            }
+
+            return game;
         }
     }
 }

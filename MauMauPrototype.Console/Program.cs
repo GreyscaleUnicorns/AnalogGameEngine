@@ -1,21 +1,15 @@
 ﻿using AnalogGameEngine.Entities;
-using AnalogGameEngine.Management;
 using System;
 using System.Linq;
 
-using MauMauConsolePrototype.CardTypes;
-using MauMauConsolePrototype.Effects;
+using MauMauPrototype.Effects;
 
-namespace MauMauConsolePrototype {
+namespace MauMauPrototype {
     class Program {
         static void Main(string[] args) {
-            // Create players
-            Player[] players = new Player[] {
-                new MauMauPlayer("Peter"),
-                new MauMauPlayer("Hans"),
-                new MauMauPlayer("Friedrich")
-            };
-            var game = new MauMauGame(players);
+            var conductor = new MauMauConductor();
+            var game = conductor.StartGame();
+
             while (!GameHasEnded(game)) {
                 // Change player screen
                 Console.Clear();
@@ -82,8 +76,8 @@ namespace MauMauConsolePrototype {
             }
         }
 
-        static bool cardPlayable(Game game, Card card) {
-            Card topCard = game.Stacks["discard-pile"].TopCard;
+        static bool cardPlayable(MauMauGame game, MauMauCard card) {
+            MauMauCard topCard = game.Stacks["discard-pile"].TopCard;
             MauMauCardType topCardType = (MauMauCardType)topCard.Type;
 
             var alwaysPlayableValues = new Values[] { Values.Jack };
@@ -94,7 +88,7 @@ namespace MauMauConsolePrototype {
             return colorMatch || valueMatch || alwaysPlayable;
         }
 
-        static bool playCard(Game game, Card card) {
+        static bool playCard(MauMauGame game, MauMauCard card) {
             if (cardPlayable(game, card)) {
                 card.moveTo(game.Stacks["discard-pile"]);
                 card.activateEffects();
@@ -105,7 +99,7 @@ namespace MauMauConsolePrototype {
             }
         }
 
-        static bool GameHasEnded(Game game) {
+        static bool GameHasEnded(MauMauGame game) {
             var ended = false;
             foreach (var player in game.Players) {
                 ended = ended || player.Sets["hand"].Cards.Count == 0;

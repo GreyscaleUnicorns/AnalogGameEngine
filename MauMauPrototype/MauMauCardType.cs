@@ -1,18 +1,18 @@
 using System;
 
 using AnalogGameEngine.Entities;
-using AnalogGameEngine.Management;
+using AnalogGameEngine.SimpleGUI.Helper;
+using AnalogGameEngine.SimpleGUI.Entities;
 
-namespace MauMauConsolePrototype.CardTypes {
+namespace MauMauPrototype {
     public enum Colors { Clubs, Spades, Diamonds, Hearts }
     public enum Values { Seven, Eight, Nine, Ten, Jack, Queen, King, Ace }
 
-    class MauMauCardType : CardType {
+    public class MauMauCardType : SimpleGuiCardType {
         public Colors Color { get; private set; }
         public Values Value { get; private set; }
 
-        public MauMauCardType(Registry registry, Colors color, Values value)
-          : base(color.ToString().ToLower() + "Of" + value.ToString(), registry) {
+        public MauMauCardType(Colors color, Values value, Texture texture) : base(texture) {
             this.Color = color;
             this.Value = value;
         }

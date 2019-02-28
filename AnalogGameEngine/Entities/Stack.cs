@@ -4,7 +4,7 @@ namespace AnalogGameEngine.Entities {
     /// <summary>
     /// CardCollection, which represents a deck or discard pile
     /// </summary>
-    public partial class Stack : CardCollection {
+    public partial class Stack<T> : CardCollection<T> where T : ICard {
         // TODO: Think about splitting into discard pile and deck
 
         // TODO: documentation
@@ -27,21 +27,21 @@ namespace AnalogGameEngine.Entities {
             }
         }
 
-        public Card TopCard {
+        public T TopCard {
             get {
                 if (this.Cards.Count > 0) {
                     return this.Cards.First.Value;
                 }
                 else {
-                    return null;
+                    return default(T);
                 }
             }
         }
 
         public Stack() : this(null) { /* Nothing to do */ }
-        public Stack(Card[] cards) : base(cards) { /* Nothing to do */ }
+        public Stack(T[] cards) : base(cards) { /* Nothing to do */ }
 
-        override public void AddCard(Card card, int position) {
+        override public void AddCard(T card, int position) {
             if (position < 0 || position > this.Cards.Count) {
                 this.Cards.AddLast(card);
             }

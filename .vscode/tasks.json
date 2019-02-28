@@ -15,7 +15,7 @@
         },
         {
             "label": "buildMauMauConsole",
-            "command": "dotnet build MauMauConsolePrototype",
+            "command": "dotnet build MauMauPrototype.Console",
             "type": "shell",
             "group": "build",
             "presentation": {

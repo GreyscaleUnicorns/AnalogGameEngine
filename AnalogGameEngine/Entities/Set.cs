@@ -4,22 +4,22 @@ namespace AnalogGameEngine.Entities {
     /// <summary>
     /// Represents a set of cards like hand cards.
     /// </summary>
-    public partial class Set : CardCollection {
-        public Card FirstCard {
+    public partial class Set<T> : CardCollection<T> where T : ICard {
+        public T FirstCard {
             get {
                 if (this.Cards.Count > 0) {
                     return this.Cards.First.Value;
                 }
                 else {
-                    return null;
+                    return default(T);
                 }
             }
         }
 
         public Set() : this(null) { /* Nothing to do */ }
-        public Set(Card[] cards) : base(cards) { /* Nothing to do */ }
+        public Set(T[] cards) : base(cards) { /* Nothing to do */ }
 
-        override public void AddCard(Card card, int position) {
+        override public void AddCard(T card, int position) {
             if (position < 0 || position > this.Cards.Count) {
                 this.Cards.AddLast(card);
             }

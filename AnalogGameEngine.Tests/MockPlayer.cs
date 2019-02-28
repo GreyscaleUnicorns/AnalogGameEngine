@@ -1,7 +1,7 @@
 using AnalogGameEngine.Entities;
 
 namespace AnalogGameEngine.Tests {
-    class MockPlayer : Player {
+    class MockPlayer : Player<MockCard> {
         public MockPlayer() : base("Mockingbird") {
             // Nothing to do
         }

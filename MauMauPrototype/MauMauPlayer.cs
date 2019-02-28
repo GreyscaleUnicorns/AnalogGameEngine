@@ -3,7 +3,7 @@ using System;
 using AnalogGameEngine.Entities;
 
 namespace MauMauPrototype {
-    public class MauMauPlayer : Player {
+    public class MauMauPlayer : Player<MauMauCard> {
         public MauMauPlayer(string name) : base(name) {
             // Nothing to do
         }

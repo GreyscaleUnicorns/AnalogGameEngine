@@ -1,13 +1,14 @@
-using AnalogGameEngine.Entities;
 using System;
 using System.Collections.Generic;
 
-using MauMauConsolePrototype.CardTypes;
-using MauMauConsolePrototype.Factories;
+using AnalogGameEngine;
+using AnalogGameEngine.Entities;
 
-namespace MauMauConsolePrototype {
-    class MauMauGame : Game {
-        public MauMauGame(Player[] players) : base(players, new MauMauCardTypeFactory(), new MauMauEffectFactory()) {
+namespace MauMauPrototype {
+    public class MauMauGame : GameBase<MauMauCard> {
+        public MauMauGame(MauMauPlayer[] players) : base(players) { }
+
+        public override void StartGame() {
             // Register events
             this.Stacks["deck"].OnEmpty += () =>
             {
@@ -16,14 +17,6 @@ namespace MauMauConsolePrototype {
                 }
                 this.Stacks["deck"].Shuffle();
             };
-
-            // Fill deck with cards
-            foreach (Colors color in Enum.GetValues(typeof(Colors))) {
-                foreach (Values value in Enum.GetValues(typeof(Values))) {
-                    new Card(registry.GetCardType(color.ToString().ToLower() + "Of" + value.ToString()), this.Stacks["deck"]);
-                    new Card(registry.GetCardType(color.ToString().ToLower() + "Of" + value.ToString()), this.Stacks["deck"]);
-                }
-            }
 
             this.Stacks["deck"].Shuffle();
 
