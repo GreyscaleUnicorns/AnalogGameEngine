@@ -22,8 +22,8 @@ namespace MauMauPrototype {
             var cardTypes = new List<(string, MauMauCardType)>();
             foreach (Colors color in Enum.GetValues(typeof(Colors))) {
                 foreach (Values value in Enum.GetValues(typeof(Values))) {
-                    var texture = new Texture(GetTexturePath(color, value));
-                    var cardType = new MauMauCardType(color, value, texture);
+                    var path = GetTexturePath(color, value);
+                    var cardType = new MauMauCardType(color, value, path);
                     switch (value) {
                         case Values.Seven:
                             cardType.Effects.Add(effects["drawTwo"]);

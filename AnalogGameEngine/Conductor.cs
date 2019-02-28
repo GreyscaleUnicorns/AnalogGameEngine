@@ -6,10 +6,13 @@ using AnalogGameEngine.Entities;
 
 namespace AnalogGameEngine {
     public abstract class Conductor<T, U> where T : IGameBase where U : CardType {
-        public T StartGame() {
+        protected ImmutableDictionary<string, Effect<T>> effectDict;
+        protected ImmutableDictionary<string, U> cardTypeDict;
+
+        public virtual T StartGame() {
             var effects = this.CreateEffects();
-            var effectDict = ToImmutableDictionary(effects);
-            var cardTypeDict = ToImmutableDictionary(this.CreateCardTypes(effectDict));
+            this.effectDict = ToImmutableDictionary(effects);
+            this.cardTypeDict = ToImmutableDictionary(this.CreateCardTypes(effectDict));
             var game = this.CreateGame(cardTypeDict);
             // Inject game into effects
             foreach (var (key, effect) in effects) {

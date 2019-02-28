@@ -12,7 +12,7 @@ namespace MauMauPrototype {
         public Colors Color { get; private set; }
         public Values Value { get; private set; }
 
-        public MauMauCardType(Colors color, Values value, Texture texture) : base(texture) {
+        public MauMauCardType(Colors color, Values value, string path) : base(path) {
             this.Color = color;
             this.Value = value;
         }

@@ -9,7 +9,6 @@ namespace MauMauPrototype {
         static void Main(string[] args) {
             var conductor = new MauMauConductor();
             var game = conductor.StartGame();
-            game.Run();
         }
     }
 }
