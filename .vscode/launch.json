@@ -2,15 +2,26 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch (console)",
+            "name": "MauMauPrototype",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceRoot}/AnalogGameEngine/bin/Debug/netcoreapp2.0/AnalogGameEngine.dll",
+            "preLaunchTask": "buildMauMau",
+            "program": "${workspaceRoot}/MauMauPrototype/bin/Debug/netcoreapp2.2/MauMauPrototype.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "MauMauConsolePrototype",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildMauMauConsole",
+            "program": "${workspaceRoot}/MauMauPrototype.Console/bin/Debug/netcoreapp2.2/MauMauPrototype.Console.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "stopAtEntry": false,
+            "console": "integratedTerminal"
         }
     ]
 }

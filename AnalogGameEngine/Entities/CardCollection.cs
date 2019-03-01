@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using AnalogGameEngine;
 
@@ -7,75 +8,104 @@ namespace AnalogGameEngine.Entities {
     /// <summary>
     /// Base for all types of card collections.
     /// </summary>
-    public abstract partial class CardCollection {
+    public abstract partial class CardCollection<T> : CardCollectionBase where T : ICard {
         /// <summary>
         /// The list of all cards in the collection.
         /// </summary>
         /// <returns>A list of Cards</returns>
-        public LinkedList<Card> Cards { get; private set; }
+        public LinkedList<T> Cards { get; private set; }
 
+        public event Action OnEmpty = delegate { };
+
+        protected CardCollection() : this(null) { /* Nothing to do */ }
         /// <param name="cards">Initial cards in collection</param>
-        public CardCollection(Card[] cards = null) {
+        protected CardCollection(T[] cards) {
             if (cards != null) {
-                this.Cards = new LinkedList<Card>(cards);
+                this.Cards = new LinkedList<T>(cards);
             }
             else {
-                this.Cards = new LinkedList<Card>();
+                this.Cards = new LinkedList<T>();
             }
             this.RegisterEvents();
         }
 
+        protected void RegisterEvents() {
+            this.OnMovedFrom += () =>
+            {
+                // Trigger empty event
+                if (this.Cards.Count == 0) {
+                    this.OnEmpty();
+                }
+            };
+        }
+
+        public override void AddCard(ICard card, int position) {
+            if (card is T) {
+                this.AddCard((T)card, position);
+            }
+            else {
+                throw new ArgumentException("Card is not of correct type!");
+            }
+        }
+
+        public void AddCard(T card) { this.AddCard(card, 0); }
         /// <summary>
         /// Adds a card to the end of the collection.
         /// </summary>
-        /// <param name="card">the card to append</param>
-        /// <param name="position">the position at which the card should be inserted</param>
-        virtual public void AddCard(Card card, int position = 0) {
-            // overwirte behaviour in inheriting classes
+        /// <param name="card">card to append</param>
+        /// <param name="position">position at which the card should be inserted</param>
+        virtual public void AddCard(T card, int position) {
+            // overwrite behaviour in inheriting classes
             this.Cards.AddLast(card);
         }
 
+        public override void RemoveCard(ICard card) {
+            if (card is T) {
+                this.RemoveCard((T)card);
+            }
+            else {
+                throw new ArgumentException("Card is not of correct type!");
+            }
+        }
+
         /// <summary>
-        /// removes a Card from the Collection
+        /// Removes a Card from the Collection
         /// </summary>
         /// <param name="card">card to be removed</param>
-        public bool RemoveCard(Card card) {
+        public bool RemoveCard(T card) {
             return this.Cards.Remove(card);
         }
 
-        public void MoveAllCardsTo(CardCollection collection) {
-            if (collection != this) {
-                while (this.Cards.Count > 0) {
-                    this.Cards.First.Value.moveTo(collection);
-                }
+        public void MoveAllCardsTo(CardCollectionBase collection) {
+            // TODO: add check for move to self
+            while (this.Cards.Count > 0) {
+                this.Cards.First.Value.moveTo(collection);
             }
         }
 
         /// <summary>
-        /// Mischt Collection
+        /// Shuffles collection
         /// </summary>
         public void Shuffle() {
-            if (this.Cards.Count <= 1) {
-                throw new InvalidOperationException("Collection aus 1 oder weniger Elementen! Mischen sinnfrei.");
+            if (this.Cards.Count > 1) {
+                var cardList = new List<T>();
+                LinkedList<T> shuffledList = new LinkedList<T>();
+                Random rand = new Random(DateTime.Now.Ticks.GetHashCode());
+
+                // Create list from collection
+                foreach (T card in this.Cards) {
+                    cardList.Add(card);
+                }
+
+                // Randomly move cards from list into new collection
+                do {
+                    int index = rand.Next(0, cardList.Count);
+                    shuffledList.AddLast(cardList[index]);
+                    cardList.Remove(cardList[index]);
+                } while (cardList.Count > 0);
+
+                this.Cards = shuffledList;
             }
-
-            var cardList = new List<Card>();
-            LinkedList<Card> shuffleList = new LinkedList<Card>();
-            Random rand = new Random(DateTime.Now.Ticks.GetHashCode());
-
-            // KartenListe aus Collection
-            foreach (Card card in this.Cards) {
-                cardList.Add(card);
-            }
-
-            // Random aus Kartenliste in SuffleCollection
-            do {
-                int Index = rand.Next(0, cardList.Count);
-                shuffleList.AddLast(cardList[Index]);
-                cardList.Remove(cardList[Index]);
-            } while (cardList.Count > 0);
-
-            this.Cards = shuffleList;
         }
     }
 }

@@ -5,6 +5,4 @@
     <AssemblyName>AnalogGameEngine</AssemblyName>
     <RootNamespace>AnalogGameEngine</RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-  </ItemGroup>
 </Project>

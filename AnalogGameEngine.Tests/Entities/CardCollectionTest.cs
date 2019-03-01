@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using Xunit;
 
 using AnalogGameEngine.Entities;
-using AnalogGameEngine.Management;
 
 namespace AnalogGameEngine.Tests.Entities {
     public class CardCollectionTest {
         [Fact]
         public void ShuffleIntegrityTest() {
-            var registry = new Registry();
-            var cardType = new MockCardType(registry);
+            var cardType = new MockCardType();
             var collection = new MockCardCollection();
-            var card1 = new Card(cardType, collection);
-            var card2 = new Card(cardType, collection);
-            var card3 = new Card(cardType, collection);
+            var card1 = new MockCard(cardType, collection);
+            var card2 = new MockCard(cardType, collection);
+            var card3 = new MockCard(cardType, collection);
 
             collection.Shuffle();
 
-            var cards = new List<Card>(new Card[] { card1, card2, card3 });
-            foreach (Card card in collection.Cards) {
+            var cards = new List<MockCard>(new[] { card1, card2, card3 });
+            foreach (MockCard card in collection.Cards) {
                 Assert.Contains(card, cards);
                 cards.Remove(card);
             }
@@ -31,16 +29,15 @@ namespace AnalogGameEngine.Tests.Entities {
         /// </summary>
         [Fact]
         public void ShuffleTest() {
-            var registry = new Registry();
-            var cardType = new MockCardType(registry);
+            var cardType = new MockCardType();
             var collection = new MockCardCollection();
-            var card1 = new Card(cardType, collection);
-            var card2 = new Card(cardType, collection);
-            var card3 = new Card(cardType, collection);
-            var card4 = new Card(cardType, collection);
-            var card5 = new Card(cardType, collection);
-            var cards = new List<Card>(new Card[] { card1, card2, card3, card4, card5 });
-            var cardsTest = new List<Card>();
+            var card1 = new MockCard(cardType, collection);
+            var card2 = new MockCard(cardType, collection);
+            var card3 = new MockCard(cardType, collection);
+            var card4 = new MockCard(cardType, collection);
+            var card5 = new MockCard(cardType, collection);
+            var cards = new List<MockCard>(new[] { card1, card2, card3, card4, card5 });
+            var cardsTest = new List<MockCard>();
             int differents = 0; // Anzahl Unterschiede zu Original Liste
             double mischGrad = 0.5; // Bestimmen wie viel Karten unterschiedlich sein sollen
             int minDiff = Convert.ToInt32(Math.Round(cards.Count * mischGrad));
@@ -54,7 +51,7 @@ namespace AnalogGameEngine.Tests.Entities {
             collection.Shuffle();
 
             // Karten Liste der gemischten Collection
-            foreach (Card card in collection.Cards) {
+            foreach (MockCard card in collection.Cards) {
                 cardsTest.Add(card);
             }
 

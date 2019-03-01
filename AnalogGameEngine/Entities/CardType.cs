@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-
-using AnalogGameEngine.Management;
+using System.Linq;
 
 namespace AnalogGameEngine.Entities {
     /// <summary>
@@ -9,17 +8,11 @@ namespace AnalogGameEngine.Entities {
     /// objects of this class should be unique
     /// </summary>
     public abstract class CardType {
-        protected List<Effect> Effects { get; private set; }
+        public List<EffectBase> Effects { get; private set; }
 
-        public CardType(string key, Registry registry) {
-            if (key is null) throw new ArgumentNullException("key");
-            if (registry is null) throw new ArgumentNullException("registry");
-
-            // Handle parameters
-            registry.RegisterCardType(key, this);
-
+        protected CardType() {
             // Initialize
-            this.Effects = new List<Effect>();
+            this.Effects = new List<EffectBase>();
         }
 
         public void activateEffects() {
