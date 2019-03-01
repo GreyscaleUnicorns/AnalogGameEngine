@@ -5,12 +5,13 @@ using System.IO;
 
 using AnalogGameEngine;
 using AnalogGameEngine.Entities;
+using AnalogGameEngine.SimpleGUI;
 using AnalogGameEngine.SimpleGUI.Helper;
 
 using MauMauPrototype.Effects;
 
 namespace MauMauPrototype {
-    public class MauMauConductor : Conductor<MauMauGame, MauMauCardType> {
+    public class MauMauConductor : SimpleGuiConductor<MauMauGame, MauMauCardType> {
         protected override (string, Effect<MauMauGame>)[] CreateEffects() {
             var effects = new List<(string, Effect<MauMauGame>)>();
             effects.Add(("drawTwo", new DrawTwoEffect()));
