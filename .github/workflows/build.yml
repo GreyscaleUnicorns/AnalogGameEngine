@@ -1,0 +1,26 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "develop"
+      - "production"
+  pull_request:
+
+jobs:
+  build:
+    name: Test building
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        dotnet: [5.0.100]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ matrix.dotnet }}
+      - name: Build
+        run: dotnet build
