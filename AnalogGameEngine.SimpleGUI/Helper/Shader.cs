@@ -5,7 +5,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
 namespace AnalogGameEngine.SimpleGUI.Helper {
-    //A simple class meant to help create shaders.
+    // A simple class meant to help create shaders.
     public class Shader : System.IDisposable {
         public int Handle {
             get; private set;
@@ -20,7 +20,7 @@ namespace AnalogGameEngine.SimpleGUI.Helper {
             GL.ShaderSource(VertexShader, VertexShaderSource);
             GL.CompileShader(VertexShader);
 
-            //Check for compile errors
+            // Check for compile errors
             string infoLogVert = GL.GetShaderInfoLog(VertexShader);
             if (infoLogVert != System.String.Empty)
                 System.Console.WriteLine(infoLogVert);
@@ -30,7 +30,7 @@ namespace AnalogGameEngine.SimpleGUI.Helper {
             GL.ShaderSource(FragmentShader, FragmentShaderSource);
             GL.CompileShader(FragmentShader);
 
-            //Check for compile errors
+            // Check for compile errors
             string infoLogFrag = GL.GetShaderInfoLog(VertexShader);
             if (infoLogFrag != System.String.Empty)
                 System.Console.WriteLine(infoLogFrag);
@@ -38,22 +38,22 @@ namespace AnalogGameEngine.SimpleGUI.Helper {
 
             Handle = GL.CreateProgram();
 
-            //Attach both shaders...
+            // Attach both shaders...
             GL.AttachShader(Handle, VertexShader);
             GL.AttachShader(Handle, FragmentShader);
 
-            //And then link them together.
+            // And then link them together.
             GL.LinkProgram(Handle);
 
-            //Check for linker errors
+            // Check for linker errors
             string infoLogLink = GL.GetProgramInfoLog(Handle);
             if (infoLogLink != System.String.Empty)
                 System.Console.WriteLine(infoLogLink);
 
 
-            //Now that it's done, clean up.
-            //When the shader program is linked, it no longer needs the individual shaders attached to it; the compiled code is copied into the shader program.
-            //Detach them, and then delete them.
+            // Now that it's done, clean up.
+            // When the shader program is linked, it no longer needs the individual shaders attached to it; the compiled code is copied into the shader program.
+            // Detach them, and then delete them.
             GL.DetachShader(Handle, VertexShader);
             GL.DetachShader(Handle, FragmentShader);
             GL.DeleteShader(FragmentShader);
@@ -95,13 +95,13 @@ namespace AnalogGameEngine.SimpleGUI.Helper {
             GL.UniformMatrix4(location, false, ref matrix);
         }
 
-        //The shader sources provided with this project use hardcoded layout(location)-s. If you want to do it dynamically,
-        //you can omit the layaout(location=X) lines in the vertex shader, and use this in VertexAttribPointer instead of the hardcoded values.
+        // The shader sources provided with this project use hardcoded layout(location)-s. If you want to do it dynamically,
+        // you can omit the layaout(location=X) lines in the vertex shader, and use this in VertexAttribPointer instead of the hardcoded values.
         public int GetAttribLocation(string attribName) {
             return GL.GetAttribLocation(Handle, attribName);
         }
 
-        //Just loads the entire file into a string.
+        // Just loads the entire file into a string.
         private string LoadSource(string path) {
             string readContents;
 
@@ -112,9 +112,9 @@ namespace AnalogGameEngine.SimpleGUI.Helper {
             return readContents;
         }
 
-        //This section is dedicated to cleaning up the shader after it's finished.
-        //Doing this solely in a finalizer results in a crash because of the Object-Oriented Language Problem
-        //( https://www.khronos.org/opengl/wiki/Common_Mistakes#The_Object_Oriented_Language_Problem )
+        // This section is dedicated to cleaning up the shader after it's finished.
+        // Doing this solely in a finalizer results in a crash because of the Object-Oriented Language Problem
+        // ( https://www.khronos.org/opengl/wiki/Common_Mistakes#The_Object_Oriented_Language_Problem )
         private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing) {

@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>library</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>AnalogGameEngine.SimpleGUI</AssemblyName>
     <RootNamespace>AnalogGameEngine.SimpleGUI</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="OpenTK.NETCore" Version="*" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0006" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnalogGameEngine\AnalogGameEngine.csproj" />
