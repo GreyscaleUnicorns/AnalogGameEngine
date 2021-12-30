@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <OutputType>library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <IsPackable>false</IsPackable>
+    <AssemblyName>AnalogGameEngine</AssemblyName>
+    <RootNamespace>AnalogGameEngine</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AnalogGameEngine\AnalogGameEngine.fsproj" />
+    <Compile Include="Optics.fs" />
+    <Compile Include="Entities.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

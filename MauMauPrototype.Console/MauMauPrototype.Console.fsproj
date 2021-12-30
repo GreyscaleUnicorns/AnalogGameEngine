@@ -5,8 +5,12 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Types.fs" />
+    <Compile Include="Types.Optics.fs" />
+    <Compile Include="Game.fs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="../AnalogGameEngine/AnalogGameEngine.fsproj" />
-    <ProjectReference Include="../AnalogGameEngine.SimpleGUI/AnalogGameEngine.SimpleGUI.csproj" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
