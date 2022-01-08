@@ -5,6 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Pattern.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="Types.Optics.fs" />
     <Compile Include="Types.Modules.fs" />

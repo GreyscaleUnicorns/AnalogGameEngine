@@ -26,6 +26,5 @@ module GameOptic =
     let deck = data >-> GameDataOptic.deck
     let pile = data >-> GameDataOptic.pile
 
-    let inline playerHand index =
-        GameOptic.playerData index
-        >-> PlayerDataOptic.hand
+    let inline playerHand idx =
+        GameOptic.playerData idx >-> PlayerDataOptic.hand

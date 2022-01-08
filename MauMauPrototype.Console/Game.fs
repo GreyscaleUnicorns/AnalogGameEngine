@@ -24,19 +24,22 @@ module Deck =
 
     let getSize game = get game |> CardStack.size
 
-    let drawCard playerIndex game : Game =
+    let drawCard playerIndex game =
         match get game |> CardStack.splitTopCard with
         | Some card, tail ->
-            game
-            // Update player hand
-            |> Optic.map (GameOptic.playerHand playerIndex) (CardList.addCardToFront card)
-            // Update deck
-            |> Optic.set GameOptic.deck tail
+            let game' =
+                game
+                // Update player hand
+                |> Optic.map (GameOptic.playerHand playerIndex) (CardList.addCardToFront card)
+                // Update deck
+                |> Optic.set GameOptic.deck tail
+
+            game', card |> Optic.get CardOptic.cardType
         | None, _ -> failwith "No more cards left in deck :("
 
     let everyoneDraws game =
         [ 0 .. (Players.getAmount game - 1) ]
-        |> List.fold (fun game index -> drawCard index game) game
+        |> List.fold (fun game index -> drawCard index game |> fst) game
 
     let rec everyoneDrawsX x game =
         match x with
@@ -86,11 +89,34 @@ module Card =
 module ActivePlayer =
     let inline get game = Optic.get GameOptic.activePlayer game
 
-    let getIdx game =
+    let inline getIdx game =
         Optic.get GameOptic.activePlayerIdx game
 
-    let getHand game = get game |> Optic.get PlayerOptic.hand
-    let getName game = get game |> Optic.get PlayerOptic.name
+    let inline getHand game = get game |> Optic.get PlayerOptic.hand
+
+    let inline getHandCard game cardIdx =
+        getHand game
+        |> Optic.get (CardListOptic.card cardIdx)
+        |> Option.get
+
+    let inline getHandSize game = getHand game |> CardList.length
+    let inline getName game = get game |> Optic.get PlayerOptic.name
+
+    let playCard game cardIdx =
+        let card = getHandCard game cardIdx
+
+        if Card.isPlayable game card then
+            let game' =
+                game
+                // Update player hand
+                |> Optic.map (GameOptic.playerHand (getIdx game)) (CardList.removeCardAt cardIdx)
+                // Update pile
+                |> Optic.map GameOptic.pile (CardStack.addCardToTop card)
+
+            game', true
+        else
+            printfn "Card is not playable"
+            game, false
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]

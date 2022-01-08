@@ -88,3 +88,11 @@ module Optics =
         module Array =
             let index<'a> i : Prism<'a array, 'a> =
                 Prism((Array.tryItem i), (fun array value -> Array.updateAt i value array))
+
+            let idx = index
+
+        module List =
+            let index<'a> i : Prism<'a list, 'a> =
+                Prism((List.tryItem i), (fun list value -> List.updateAt i value list))
+
+            let idx = index

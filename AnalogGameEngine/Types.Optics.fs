@@ -13,6 +13,10 @@ module CardOptic =
         Lens((fun card -> card.cardType), (fun card cardType' -> { card with cardType = cardType' }))
 
 [<RequireQualifiedAccess>]
+module CardListOptic =
+    let card idx : Prism<CardList<'a>, Card<'a>> = Optic.List.idx idx
+
+[<RequireQualifiedAccess>]
 module GameOptic =
     let activePlayerIdx =
         Lens((fun game -> game.activePlayerIdx), (fun game active' -> { game with activePlayerIdx = active' }))
@@ -23,8 +27,8 @@ module GameOptic =
     let players =
         Lens((fun game -> game.players), (fun game players' -> { game with players = players' }))
 
-    let inline player index = players >-> Optic.Array.index index
-    let inline playerData index = player index >-> PlayerOptic.data
+    let inline player idx = players >-> Optic.Array.idx idx
+    let inline playerData idx = player idx >-> PlayerOptic.data
 
     let activePlayer =
         Lens(

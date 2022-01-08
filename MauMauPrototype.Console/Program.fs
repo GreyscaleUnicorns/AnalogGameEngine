@@ -5,6 +5,16 @@ open System
 open AnalogGameEngine
 
 module Program =
+    let rec playPhase game =
+        printfn "Which card do you want to play? Type a number: "
+
+        match Console.ReadLine() with
+        | PInt value when value <= ActivePlayer.getHandSize game ->
+            match ActivePlayer.playCard game (value - 1) with
+            | game, true -> game
+            | game, false -> playPhase game
+        | _ -> playPhase game
+
     let rec turnLoop game =
         // Check if game is over
         match game with
@@ -19,7 +29,9 @@ module Program =
             Console.ReadKey() |> ignore
 
             // Draw a card
-            game <- Deck.drawCard (ActivePlayer.getIdx game) game
+            game <-
+                Deck.drawCard (ActivePlayer.getIdx game) game
+                |> fst
 
             // Show own cards
             Console.Clear()
@@ -46,10 +58,18 @@ module Program =
             Console.ForegroundColor <- oldColor
             printfn ""
 
-            // TODO: implement play phase
-            printfn "TODO: Here would the playing begin.."
-            printfn "Press any key"
-            Console.ReadKey() |> ignore
+            // Play Phase
+            if List.forall (Card.isPlayable game) (ActivePlayer.getHand game) then
+                // No card playable
+                printfn "None of your cards is playable."
+                // Draw a card
+                let (game', card) = Deck.drawCard (ActivePlayer.getIdx game) game
+                game <- game'
+                printfn "You drew: %A" card
+                printfn "Press any key"
+                Console.ReadKey() |> ignore
+            else
+                game <- playPhase game
 
             game |> Game.nextPlayer |> turnLoop
 

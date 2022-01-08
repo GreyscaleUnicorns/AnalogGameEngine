@@ -37,6 +37,7 @@ module CardList =
     let inline isEmpty (list: CardList<'a>) = List.isEmpty list
     let inline getFirstCard (list: CardList<'a>) = List.head list
     let inline length (list: CardList<'a>) = List.length list
+    let inline removeCardAt idx (list: CardList<'a>) = List.removeAt idx list
 
     let inline shuffle (random: Random) list : CardList<'a> =
         list |> List.sortBy (fun _ -> random.Next())
