@@ -1,6 +1,7 @@
 namespace AnalogGameEngine
 
 // TODO: add comments
+// TODO: think about moving this into a small, simple optics library
 module Optics =
     type Getter<'full, 'part> = 'full -> 'part
     type Setter<'full, 'part> = 'full -> 'part -> 'full
