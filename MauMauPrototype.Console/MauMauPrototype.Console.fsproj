@@ -7,7 +7,9 @@
   <ItemGroup>
     <Compile Include="Types.fs" />
     <Compile Include="Types.Optics.fs" />
+    <Compile Include="Types.Modules.fs" />
     <Compile Include="Game.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../AnalogGameEngine/AnalogGameEngine.fsproj" />

@@ -8,7 +8,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Optics.fs" />
-    <Compile Include="Entities.fs" />
+    <Compile Include="Types.fs" />
+    <Compile Include="Types.Optics.fs" />
+    <Compile Include="Types.Modules.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

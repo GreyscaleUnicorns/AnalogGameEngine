@@ -22,8 +22,9 @@ type CardType = CardValue * CardColor
 type Card = Card<CardType>
 type CardList = CardList<CardType>
 
-type GameData = { deck: CardList }
+type GameData = { deck: CardList; pile: CardList }
 
-type PlayerData = { hand: CardList }
+type PlayerData = { name: string; hand: CardList }
+type Player = Player<PlayerData>
 
 type Game = Game<GameData, PlayerData>
