@@ -4,6 +4,10 @@ open AnalogGameEngine.Optics
 open AnalogGameEngine
 open System
 
+[<RequireQualifiedAccessAttribute>]
+module Ressource =
+    let random = new Random()
+
 [<RequireQualifiedAccess>]
 module Players =
     let inline get game = Optic.get GameOptic.players game
@@ -19,23 +23,53 @@ module Players =
         Optic.map GameOptic.players removeCardsFromHands game
 
 [<RequireQualifiedAccess>]
+module Pile =
+    let inline get game = Optic.get GameOptic.pile game
+
+    let getSize game = get game |> CardStack.size
+
+    let getTopCardType game =
+        get game
+        |> CardStack.getTopCard
+        |> Optic.get CardOptic.cardType
+
+[<RequireQualifiedAccess>]
 module Deck =
     let inline get game = Optic.get GameOptic.deck game
 
     let getSize game = get game |> CardStack.size
 
-    let drawCard playerIndex game =
+    let rec drawCard playerIndex game =
+        let mutable game = game
+
         match get game |> CardStack.splitTopCard with
         | Some card, tail ->
-            let game' =
+            game <-
                 game
                 // Update player hand
                 |> Optic.map (GameOptic.playerHand playerIndex) (CardList.addCardToFront card)
                 // Update deck
                 |> Optic.set GameOptic.deck tail
 
-            game', card |> Optic.get CardOptic.cardType
-        | None, _ -> failwith "No more cards left in deck :("
+            game, card |> Optic.get CardOptic.cardType
+        | None, _ ->
+            // Reshuffle pile and use it as new deck
+            let topCard, tail = Pile.get game |> CardStack.splitTopCard
+
+            game <-
+                game
+                |> Optic.set GameOptic.pile [ topCard |> Option.get ]
+                |> Optic.set GameOptic.deck (CardStack.shuffle Ressource.random tail)
+
+            drawCard playerIndex game
+
+    let rec drawXCards x playerIndex game =
+        match x with
+        | 0 -> game
+        | x when x > 0 ->
+            let game' = drawCard playerIndex game |> fst
+            drawXCards (x - 1) playerIndex game'
+        | x -> failwithf "x must be positive but was %i" x
 
     let everyoneDraws game =
         [ 0 .. (Players.getAmount game - 1) ]
@@ -60,17 +94,6 @@ module Deck =
         | None, _ -> failwith "No more cards left in deck :("
 
 [<RequireQualifiedAccess>]
-module Pile =
-    let inline get game = Optic.get GameOptic.pile game
-
-    let getSize game = get game |> CardStack.size
-
-    let getTopCardType game =
-        get game
-        |> CardStack.getTopCard
-        |> Optic.get CardOptic.cardType
-
-[<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Card =
     let alwaysPlayableValues = [ Jack ]
@@ -84,6 +107,31 @@ module Card =
         let alwaysPlayable = List.contains cardValue alwaysPlayableValues
 
         colorMatch || valueMatch || alwaysPlayable
+
+    let activateEffect game card =
+        let (cardValue, _) = Optic.get CardOptic.cardType card
+
+        match cardValue with
+        | Seven ->
+            // Next player has to draw two cards
+            let nextPlayerIdx = Game.getNextPlayerIdx game
+            Deck.drawXCards 2 nextPlayerIdx game
+        | Eight ->
+            // Next player is skipped
+            Game.nextPlayer game
+        | _ ->
+            // No effect
+            game
+
+    let printEffect game card =
+        let (cardValue, _) = Optic.get CardOptic.cardType card
+
+        match cardValue with
+        | Seven -> printfn "You had to draw two cards!"
+        | Eight -> printfn "The next player was skipped"
+        | _ ->
+            // No effect
+            ()
 
 [<RequireQualifiedAccess>]
 module ActivePlayer =
@@ -103,36 +151,30 @@ module ActivePlayer =
     let inline getName game = get game |> Optic.get PlayerOptic.name
 
     let playCard game cardIdx =
+        let mutable game = game
         let card = getHandCard game cardIdx
 
         if Card.isPlayable game card then
-            let game' =
+            game <-
                 game
                 // Update player hand
                 |> Optic.map (GameOptic.playerHand (getIdx game)) (CardList.removeCardAt cardIdx)
                 // Update pile
                 |> Optic.map GameOptic.pile (CardStack.addCardToTop card)
 
-            game', true
+            game <- Card.activateEffect game card
+
+            game, Some card
         else
             printfn "Card is not playable"
-            game, false
+            game, None
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Game =
-    let random = new Random()
-
-    let (|Running|Ended|) game =
+    let (|Ended|_|) game =
         Optic.get GameOptic.players game
-        |> Array.forall (
-            (Optic.get PlayerOptic.hand)
-            >> CardList.isEmpty
-            >> not
-        )
-        |> function
-            | true -> Running
-            | false -> Ended
+        |> Array.tryFind ((Optic.get PlayerOptic.hand) >> CardList.isEmpty)
 
     let reset game =
         let newDeck =
@@ -141,7 +183,7 @@ module Game =
             Seq.append cardSet cardSet
             |> Seq.map Card.create
             |> Seq.toList
-            |> CardList.shuffle random
+            |> CardList.shuffle Ressource.random
 
         game
         |> Game.Base.reset

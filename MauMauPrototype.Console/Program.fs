@@ -11,32 +11,26 @@ module Program =
         match Console.ReadLine() with
         | PInt value when value <= ActivePlayer.getHandSize game ->
             match ActivePlayer.playCard game (value - 1) with
-            | game, true -> game
-            | game, false -> playPhase game
+            | game, Some card -> game, card
+            | game, None -> playPhase game
         | _ -> playPhase game
 
     let rec turnLoop game =
         // Check if game is over
         match game with
-        | Game.Ended -> printfn "Game ended"
-        | Game.Running ->
+        | Game.Ended winner -> printfn "Game ended: %s won" (Player.getName winner)
+        | game ->
             let mutable game = game
 
             // Change player screen
-            Console.Clear()
             printfn "It's your turn, %s!" (ActivePlayer.getName game)
             printfn "Press any key"
             Console.ReadKey() |> ignore
 
-            // Draw a card
-            game <-
-                Deck.drawCard (ActivePlayer.getIdx game) game
-                |> fst
-
             // Show own cards
             Console.Clear()
             printfn "Cards in deck: %i" (Deck.getSize game)
-            printfn "Card on pile: %A" (Pile.getSize game)
+            printfn "Card on pile: %A" (Pile.getTopCardType game)
             printfn ""
 
             printfn "Your cards (%s):" (ActivePlayer.getName game)
@@ -59,19 +53,28 @@ module Program =
             printfn ""
 
             // Play Phase
-            if List.forall (Card.isPlayable game) (ActivePlayer.getHand game) then
-                // No card playable
-                printfn "None of your cards is playable."
-                // Draw a card
-                let (game', card) = Deck.drawCard (ActivePlayer.getIdx game) game
-                game <- game'
-                printfn "You drew: %A" card
-                printfn "Press any key"
-                Console.ReadKey() |> ignore
-            else
-                game <- playPhase game
+            let playedCard =
+                if List.forall (Card.isPlayable game >> not) (ActivePlayer.getHand game) then
+                    // No card playable
+                    printfn "None of your cards is playable."
+                    // Draw a card
+                    let (game', card) = Deck.drawCard (ActivePlayer.getIdx game) game
+                    game <- game'
+                    printfn "You drew: %A" card
+                    printfn "Press any key"
+                    Console.ReadKey() |> ignore
+                    None
+                else
+                    let (game', playedCard) = playPhase game
+                    game <- game'
+                    Some playedCard
 
-            game |> Game.nextPlayer |> turnLoop
+            Console.Clear()
+            // Print what happened last turn
+            Option.iter (Card.printEffect game) playedCard
+
+            game <- Game.nextPlayer game
+            turnLoop game
 
     [<EntryPoint>]
     let main _ =
@@ -80,6 +83,8 @@ module Program =
             |> List.map Player.create
             |> List.toArray
             |> Game.create
+
+        Console.Clear()
 
         turnLoop game
         0

@@ -9,8 +9,12 @@ module Game =
     let inline getPlayerAmount game =
         Optic.get GameOptic.players game |> Array.length
 
+    let inline getNextPlayerIdx game =
+        let activeIdx = Optic.get GameOptic.activePlayerIdx game
+        (activeIdx + 1) % getPlayerAmount game
+
     let inline nextPlayer game =
-        Optic.map GameOptic.activePlayerIdx (fun x -> (x + 1) % getPlayerAmount game) game
+        Optic.set GameOptic.activePlayerIdx (getNextPlayerIdx game) game
 
     /// Contains functions which do only part of the job for the base but should be
     /// implemented fully in the game itself to handle data correctly

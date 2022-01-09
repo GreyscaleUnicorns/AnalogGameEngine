@@ -1,6 +1,7 @@
 namespace MauMauPrototype
 
 open AnalogGameEngine
+open AnalogGameEngine.Optics
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
@@ -35,3 +36,5 @@ module Player =
         {
             data = { name = name; hand = CardList.empty }
         }
+
+    let getName player = player |> Optic.get PlayerOptic.name
