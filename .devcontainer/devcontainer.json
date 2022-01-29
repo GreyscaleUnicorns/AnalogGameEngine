@@ -10,13 +10,15 @@
         }
     },
     // Set *default* container specific settings.json values on container create.
-    "settings": {},
+    "settings": {
+        "FSharp.dotnetRoot": "/bin",
+    },
     // Add the IDs of extensions you want installed when the container is created.
     "extensions": [
         "editorconfig.editorconfig",
+        "ybaumes.highlight-trailing-white-spaces",
         "ms-dotnettools.csharp",
         "Ionide.Ionide-fsharp",
-        "ybaumes.highlight-trailing-white-spaces"
     ],
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
