@@ -2,7 +2,7 @@ namespace AnalogGameEngine
 
 open System
 
-open AnalogGameEngine.Optics
+open SimpleOptics
 
 [<RequireQualifiedAccess>]
 module Game =

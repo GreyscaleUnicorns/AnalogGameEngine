@@ -1,7 +1,8 @@
 namespace MauMauPrototype
 
+open SimpleOptics
+
 open AnalogGameEngine
-open AnalogGameEngine.Optics
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]

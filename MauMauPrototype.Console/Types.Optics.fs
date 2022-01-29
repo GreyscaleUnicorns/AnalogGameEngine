@@ -1,6 +1,7 @@
 namespace MauMauPrototype
 
-open AnalogGameEngine.Optics
+open SimpleOptics
+
 open AnalogGameEngine
 
 module GameDataOptic =

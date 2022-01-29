@@ -7,7 +7,6 @@
     <RootNamespace>AnalogGameEngine</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Optics.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="Types.Optics.fs" />
     <Compile Include="Types.Modules.fs" />

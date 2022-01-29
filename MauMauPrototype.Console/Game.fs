@@ -1,8 +1,9 @@
 namespace MauMauPrototype
 
-open AnalogGameEngine.Optics
-open AnalogGameEngine
+open SimpleOptics
 open System
+
+open AnalogGameEngine
 
 [<RequireQualifiedAccessAttribute>]
 module Ressource =

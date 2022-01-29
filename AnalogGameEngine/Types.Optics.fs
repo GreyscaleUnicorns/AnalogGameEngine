@@ -1,6 +1,7 @@
 namespace AnalogGameEngine
 
-open AnalogGameEngine.Optics
+open SimpleOptics
+open SimpleOptics.Presets
 
 [<RequireQualifiedAccess>]
 module PlayerOptic =
@@ -14,7 +15,7 @@ module CardOptic =
 
 [<RequireQualifiedAccess>]
 module CardListOptic =
-    let card idx : Prism<CardList<'a>, Card<'a>> = Optic.List.idx idx
+    let card idx : Prism<CardList<'a>, Card<'a>> = ListOptic.index idx
 
 [<RequireQualifiedAccess>]
 module GameOptic =
@@ -27,7 +28,7 @@ module GameOptic =
     let players =
         Lens((fun game -> game.players), (fun game players' -> { game with players = players' }))
 
-    let inline player idx = players >-> Optic.Array.idx idx
+    let inline player idx = players >-> ArrayOptic.index idx
     let inline playerData idx = player idx >-> PlayerOptic.data
 
     let activePlayer =
