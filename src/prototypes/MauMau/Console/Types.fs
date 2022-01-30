@@ -1,6 +1,6 @@
-namespace MauMauPrototype
+namespace MauMau.Console
 
-open AnalogGameEngine
+open AnalogGameEngine.Core
 
 type CardColor =
     | Clubs

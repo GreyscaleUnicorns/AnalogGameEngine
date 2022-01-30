@@ -1,4 +1,4 @@
-namespace AnalogGameEngine
+namespace AnalogGameEngine.Core
 
 open SimpleOptics
 open SimpleOptics.Presets

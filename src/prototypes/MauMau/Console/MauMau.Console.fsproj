@@ -13,7 +13,7 @@
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../AnalogGameEngine/AnalogGameEngine.fsproj" />
+    <ProjectReference Include="../../../AnalogGameEngine/Core/AnalogGameEngine.Core.fsproj" />
   </ItemGroup>
-  <Import Project="..\.paket\Paket.Restore.targets" />
+  <Import Project="..\..\..\..\.paket\Paket.Restore.targets" />
 </Project>

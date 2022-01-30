@@ -1,8 +1,8 @@
-namespace MauMauPrototype
+namespace MauMau.Console
 
 open System
 
-open AnalogGameEngine
+open AnalogGameEngine.Core
 
 module Program =
     let rec playPhase game =

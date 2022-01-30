@@ -2,9 +2,11 @@ name: Build
 
 on:
   push:
-    branches:
-      - "develop"
-      - "production"
+    tags-ignore:
+      - "*"
+    paths:
+      - "**"
+      - "!**.md"
   pull_request:
 
 jobs:
@@ -13,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        dotnet: [5.0.100]
+        dotnet: [6.0.100]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -23,4 +25,4 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet }}
       - name: Build
-        run: dotnet build
+        run: dotnet run build-all

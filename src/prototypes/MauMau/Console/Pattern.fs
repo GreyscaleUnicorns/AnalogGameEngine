@@ -1,4 +1,4 @@
-namespace MauMauPrototype
+namespace MauMau.Console
 
 open System
 

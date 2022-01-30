@@ -1,4 +1,4 @@
-namespace AnalogGameEngine
+namespace AnalogGameEngine.Core
 
 type Player<'Data> = { data: 'Data }
 

@@ -1,9 +1,9 @@
-namespace MauMauPrototype
+namespace MauMau.Console
 
 open SimpleOptics
 open System
 
-open AnalogGameEngine
+open AnalogGameEngine.Core
 
 [<RequireQualifiedAccessAttribute>]
 module Ressource =

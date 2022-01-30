@@ -1,8 +1,8 @@
-namespace MauMauPrototype
+namespace MauMau.Console
 
 open SimpleOptics
 
-open AnalogGameEngine
+open AnalogGameEngine.Core
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
