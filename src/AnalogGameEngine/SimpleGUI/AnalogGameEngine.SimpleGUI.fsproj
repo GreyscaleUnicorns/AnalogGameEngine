@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>AnalogGameEngine.SimpleGUI</AssemblyName>
+    <RootNamespace>AnalogGameEngine.SimpleGUI</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="helper/Shader.fs" />
+    <Compile Include="helper/Texture.fs" />
+    <Compile Include="VertexDataObject.fs" />
+    <Compile Include="GameWindow.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\AnalogGameEngine.Core.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\..\.paket\Paket.Restore.targets" />
+</Project>

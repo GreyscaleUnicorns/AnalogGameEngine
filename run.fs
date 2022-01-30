@@ -5,7 +5,7 @@ open RunHelpers.Templates
 
 [<RequireQualifiedAccess>]
 module Config =
-    let lib = "src/AnalogGameEngine/Core/AnalogGameEngine.Core.fsproj"
+    let lib = "src/AnalogGameEngine/SimpleGUI/AnalogGameEngine.SimpleGUI.fsproj"
     let prototypes = "./src/prototypes"
 
 module Task =

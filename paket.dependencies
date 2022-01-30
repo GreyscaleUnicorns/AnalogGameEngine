@@ -2,3 +2,7 @@ source https://www.nuget.org/api/v2
 
 nuget FSharp.Core
 nuget NicoVIII.SimpleOptics ~> 0.1
+
+// SimpleGui
+nuget OpenTK ~> 4
+nuget SixLabors.ImageSharp ~> 1
