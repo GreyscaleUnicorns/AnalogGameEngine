@@ -7,7 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="OpenTK.NETCore" Version="*" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.7" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnalogGameEngine\AnalogGameEngine.csproj" />
